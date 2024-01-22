@@ -1,0 +1,76 @@
+{
+  "version": "3.0.1",
+  "layout": [
+    {
+      "type": 5,
+      "fields": [],
+      "listFields": [
+        []
+      ],
+      "options": {
+        "game": "2024 Field",
+        "unitDistance": "meters",
+        "unitRotation": "radians",
+        "origin": "right",
+        "size": 0.75,
+        "allianceBumpers": "auto",
+        "allianceOrigin": "blue",
+        "orientation": "blue left, red right"
+      },
+      "configHidden": false,
+      "title": "Odometry"
+    },
+    {
+      "type": 1,
+      "legends": {
+        "left": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        },
+        "discrete": {
+          "fields": []
+        },
+        "right": {
+          "lockedRange": null,
+          "unitConversion": {
+            "type": null,
+            "factor": 1
+          },
+          "fields": []
+        }
+      },
+      "title": "Line Graph"
+    },
+    {
+      "type": 9,
+      "fields": [
+        {
+          "key": "NT:/SmartDashboard/swerve/desiredStates",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/swerve/measuredStates",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        null
+      ],
+      "listFields": [],
+      "options": {
+        "maxSpeed": 4.5,
+        "rotationUnits": "radians",
+        "arrangement": "0,1,2,3",
+        "sizeLeftRight": 0.65,
+        "sizeFrontBack": 0.65,
+        "forwardDirection": "up"
+      },
+      "configHidden": false,
+      "title": "Swerve"
+    }
+  ]
+}
