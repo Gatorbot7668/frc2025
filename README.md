@@ -1,6 +1,6 @@
 Next tasks:
 * Clean up commands in RobotContainer
-* Set encoder IDs in deploy/swerve/modules. They are currently randomly set to 9-12  
+* Organize Shuffleboard to be useful for us
 * Adjust constants in SwerveSubsystem constructor (`angleConversionFactor`, `driveConversionFactor`, `maximumSpeed`)
 * Adjust constants in deploy/swerve
 
