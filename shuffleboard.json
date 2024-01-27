@@ -624,6 +624,45 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "0,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Raw IMU Yaw",
+              "_title": "Raw IMU Yaw",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/SwerveSubsystem",
+              "_title": "SwerveSubsystem",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/driveRobotOriented",
+              "_title": "driveRobotOriented",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -638,11 +677,168 @@
         "hgap": 16.0,
         "vgap": 16.0,
         "titleType": 0,
-        "tiles": {}
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem",
+              "_title": "SwerveSubsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL encoder/Position",
+                  "_title": "BL encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL drive motor",
+                  "_title": "FL drive motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL angle motor",
+                  "_title": "FL angle motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR angle motor",
+                  "_title": "BR angle motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL drive motor",
+                  "_title": "BL drive motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR encoder/Position",
+                  "_title": "FR encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL angle motor",
+                  "_title": "BL angle motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL encoder/Position",
+                  "_title": "FL encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR drive motor",
+                  "_title": "BR drive motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR encoder/Position",
+                  "_title": "BR encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR angle motor",
+                  "_title": "FR angle motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR drive motor",
+                  "_title": "FR drive motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor[1]/Value",
+                  "_title": "navX-Sensor[1]/Value",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Subsystem Layout",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler/Ids",
+                  "_title": "Scheduler/Ids",
+                  "_glyph": 149,
+                  "_showGlyph": false,
+                  "Layout/Label position": "BOTTOM",
+                  "_children": []
+                },
+                {
+                  "_type": "Subsystem Layout",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler/Cancel",
+                  "_title": "Scheduler/Cancel",
+                  "_glyph": 149,
+                  "_showGlyph": false,
+                  "Layout/Label position": "BOTTOM",
+                  "_children": []
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          }
+        }
       }
     },
     {
-      "title": "Tab 3",
+      "title": "Swerve Telemetry",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
@@ -652,41 +848,337 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "6,3": {
+          "0,0": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///Shuffleboard",
-              "_title": "Shuffleboard",
-              "_glyph": 148,
-              "_showGlyph": false
+              "_type": "Grid Layout",
+              "_title": "Angles Desired",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Angle Setpoint",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Angle Setpoint",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Angle Setpoint",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Angle Setpoint",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
             }
           },
-          "6,1": {
+          "1,0": {
             "size": [
-              3,
-              2
+              1,
+              1
             ],
             "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///SmartDashboard/Scheduler",
-              "_title": "/SmartDashboard/Scheduler",
+              "_type": "Grid Layout",
+              "_title": "Speeds Desired",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Speed Setpoint",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Speed Setpoint",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Speed Setpoint",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Speed Setpoint",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Raw Abs Angles",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Absolute Encoder",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Absolute Encoder",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Absolute Encoder",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Raw Absolute Encoder",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
+            }
+          },
+          "1,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Adj Abs Angles",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Adjusted Absolute Encoder",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Adjusted Absolute Encoder",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Adjusted Absolute Encoder",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Adjusted Absolute Encoder",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Raw Angle Enc",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Angle Encoder",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Angle Encoder",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Angle Encoder",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Raw Angle Encoder",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Raw Drive Enc",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 2,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "HIDDEN",
+              "_children": {
+                "0,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Drive Encoder",
+                  "_title": "FL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "0,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Drive Encoder",
+                  "_title": "BL",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,0": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Drive Encoder",
+                  "_title": "FR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                "1,1": {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Module[backright] Raw Drive Encoder",
+                  "_title": "BR",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              }
+            }
+          },
+          "1,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Adjusted IMU Yaw",
+              "_title": "SmartDashboard/Adjusted IMU Yaw",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "6,4": {
+          "0,3": {
             "size": [
-              3,
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/navX-Sensor[1]/Value",
+              "_title": "SmartDashboard/navX-Sensor[1]/Value",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///Shuffleboard/Drivetrain/SwerveSubsystem",
+              "_title": "Shuffleboard/Drivetrain/SwerveSubsystem",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
               1
             ],
             "content": {
               "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/driveFieldOrientedDirectAngle",
-              "_title": "/SmartDashboard/driveFieldOrientedDirectAngle",
+              "_source0": "network_table:///SmartDashboard/driveRobotOriented",
+              "_title": "SmartDashboard/driveRobotOriented",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,0": {
+            "size": [
+              5,
+              4
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/swerve",
+              "_title": "/SmartDashboard/swerve",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -698,7 +1190,7 @@
   "windowGeometry": {
     "x": 78.0,
     "y": 38.0,
-    "width": 1321.0,
+    "width": 1321.3333740234375,
     "height": 944.0
   }
 }
