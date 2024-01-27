@@ -7,7 +7,11 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -16,6 +20,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDriveAdv;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.io.File;
+import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -65,7 +70,7 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRightX(),
-        () -> driverXbox.getRightY());
+        () -> driverXbox.getRightY()).withName("driveFieldOrientedDirectAngle");
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -81,8 +86,32 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis());
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+
+    Command driveRobotOriented = drivebase.driveCommandRobotRelative(
+        () -> driverXbox.getLeftY(),
+        () -> driverXbox.getLeftX());
+
+    drivebase.setDefaultCommand(driveRobotOriented);
         // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+
+    // SmartDashboard.putData(CommandScheduler.getInstance());
+    // Put subsystems to dashboard.
+    Shuffleboard.getTab("Drivetrain").add(drivebase);
+
+    // Set the scheduler to log Shuffleboard events for command initialize, interrupt, finish
+    CommandScheduler cs = CommandScheduler.getInstance();
+    cs.onCommandInitialize(
+            command ->
+                Shuffleboard.addEventMarker(
+                    "Command initialized", command.getName(), EventImportance.kNormal));
+    cs.onCommandInterrupt(
+            command ->
+                Shuffleboard.addEventMarker(
+                    "Command interrupted", command.getName(), EventImportance.kNormal));
+    cs.onCommandFinish(
+            command ->
+                Shuffleboard.addEventMarker(
+                    "Command finished", command.getName(), EventImportance.kNormal));    
   }
 
   /**
@@ -103,8 +132,10 @@ public class RobotContainer
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     */
 
-    driverXbox.a().onTrue(new InstantCommand(drivebase::zeroGyro));
-    driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    driverXbox.a().onTrue(new InstantCommand(
+      drivebase::zeroGyro, drivebase).withName("zeroGyro"));
+    driverXbox.x().onTrue(new InstantCommand(
+      drivebase::addFakeVisionReading, drivebase).withName("addFakeVisionReading"));
     // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 

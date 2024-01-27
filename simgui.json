@@ -3,6 +3,8 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Scheduler": "Scheduler",
+      "/SmartDashboard/driveFieldOrientedDirectAngle": "Command",
       "/SmartDashboard/navX-Sensor[1]": "Gyro"
     }
   },

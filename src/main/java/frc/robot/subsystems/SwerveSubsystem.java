@@ -175,6 +175,18 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
+  public Command driveCommandRobotRelative(DoubleSupplier x, DoubleSupplier y) {
+    return run(() -> {
+      // Make the robot move
+      swerveDrive.drive(new Translation2d(x.getAsDouble() * swerveDrive.getMaximumVelocity(),
+                                          y.getAsDouble() * swerveDrive.getMaximumVelocity()),
+                        // Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumAngularVelocity(),
+                        0,
+                        false,
+                        false);
+    });    
+  }
+
   /**
    * Command to drive the robot using translative values and heading as a setpoint.
    *
@@ -325,6 +337,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void zeroGyro()
   {
+    System.out.println("zeroGyro");
     swerveDrive.zeroGyro();
   }
 
@@ -453,7 +466,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void addFakeVisionReading()
   {
-    System.out.println("HIIII");
+    System.out.println("addFakeVisionReading");
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 }

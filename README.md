@@ -1,4 +1,7 @@
 Next tasks:
+* Understand how to zero Camcoders
+* Create a more useful dashboard
+   * including displaying which commands are running / its inputs
 * Clean up commands in RobotContainer
 * Organize Shuffleboard to be useful for us
 * Adjust constants in SwerveSubsystem constructor (`angleConversionFactor`, `driveConversionFactor`, `maximumSpeed`)
