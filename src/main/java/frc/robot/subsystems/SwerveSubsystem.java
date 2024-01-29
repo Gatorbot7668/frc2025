@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -153,19 +154,18 @@ public class SwerveSubsystem extends SubsystemBase
         this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
         this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                                         new PIDConstants(5.0, 0.0, 0.0),
-                                         // Translation PID constants
-                                         new PIDConstants(swerveDrive.swerveController.config.headingPIDF.p,
-                                                          swerveDrive.swerveController.config.headingPIDF.i,
-                                                          swerveDrive.swerveController.config.headingPIDF.d),
-                                         // Rotation PID constants
-                                         4.5,
-                                         // Max module speed, in m/s
-                                         swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
-                                         // Drive base radius in meters. Distance from robot center to furthest module.
-                                         new ReplanningConfig()
-                                         // Default path replanning config. See the API for the options here
+        new HolonomicPathFollowerConfig( 
+          // Translation PID constants, this should go into Constants class
+          new PIDConstants(5.0, 0.0, 0.0),
+          // Rotation PID constants
+          new PIDConstants(swerveDrive.swerveController.config.headingPIDF.p,
+                           swerveDrive.swerveController.config.headingPIDF.i,
+                           swerveDrive.swerveController.config.headingPIDF.d),
+          4.5,  // Max module speed, in m/s
+          // Drive base radius in meters. Distance from robot center to furthest module.
+          swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
+          // Default path replanning config. See the API for the options here
+          new ReplanningConfig()
         ),
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red alliance
@@ -199,6 +199,30 @@ public class SwerveSubsystem extends SubsystemBase
     return AutoBuilder.followPath(path);
   }
 
+    /**
+   * Use PathPlanner Path finding to go to a point on the field.
+   *
+   * @param pose Target {@link Pose2d} to go to.
+   * @return PathFinding command
+   */
+  public Command driveToPose(Pose2d pose)
+  {
+    resetOdometry(getPose());
+
+    // Create the constraints to use while pathfinding
+    PathConstraints constraints = new PathConstraints(
+        swerveDrive.getMaximumVelocity(), 4.0,
+        swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
+
+    // Since AutoBuilder is configured, we can use it to build pathfinding commands
+    return AutoBuilder.pathfindToPose(
+        pose,
+        constraints,
+        0.0, // Goal end velocity in meters/sec
+        0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+                                     );
+  }
+
   /**
    * Command to drive the robot using translative values and heading as a setpoint.
    *
@@ -219,7 +243,7 @@ public class SwerveSubsystem extends SubsystemBase
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(xInput, yInput,
                                                                       headingX.getAsDouble(),
                                                                       headingY.getAsDouble(),
-                                                                      swerveDrive.getYaw().getRadians(),
+                                                                      swerveDrive.getOdometryHeading().getRadians(),
                                                                       swerveDrive.getMaximumVelocity()));
     });
   }
@@ -253,7 +277,7 @@ public class SwerveSubsystem extends SubsystemBase
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(translationX.getAsDouble(),
                                                                       translationY.getAsDouble(),
                                                                       rotation.getAsDouble() * Math.PI,
-                                                                      swerveDrive.getYaw().getRadians(),
+                                                                      swerveDrive.getOdometryHeading().getRadians(),
                                                                       swerveDrive.getMaximumVelocity()));
     });
   }
@@ -402,13 +426,14 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   /**
-   * Gets the current yaw angle of the robot, as reported by the imu.  CCW positive, not wrapped.
+   * Gets the current yaw angle of the robot, as reported by the swerve pose estimator in the underlying drivebase.
+   * Note, this is not the raw gyro reading, this may be corrected from calls to resetOdometry().
    *
    * @return The yaw angle
    */
   public Rotation2d getHeading()
   {
-    return swerveDrive.getYaw();
+    return getPose().getRotation();
   }
 
   /**

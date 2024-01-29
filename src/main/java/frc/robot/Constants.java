@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-
-
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -37,19 +35,17 @@ public final class Constants
 
   public static final class Drivebase
   {
-
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
   public static class OperatorConstants
-
   {
     public static final int kDriverControllerPort = 0;
     // Joystick Deadband
-    public static final double LEFT_X_DEADBAND  = 0.01;
-    public static final double LEFT_Y_DEADBAND  = 0.01;
-    public static final double RIGHT_X_DEADBAND = 0.01;
+    public static final double LEFT_X_DEADBAND  = 0.1;
+    public static final double LEFT_Y_DEADBAND  = 0.1;
+    public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
 }

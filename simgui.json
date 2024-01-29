@@ -22,6 +22,7 @@
       "/SmartDashboard/driveRobotOriented": "Command",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/testAngleMotors": "Command",
+      "/SmartDashboard/testDriveToPose": "Command",
       "/SmartDashboard/testMotors": "Command"
     },
     "windows": {
