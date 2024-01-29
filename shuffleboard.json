@@ -1258,7 +1258,7 @@
           },
           "2,0": {
             "size": [
-              4,
+              3,
               3
             ],
             "content": {
@@ -1267,42 +1267,6 @@
               "_title": "/SmartDashboard/swerve",
               "_glyph": 148,
               "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              2
-            ],
-            "content": {
-              "_type": "List Layout",
-              "_title": "Test Commands",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/testMotors",
-                  "_title": "testMotors",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/testAngleMotors",
-                  "_title": "testAngleMotors",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/testDriveToPose",
-                  "_title": "testDriveToPose",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                }
-              ]
             }
           },
           "2,3": {
@@ -1341,7 +1305,7 @@
               ]
             }
           },
-          "4,3": {
+          "5,0": {
             "size": [
               3,
               2
@@ -1353,6 +1317,56 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "3,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "test commands",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "HIDDEN",
+              "_children": [
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/testAngleMotors",
+                  "_title": "testAngleMotors",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/testMotors",
+                  "_title": "testMotors",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/testDriveToPose",
+                  "_title": "testDriveToPose",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/zeroGyro",
+                  "_title": "SmartDashboard/zeroGyro",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/addFakeVisionReading",
+                  "_title": "SmartDashboard/addFakeVisionReading",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
           }
         }
       }
@@ -1361,7 +1375,7 @@
   "windowGeometry": {
     "x": 3.0,
     "y": 38.0,
-    "width": 965.0,
+    "width": 1459.0,
     "height": 944.0
   }
 }

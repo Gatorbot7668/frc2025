@@ -105,13 +105,24 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         // () -> driverXbox.getLeftTriggerAxis());
-        () -> driverXbox.getRightX());
+        () -> driverXbox.getRightX()).withName("driveFieldOrientedDirectAngleSim");
 
     Command driveRobotOriented = drivebase.driveCommandRobotRelative(
         () -> driverXbox.getLeftY(),
         () -> driverXbox.getLeftX(),
         () -> driverXbox.getRightX()).withName("driveRobotOriented");
     SmartDashboard.putData(driveRobotOriented);
+
+    Command zeroGyro = new InstantCommand(drivebase::zeroGyro, drivebase).withName("zeroGyro");
+    SmartDashboard.putData(zeroGyro);
+    driverXbox.a().onTrue(zeroGyro);
+
+    Command addFakeVisionReading = new InstantCommand(
+      drivebase::addFakeVisionReading, drivebase).withName("addFakeVisionReading");
+    SmartDashboard.putData(addFakeVisionReading);
+    driverXbox.x().onTrue(addFakeVisionReading);
+    
+      // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
     Command testMotors = drivebase.run(() -> {
       // SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
@@ -156,16 +167,6 @@ public class RobotContainer
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     */
-
-    driverXbox.a().onTrue(new InstantCommand(
-      drivebase::zeroGyro, drivebase).withName("zeroGyro"));
-    driverXbox.x().onTrue(new InstantCommand(
-      drivebase::addFakeVisionReading, drivebase).withName("addFakeVisionReading"));
-    driverXbox.b().whileTrue(
-        Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-                              ));
-      // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
   /**
