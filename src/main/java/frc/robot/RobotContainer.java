@@ -126,9 +126,9 @@ public class RobotContainer
     SmartDashboard.putData(testAngleMotors);
 
     SmartDashboard.putData(
-      drivebase.driveToPose(new Pose2d(new Translation2d(1, 1),
-                            Rotation2d.fromDegrees(0)))
-        .asProxy().withName("testDriveToPose"));
+      drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
+                                    Rotation2d.fromDegrees(0)))
+        /*.asProxy()*/.withName("testDriveToPose"));
 
     drivebase.setDefaultCommand(
       // testMotors);

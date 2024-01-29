@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.robot.util.CANSparkMaxSendable;
 
 import java.io.File;
@@ -207,8 +208,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public Command driveToPose(Pose2d pose)
   {
-    resetOdometry(getPose());
-
     // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
         swerveDrive.getMaximumVelocity(), 4.0,
@@ -220,7 +219,17 @@ public class SwerveSubsystem extends SubsystemBase
         constraints,
         0.0, // Goal end velocity in meters/sec
         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-                                     );
+    );
+  }
+
+  public Command driveToRelativePose(Pose2d pose) {
+    return new WrapperCommand(driveToPose(pose)) {
+      @Override
+      public void initialize() {
+        resetOdometry(new Pose2d(0, 0, new Rotation2d()));
+        super.initialize();
+      }
+    };
   }
 
   /**
