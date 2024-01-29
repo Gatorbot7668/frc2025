@@ -5,10 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -19,7 +26,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDriveAdv;
 import frc.robot.subsystems.SwerveSubsystem;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.SwerveDriveTest;
+
 import java.io.File;
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 /**
@@ -80,18 +91,33 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getLeftTriggerAxis());
+        // () -> driverXbox.getLeftTriggerAxis());
+        () -> driverXbox.getRightX()).withName("driveFieldOrientedAnglularVelocity");
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getLeftTriggerAxis());
+        // () -> driverXbox.getLeftTriggerAxis());
+        () -> driverXbox.getRightX());
 
     Command driveRobotOriented = drivebase.driveCommandRobotRelative(
         () -> driverXbox.getLeftY(),
-        () -> driverXbox.getLeftX());
+        () -> driverXbox.getLeftX(),
+        () -> driverXbox.getRightX()).withName("driveRobotOriented");
 
-    drivebase.setDefaultCommand(driveRobotOriented);
+    Command testMotors = drivebase.run(() -> {
+      // SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
+      SwerveDriveTest.powerAngleMotors(drivebase.swerveDrive, driverXbox.getLeftX());
+      SwerveDriveTest.powerDriveMotorsDutyCycle(drivebase.swerveDrive, driverXbox.getLeftY());
+    }).withName("testMotors");    
+
+    Command testAngleMotors = drivebase.run(() -> {
+      SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
+    }).withName("testAngleMotors");    
+
+    drivebase.setDefaultCommand(
+      // testMotors);
+      driveRobotOriented);
         // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
     // SmartDashboard.putData(CommandScheduler.getInstance());
@@ -111,7 +137,15 @@ public class RobotContainer
     cs.onCommandFinish(
             command ->
                 Shuffleboard.addEventMarker(
-                    "Command finished", command.getName(), EventImportance.kNormal));    
+                    "Command finished", command.getName(), EventImportance.kNormal));  
+
+    SmartDashboard.putData(CommandScheduler.getInstance());
+    SmartDashboard.putData(drivebase);
+    SmartDashboard.putData(driveRobotOriented);
+    SmartDashboard.putData(driveFieldOrientedDirectAngle);
+    SmartDashboard.putData(driveFieldOrientedAnglularVelocity);
+    SmartDashboard.putData(testAngleMotors);
+    SmartDashboard.putData(testMotors);
   }
 
   /**

@@ -2,10 +2,114 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/SwerveSubsystem": "Subsystem",
+      "/LiveWindow/SwerveSubsystem/BL angle motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/BL drive motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/BR angle motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/BR drive motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/FL angle motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/FL drive motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/FR angle motor": "Motor Controller",
+      "/LiveWindow/SwerveSubsystem/FR drive motor": "Motor Controller",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/Shuffleboard/Drivetrain/SwerveSubsystem": "Subsystem",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Scheduler": "Scheduler",
+      "/SmartDashboard/SwerveSubsystem": "Subsystem",
+      "/SmartDashboard/driveFieldOrientedAnglularVelocity": "Command",
       "/SmartDashboard/driveFieldOrientedDirectAngle": "Command",
-      "/SmartDashboard/navX-Sensor[1]": "Gyro"
+      "/SmartDashboard/driveRobotOriented": "Command",
+      "/SmartDashboard/navX-Sensor[1]": "Gyro",
+      "/SmartDashboard/testAngleMotors": "Command",
+      "/SmartDashboard/testMotors": "Command"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
+    "retained": {
+      "SmartDashboard": {
+        "driveRobotOriented": {
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "transitory": {
+      "LiveWindow": {
+        ".status": {
+          "open": true
+        },
+        "open": true
+      },
+      "Shuffleboard": {
+        ".metadata": {
+          "Swerve": {
+            "Set Angles Left": {
+              "BackLeft": {
+                "open": true
+              },
+              "open": true
+            },
+            "Set Angles Right": {
+              "open": true
+            },
+            "Set Speeds": {
+              "BackLeft": {
+                "open": true
+              },
+              "BackRight": {
+                "open": true
+              },
+              "Properties": {
+                "open": true
+              },
+              "double[]##v_/Shuffleboard/.metadata/Swerve/Set Speeds/Position": {
+                "open": true
+              },
+              "open": true
+            },
+            "open": true
+          }
+        },
+        "open": true
+      },
+      "SmartDashboard": {
+        "Encoders": {
+          "open": true
+        },
+        "Swerve Drive": {
+          "open": true
+        },
+        "SwerveSubsystem": {
+          "open": true
+        },
+        "open": true,
+        "swerve": {
+          "double[]##v_/SmartDashboard/swerve/desiredStates": {
+            "open": true
+          },
+          "double[]##v_/SmartDashboard/swerve/measuredStates": {
+            "open": true
+          },
+          "open": true
+        }
+      }
     }
   },
   "NetworkTables Info": {

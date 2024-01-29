@@ -9,6 +9,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -16,15 +18,20 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.CANSparkMaxSendable;
+
 import java.io.File;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
+import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -38,11 +45,19 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Swerve drive object.
    */
-  private final SwerveDrive swerveDrive;
+  public final SwerveDrive swerveDrive;
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
   public double maximumSpeed = Units.feetToMeters(14.5);
+  private CANSparkMaxSendable frontLeftAngleSendableMotor;
+  private CANSparkMaxSendable frontLeftDriveSendableMotor;
+  private CANSparkMaxSendable frontRightAngleSendableMotor;
+  private CANSparkMaxSendable frontRightDriveSendableMotor;
+  private CANSparkMaxSendable backLeftAngleSendableMotor;
+  private CANSparkMaxSendable backLeftDriveSendableMotor;
+  private CANSparkMaxSendable backRightAngleSendableMotor;
+  private CANSparkMaxSendable backRightDriveSendableMotor;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -52,13 +67,11 @@ public class SwerveSubsystem extends SubsystemBase
   public SwerveSubsystem(File directory)
   {
     // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
-    //  In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
-    //  The encoder resolution per motor revolution is 1 per motor revolution.
-    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(
-      12.8, 1);
+    // These values came from
+    // https://www.swervedrivespecialties.com/collections/kits/products/mk4i-swerve-module
+    // we have L1 gearing ratio for both motors.
+    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(8.14);
     // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO * ENCODER RESOLUTION).
-    //  In this case the wheel diameter is 4 inches, which must be converted to meters to get meters/second.
-    //  The gear ratio is 6.75 motor revolutions per wheel rotation.
     //  The encoder resolution per motor revolution is 1 per motor revolution.
     double driveConversionFactor = SwerveMath.calculateMetersPerRotation(
       Units.inchesToMeters(4), 6.75);
@@ -81,6 +94,42 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
 
     setupPathPlanner();
+
+    // 0 to 3. front left -> front right -> back left -> back right (from SverveModule.moduleNumber documentation)
+    SwerveModule flModule = swerveDrive.getModules()[0];
+    SwerveModule frModule = swerveDrive.getModules()[1];
+    SwerveModule blModule = swerveDrive.getModules()[2];
+    SwerveModule brModule = swerveDrive.getModules()[3];
+
+    frontLeftAngleSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) flModule.getAngleMotor().getMotor());
+    frontLeftDriveSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) flModule.getDriveMotor().getMotor());
+    frontRightAngleSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) frModule.getAngleMotor().getMotor());
+    frontRightDriveSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) frModule.getDriveMotor().getMotor());
+    backLeftAngleSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) blModule.getAngleMotor().getMotor());
+    backLeftDriveSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) blModule.getDriveMotor().getMotor());
+    backRightAngleSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) brModule.getAngleMotor().getMotor());
+    backRightDriveSendableMotor = new CANSparkMaxSendable(
+      (CANSparkMax) brModule.getDriveMotor().getMotor());
+
+    addChild("FL angle motor", frontLeftAngleSendableMotor);
+    addChild("FL drive motor", frontLeftDriveSendableMotor);
+    addChild("FR angle motor", frontRightAngleSendableMotor);
+    addChild("FR drive motor", frontRightDriveSendableMotor);
+    addChild("BL angle motor", backLeftAngleSendableMotor);
+    addChild("BL drive motor", backLeftDriveSendableMotor);
+    addChild("BR angle motor", backRightAngleSendableMotor);
+    addChild("BR drive motor", backRightDriveSendableMotor);
+    addChild("FL encoder", (Sendable) flModule.getAbsoluteEncoder().getAbsoluteEncoder());
+    addChild("FR encoder", (Sendable) frModule.getAbsoluteEncoder().getAbsoluteEncoder());
+    addChild("BL encoder", (Sendable) blModule.getAbsoluteEncoder().getAbsoluteEncoder());
+    addChild("BR encoder", (Sendable) brModule.getAbsoluteEncoder().getAbsoluteEncoder());
   }
 
   /**
@@ -126,7 +175,7 @@ public class SwerveSubsystem extends SubsystemBase
           return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
         },
         this // Reference to this subsystem to set requirements
-                                  );
+    );
   }
 
   /**
@@ -175,13 +224,14 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
-  public Command driveCommandRobotRelative(DoubleSupplier x, DoubleSupplier y) {
+  public Command driveCommandRobotRelative(DoubleSupplier x, DoubleSupplier y,
+                                           DoubleSupplier z) {
     return run(() -> {
       // Make the robot move
       swerveDrive.drive(new Translation2d(x.getAsDouble() * swerveDrive.getMaximumVelocity(),
                                           y.getAsDouble() * swerveDrive.getMaximumVelocity()),
+                        z.getAsDouble() * swerveDrive.getMaximumAngularVelocity(),
                         // Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumAngularVelocity(),
-                        0,
                         false,
                         false);
     });    
