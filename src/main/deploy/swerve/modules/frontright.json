@@ -26,5 +26,6 @@
   "inverted": {
     "drive": true,
     "angle": true
-  }
+  },
+  "useCosineCompensator": true
 }

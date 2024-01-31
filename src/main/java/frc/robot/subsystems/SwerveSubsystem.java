@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.GeometryUtil;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -52,6 +53,7 @@ public class SwerveSubsystem extends SubsystemBase
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
   public double maximumSpeed = Units.feetToMeters(14.5);
+  
   private CANSparkMaxSendable frontLeftAngleSendableMotor;
   private CANSparkMaxSendable frontLeftDriveSendableMotor;
   private CANSparkMaxSendable frontRightAngleSendableMotor;
@@ -71,16 +73,12 @@ public class SwerveSubsystem extends SubsystemBase
     // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
     // These values came from
     // https://www.swervedrivespecialties.com/collections/kits/products/mk4i-swerve-module
-    // we have L1 gearing ratio for both motors.
-    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(8.14);
+    // we have L1 gearing ratio on the drive motor both motors.
+    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(150.0/7);
     // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO * ENCODER RESOLUTION).
     //  The encoder resolution per motor revolution is 1 per motor revolution.
     double driveConversionFactor = SwerveMath.calculateMetersPerRotation(
-      Units.inchesToMeters(4), 6.75);
-    System.out.println("\"conversionFactor\": {");
-    System.out.println("\t\"angle\": " + angleConversionFactor + ",");
-    System.out.println("\t\"drive\": " + driveConversionFactor);
-    System.out.println("}");
+      Units.inchesToMeters(4), 8.14);
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
@@ -145,6 +143,15 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maximumSpeed);
   }
 
+  public boolean isFieldFlipped() {
+    var alliance = DriverStation.getAlliance();
+    return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
+  }
+  public Pose2d invertIfFieldFlipped(Pose2d pose) {
+    if (isFieldFlipped()) return GeometryUtil.flipFieldPose(pose);
+    return pose;
+  }
+
   /**
    * Setup AutoBuilder for PathPlanner.
    */
@@ -168,13 +175,10 @@ public class SwerveSubsystem extends SubsystemBase
           // Default path replanning config. See the API for the options here
           new ReplanningConfig()
         ),
-        () -> {
-          // Boolean supplier that controls when the path will be mirrored for the red alliance
-          // This will flip the path being followed to the red side of the field.
-          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-          var alliance = DriverStation.getAlliance();
-          return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
-        },
+        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // This will flip the path being followed to the red side of the field.
+        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        () -> isFieldFlipped(),
         this // Reference to this subsystem to set requirements
     );
   }
@@ -186,19 +190,19 @@ public class SwerveSubsystem extends SubsystemBase
    * @param setOdomToStart Set the odometry position to the start of the path.
    * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
    */
+  /* unneeded
   public Command getAutonomousCommand(String pathName, boolean setOdomToStart)
   {
     // Load the path you want to follow using its name in the GUI
     PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
 
-    if (setOdomToStart)
-    {
+    if (setOdomToStart) {
       resetOdometry(new Pose2d(path.getPoint(0).position, getHeading()));
     }
-
-    // Create a path following command using AutoBuilder. This will also trigger event markers.
+     
     return AutoBuilder.followPath(path);
   }
+  */
 
     /**
    * Use PathPlanner Path finding to go to a point on the field.

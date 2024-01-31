@@ -25,9 +25,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    // This is needed because "Since 2024, LiveWindow is not enabled by default in Test mode"
+    // (https://docs.wpilib.org/en/stable/docs/software/dashboards/smartdashboard/test-mode-and-live-window/enabling-test-mode.html)
+    enableLiveWindowInTest(true);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    enableLiveWindowInTest(true);
     m_robotContainer = new RobotContainer();
   }
 
@@ -40,6 +42,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    m_robotContainer.robotPeriodic();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

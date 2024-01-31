@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableRegistry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -17,26 +20,37 @@ import edu.wpi.first.wpilibj.shuffleboard.EventImportance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDriveAdv;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.util.TunableNumber;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.SwerveDriveTest;
+import swervelib.SwerveModule;
+import swervelib.parser.PIDFConfig;
+import swervelib.parser.SwerveParser;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.GeometryUtil;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,6 +70,11 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController driverXbox =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  TunableNumber angleP = new TunableNumber("Swerve/PID/ModuleAngle/P", SwerveParser.pidfPropertiesJson.angle.p);
+  TunableNumber angleD = new TunableNumber("Swerve/PID/ModuleAngle/D", SwerveParser.pidfPropertiesJson.angle.d);
+  TunableNumber driveP = new TunableNumber("Swerve/PID/ModuleDrive/P", SwerveParser.pidfPropertiesJson.drive.p);
+  TunableNumber driveD = new TunableNumber("Swerve/PID/ModuleDrive/D", SwerveParser.pidfPropertiesJson.drive.d);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -85,8 +104,9 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRightX(),
-        () -> driverXbox.getRightY()).withName("driveFieldOrientedDirectAngle");
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.RIGHT_Y_DEADBAND)
+    ).withName("driveFieldOrientedDirectAngle");
     SmartDashboard.putData(driveFieldOrientedDirectAngle);
 
     // Applies deadbands and inverts controls because joysticks
@@ -97,32 +117,35 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        // () -> driverXbox.getLeftTriggerAxis());
-        () -> driverXbox.getRightX()).withName("driveFieldOrientedAnglularVelocity");
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
+    ).withName("driveFieldOrientedAnglularVelocity");
     SmartDashboard.putData(driveFieldOrientedAnglularVelocity);
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        // () -> driverXbox.getLeftTriggerAxis());
-        () -> driverXbox.getRightX()).withName("driveFieldOrientedDirectAngleSim");
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
+    ).withName("driveFieldOrientedDirectAngleSim");
 
     Command driveRobotOriented = drivebase.driveCommandRobotRelative(
-        () -> driverXbox.getLeftY(),
-        () -> driverXbox.getLeftX(),
-        () -> driverXbox.getRightX()).withName("driveRobotOriented");
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
+    driveRobotOriented.setName("driveRobotOriented");
     SmartDashboard.putData(driveRobotOriented);
 
-    Command zeroGyro = new InstantCommand(drivebase::zeroGyro, drivebase).withName("zeroGyro");
+    Command zeroGyro = drivebase.runOnce(() -> drivebase.zeroGyro()).withName("zeroGyro");
+    // Command zeroGyro = new InstantCommand(drivebase::zeroGyro, drivebase).withName("zeroGyro");
     SmartDashboard.putData(zeroGyro);
-    driverXbox.a().onTrue(zeroGyro);
 
-    Command addFakeVisionReading = new InstantCommand(
-      drivebase::addFakeVisionReading, drivebase).withName("addFakeVisionReading");
+    Command resetOdometrytoAllianceZero = drivebase.runOnce(
+      () -> drivebase.resetOdometry(drivebase.invertIfFieldFlipped(new Pose2d(0, 0, new Rotation2d())))
+    ).withName("resetOdometrytoAllianceZero");
+    SmartDashboard.putData(resetOdometrytoAllianceZero);
+
+    Command addFakeVisionReading = drivebase.runOnce(() -> drivebase.addFakeVisionReading())
+      .withName("addFakeVisionReading");
     SmartDashboard.putData(addFakeVisionReading);
-    driverXbox.x().onTrue(addFakeVisionReading);
-    
-      // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
     Command testMotors = drivebase.run(() -> {
       // SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
@@ -136,18 +159,60 @@ public class RobotContainer
     }).withName("testAngleMotors");    
     SmartDashboard.putData(testAngleMotors);
 
-    SmartDashboard.putData(
-      drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
-                                    Rotation2d.fromDegrees(0)))
-        /*.asProxy()*/.withName("testDriveToPose"));
+    TunableNumber angle = new TunableNumber("testAngle", 90);
+    Command testSetAngle = drivebase.runEnd(
+      () -> SwerveDriveTest.angleModules(drivebase.swerveDrive, Rotation2d.fromDegrees(angle.get())),
+      () -> SwerveDriveTest.angleModules(drivebase.swerveDrive, Rotation2d.fromDegrees(0))
+    ).withName("testSetAngle");    
+    SmartDashboard.putData(testSetAngle);
+
+    /* 
+    Command testDriveToPose = drivebase.runOnce(
+      () -> drivebase.resetOdometry(new Pose2d(0, 0, new Rotation2d()))).andThen(
+      drivebase.driveToPose(
+        new Pose2d(new Translation2d(1, 1), Rotation2d.fromDegrees(0))))
+      .withName("testDriveToPose");
+      */
+    Command testDriveToPose = drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
+                                  Rotation2d.fromDegrees(0)))
+      /*.asProxy()*/.withName("testDriveToPose");
+    SmartDashboard.putData(testDriveToPose);
 
     drivebase.setDefaultCommand(
       // testMotors);
       driveRobotOriented);
         // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+    driverXbox.a().onTrue(zeroGyro);
+    driverXbox.x().onTrue(addFakeVisionReading);
+    // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(drivebase);
+  }
+
+  public void robotPeriodic() {
+    SmartDashboard.putNumber("joystick/left-X", driverXbox.getLeftX());
+    SmartDashboard.putNumber("joystick/left-Y", driverXbox.getLeftY());
+    SmartDashboard.putNumber("joystick/right-X", driverXbox.getRightX());
+    SmartDashboard.putNumber("joystick/right-Y", driverXbox.getRightY());
+
+    /* 
+    SmartDashboard.putNumber("pose/x", drivebase.getPose().getX());
+    SmartDashboard.putNumber("pose/y", drivebase.getPose().getY());
+    SmartDashboard.putNumber("pose/z", drivebase.getPose().getRotation().getDegrees());
+*/
+    SmartDashboard.putString("alliance", drivebase.isFieldFlipped() ? "RED" : "BLUE");
+
+    if (angleD.hasChanged() || angleP.hasChanged()) {
+      for (SwerveModule module : drivebase.swerveDrive.getModules()) {
+        module.getAngleMotor().configurePIDF(new PIDFConfig(angleP.get(), angleD.get()));
+      }
+    }
+    if (driveD.hasChanged() || driveP.hasChanged()) {
+      for (SwerveModule module : drivebase.swerveDrive.getModules()) {
+        module.getDriveMotor().configurePIDF(new PIDFConfig(driveP.get(), driveD.get()));
+      }
+    }
   }
 
   /**
@@ -176,7 +241,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return drivebase.getAutonomousCommand("New Path", true);
+    return new PathPlannerAuto("test auto");
+    // return drivebase.getAutonomousCommand("small path", false);
+
 
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);

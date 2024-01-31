@@ -12,18 +12,39 @@
       "/LiveWindow/SwerveSubsystem/FR angle motor": "Motor Controller",
       "/LiveWindow/SwerveSubsystem/FR drive motor": "Motor Controller",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/Shuffleboard/Drivetrain/SwerveSubsystem": "Subsystem",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/SwerveSubsystem": "Subsystem",
+      "/SmartDashboard/addFakeVisionReading": "Command",
+      "/SmartDashboard/commands/addFakeVisionReading": "Command",
+      "/SmartDashboard/commands/driveFieldOrientedAnglularVelocity": "Command",
+      "/SmartDashboard/commands/driveFieldOrientedDirectAngle": "Command",
+      "/SmartDashboard/commands/driveRobotOriented": "Command",
+      "/SmartDashboard/commands/resetOdometry": "Command",
+      "/SmartDashboard/commands/testAngleMotors": "Command",
+      "/SmartDashboard/commands/testDriveToPose": "Command",
+      "/SmartDashboard/commands/testMotors": "Command",
+      "/SmartDashboard/commands/testSetAngle": "Command",
+      "/SmartDashboard/commands/zeroGyro": "Command",
       "/SmartDashboard/driveFieldOrientedAnglularVelocity": "Command",
       "/SmartDashboard/driveFieldOrientedDirectAngle": "Command",
       "/SmartDashboard/driveRobotOriented": "Command",
+      "/SmartDashboard/driveRobotOrientedTunedPID": "Command",
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
+      "/SmartDashboard/resetOdometry": "Command",
+      "/SmartDashboard/resetOdometrytoAllianceZero": "Command",
       "/SmartDashboard/testAngleMotors": "Command",
       "/SmartDashboard/testDriveToPose": "Command",
-      "/SmartDashboard/testMotors": "Command"
+      "/SmartDashboard/testMotors": "Command",
+      "/SmartDashboard/testNinetyDeg": "Command",
+      "/SmartDashboard/testSetAngle": "Command",
+      "/SmartDashboard/testZeroDeg": "Command",
+      "/SmartDashboard/zeroGyro": "Command"
     },
     "windows": {
       "/SmartDashboard/Field": {
@@ -98,6 +119,9 @@
           "open": true
         },
         "SwerveSubsystem": {
+          "open": true
+        },
+        "joystick": {
           "open": true
         },
         "open": true,
