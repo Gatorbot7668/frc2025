@@ -41,7 +41,8 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
             }
           },
           "4,0": {
@@ -1570,7 +1571,7 @@
           "5,0": {
             "size": [
               3,
-              2
+              1
             ],
             "content": {
               "_type": "Network Table Tree",
@@ -1623,7 +1624,7 @@
               ]
             }
           },
-          "5,2": {
+          "5,1": {
             "size": [
               1,
               1
@@ -1652,7 +1653,7 @@
               ]
             }
           },
-          "6,2": {
+          "5,2": {
             "size": [
               1,
               1
@@ -1724,10 +1725,10 @@
               ]
             }
           },
-          "7,2": {
+          "6,1": {
             "size": [
               1,
-              1
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -1759,30 +1760,16 @@
                 }
               ]
             }
-          }
-        }
-      }
-    },
-    {
-      "title": "Tab 4",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 128.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "3,1": {
+          },
+          "7,1": {
             "size": [
-              4,
-              3
+              1,
+              1
             ],
             "content": {
-              "_type": "Network Table Tree",
-              "_source0": "network_table:///PathPlanner",
-              "_title": "PathPlanner",
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/Auto Chooser",
+              "_title": "/SmartDashboard/Auto Chooser",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -1792,7 +1779,7 @@
     }
   ],
   "windowGeometry": {
-    "x": 6.0,
+    "x": 0.0,
     "y": 38.0,
     "width": 1749.0,
     "height": 944.0

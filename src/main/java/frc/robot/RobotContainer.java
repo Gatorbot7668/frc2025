@@ -77,7 +77,7 @@ public class RobotContainer
   TunableNumber driveP = new TunableNumber("Swerve/PID/ModuleDrive/P", SwerveParser.pidfPropertiesJson.drive.p);
   TunableNumber driveD = new TunableNumber("Swerve/PID/ModuleDrive/D", SwerveParser.pidfPropertiesJson.drive.d);
 
-  private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+  private SendableChooser<Command> autoChooser = null;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -183,8 +183,10 @@ public class RobotContainer
 
     drivebase.setDefaultCommand(
       // testMotors);
-      driveRobotOriented);
-        // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+      // driveRobotOriented);
+      driveFieldOrientedDirectAngle);
+      // driveFieldOrientedAnglularVelocity);
+      // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
     driverXbox.a().onTrue(zeroGyro);
     driverXbox.x().onTrue(addFakeVisionReading);
     // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
@@ -192,6 +194,7 @@ public class RobotContainer
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(drivebase);
 
+    autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
@@ -248,7 +251,6 @@ public class RobotContainer
     // return new PathPlannerAuto("test auto");
     return autoChooser.getSelected();
     // return drivebase.getAutonomousCommand("small path", false);
-
 
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
