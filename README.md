@@ -1,8 +1,7 @@
 Next tasks:
-* adjust constants in SwerveSubsystem constructor (`angleConversionFactor`, `driveConversionFactor`, `maximumSpeed`)
-   * see if `angleConversionFactor` should be set to 360 since we are
-     using absolute encoder, https://yagsl.gitbook.io/yagsl/configuring-yagsl/standard-conversion-factors
-       * NO! our encoder is not connected to SparkMAX dataport
+* adjust `maximumSpeed` in SwerveSubsystem constructor
+* set correct default drive command
+* debug why path finding does not work
 * calibrate NavX, https://yagsl.gitbook.io/yagsl/devices/gyroscope/navx
 * name the robot and move deploy/swerve files into a subdirectory, to prep for
   the next year
@@ -16,7 +15,7 @@ Next tasks:
   * should also zero position
 * integrate limelight, but will need to test on a real field (the team is going to one?)
 * clean up commands in RobotContainer
-* invert for Red station and test everything (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
+* invert for Red station and test everything for both Blue and Red (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
 
 Useful links:
 * [YAGSL, the Swerve library we are using](https://yagsl.gitbook.io/yagsl)

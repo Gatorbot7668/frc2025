@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -76,6 +77,8 @@ public class RobotContainer
   TunableNumber driveP = new TunableNumber("Swerve/PID/ModuleDrive/P", SwerveParser.pidfPropertiesJson.drive.p);
   TunableNumber driveD = new TunableNumber("Swerve/PID/ModuleDrive/D", SwerveParser.pidfPropertiesJson.drive.d);
 
+  private final SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -117,7 +120,7 @@ public class RobotContainer
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
+        () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
     ).withName("driveFieldOrientedAnglularVelocity");
     SmartDashboard.putData(driveFieldOrientedAnglularVelocity);
 
@@ -128,9 +131,9 @@ public class RobotContainer
     ).withName("driveFieldOrientedDirectAngleSim");
 
     Command driveRobotOriented = drivebase.driveCommandRobotRelative(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
     driveRobotOriented.setName("driveRobotOriented");
     SmartDashboard.putData(driveRobotOriented);
 
@@ -188,6 +191,8 @@ public class RobotContainer
 
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(drivebase);
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   public void robotPeriodic() {
@@ -196,11 +201,10 @@ public class RobotContainer
     SmartDashboard.putNumber("joystick/right-X", driverXbox.getRightX());
     SmartDashboard.putNumber("joystick/right-Y", driverXbox.getRightY());
 
-    /* 
     SmartDashboard.putNumber("pose/x", drivebase.getPose().getX());
     SmartDashboard.putNumber("pose/y", drivebase.getPose().getY());
     SmartDashboard.putNumber("pose/z", drivebase.getPose().getRotation().getDegrees());
-*/
+
     SmartDashboard.putString("alliance", drivebase.isFieldFlipped() ? "RED" : "BLUE");
 
     if (angleD.hasChanged() || angleP.hasChanged()) {
@@ -241,7 +245,8 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return new PathPlannerAuto("test auto");
+    // return new PathPlannerAuto("test auto");
+    return autoChooser.getSelected();
     // return drivebase.getAutonomousCommand("small path", false);
 
 
