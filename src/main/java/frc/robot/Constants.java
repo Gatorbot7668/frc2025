@@ -25,11 +25,17 @@ public final class Constants
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
   //port constants
-  public static final int INTAKE_MOTOR_LEFT_PORT = 10; 
-  public static final int INTAKE_MOTOR_RIGHT_PORT = 10; 
+  public static final int INTAKE_MOTOR_LEFT_PORT = 0; 
+  public static final int INTAKE_MOTOR_RIGHT_PORT = 11; 
 
-  public static final int SHOOT_MOTOR_LEFT_PORT = 10; 
+  public static final int SHOOT_MOTOR_LEFT_PORT = 9; 
   public static final int SHOOT_MOTOR_RIGHT_PORT = 10; 
+
+  public static final int ARMANGLER_MOTOR_LEFT_PORT = 0; 
+  public static final int ARMANGLER_MOTOR_RIGHT_PORT = 0; 
+
+  public static final int CLIMBER_MOTOR_LEFT_PORT = 0; 
+  public static final int CLIMBER_MOTOR_RIGHT_PORT = 0; 
   
 
   public static final class Auton

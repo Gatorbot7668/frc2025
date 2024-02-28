@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -37,8 +38,13 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDriveAdv;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ArmAnglerCommand;
+import frc.robot.commands.ClimberCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShootSubsystem;
+import frc.robot.subsystems.ArmAnglerSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.util.TunableNumber;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.SwerveDriveTest;
@@ -86,15 +92,33 @@ public class RobotContainer
 
   private SendableChooser<Command> autoChooser = null;
 
+  // putting these here
+  private final XboxController m_Controller = new XboxController(0);
+  public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
+  public final IntakeSubsystem m_Intake = new IntakeSubsystem();
+  public final ShootSubsystem m_Shoot = new ShootSubsystem();
+  public final ClimberSubsystem m_Climber = new ClimberSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
+
     // Configure the trigger bindings
     configureBindings();
 
+    //buttons
+    new JoystickButton(m_Controller, XboxController.Button.kX.value).whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
+    new JoystickButton(m_Controller, XboxController.Button.kA.value).whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    new JoystickButton(m_Controller, XboxController.Button.kB.value).whileTrue(new IntakeCommand(m_Intake));
+    new JoystickButton(m_Controller, XboxController.Button.kY.value).whileTrue(new ParallelCommandGroup(
+        new ShootCommand(m_Shoot),
+        new IntakeCommand(m_Intake)
+        )
+      );
+    new JoystickButton(m_Controller, XboxController.Button.kLeftBumper.value).whileTrue(new ClimberCommand(m_Climber, 1));
+    new JoystickButton(m_Controller, XboxController.Button.kRightBumper.value).whileTrue(new ClimberCommand(m_Climber, -1));
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
