@@ -185,7 +185,7 @@ public class RobotContainer
 
     Command testMotors = drivebase.run(() -> {
       // SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
-      SwerveDriveTest.powerAngleMotors(drivebase.swerveDrive, driverXbox.getLeftX());
+      SwerveDriveTest.powerAngleMotorsDutyCycle(drivebase.swerveDrive, driverXbox.getLeftX());
       SwerveDriveTest.powerDriveMotorsDutyCycle(drivebase.swerveDrive, driverXbox.getLeftY());
     }).withName("testMotors");    
     SmartDashboard.putData(testMotors);
@@ -284,7 +284,7 @@ public class RobotContainer
   {
     // return new PathPlannerAuto("test auto");
     return autoChooser.getSelected();
-    // return drivebase.getAutonomousCommand("small path", false);
+    // return drivebase.getAutonomousCommand("small path");
 
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
