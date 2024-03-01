@@ -93,7 +93,6 @@ public class RobotContainer
   private SendableChooser<Command> autoChooser = null;
 
   // putting these here
-  private final XboxController m_Controller = new XboxController(0);
   public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
   public final IntakeSubsystem m_Intake = new IntakeSubsystem();
   public final ShootSubsystem m_Shoot = new ShootSubsystem();
@@ -107,18 +106,6 @@ public class RobotContainer
 
     // Configure the trigger bindings
     configureBindings();
-
-    //buttons
-    new JoystickButton(m_Controller, XboxController.Button.kX.value).whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
-    new JoystickButton(m_Controller, XboxController.Button.kA.value).whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
-    new JoystickButton(m_Controller, XboxController.Button.kB.value).whileTrue(new IntakeCommand(m_Intake));
-    new JoystickButton(m_Controller, XboxController.Button.kY.value).whileTrue(new ParallelCommandGroup(
-        new ShootCommand(m_Shoot),
-        new IntakeCommand(m_Intake)
-        )
-      );
-    new JoystickButton(m_Controller, XboxController.Button.kLeftBumper.value).whileTrue(new ClimberCommand(m_Climber, 1));
-    new JoystickButton(m_Controller, XboxController.Button.kRightBumper.value).whileTrue(new ClimberCommand(m_Climber, -1));
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
@@ -220,10 +207,18 @@ public class RobotContainer
       driveFieldOrientedDirectAngle);
       // driveFieldOrientedAnglularVelocity);
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
-    driverXbox.a().onTrue(zeroGyro);
-    driverXbox.x().onTrue(addFakeVisionReading);
-    // driverXbox.x().whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
+    //buttons
+    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
+    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
+    driverXbox.y().whileTrue(new ParallelCommandGroup(
+        new ShootCommand(m_Shoot),
+        new IntakeCommand(m_Intake)
+    ));
+    driverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
+    driverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
+    
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(drivebase);
 
