@@ -94,9 +94,9 @@ public class RobotContainer
 
   // putting these here
   public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
-  public final IntakeSubsystem m_Intake = new IntakeSubsystem();
-  public final ShootSubsystem m_Shoot = new ShootSubsystem();
-  public final ClimberSubsystem m_Climber = new ClimberSubsystem();
+  // public final IntakeSubsystem m_Intake = new IntakeSubsystem();
+  // public final ShootSubsystem m_Shoot = new ShootSubsystem();
+  // public final ClimberSubsystem m_Climber = new ClimberSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -107,7 +107,8 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
 
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
+
+     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
                                                                                                 OperatorConstants.LEFT_Y_DEADBAND),
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
@@ -118,6 +119,8 @@ public class RobotContainer
                                                                    driverXbox.getHID()::getAButtonPressed,
                                                                    driverXbox.getHID()::getXButtonPressed,
                                                                    driverXbox.getHID()::getBButtonPressed);
+
+                                                                   
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -208,9 +211,10 @@ public class RobotContainer
       // driveFieldOrientedAnglularVelocity);
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
-    //buttons
-    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
-    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    //buttons    System.out.println("got here");
+    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
+    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
     driverXbox.y().whileTrue(new ParallelCommandGroup(
         new ShootCommand(m_Shoot),
@@ -218,7 +222,7 @@ public class RobotContainer
     ));
     driverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
     driverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
-    
+    */
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(drivebase);
 

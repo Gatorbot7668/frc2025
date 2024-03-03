@@ -7,7 +7,9 @@ package frc.robot;
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DigitalSource;
 import swervelib.math.Matter;
 
 /**
@@ -27,18 +29,34 @@ public final class Constants
 
   //port constants
   public static final int INTAKE_MOTOR_LEFT_PORT = 0; 
-  public static final int INTAKE_MOTOR_RIGHT_PORT = 11; 
+  public static final int INTAKE_MOTOR_RIGHT_PORT = 0; 
 
-  public static final int SHOOT_MOTOR_LEFT_PORT = 9; 
-  public static final int SHOOT_MOTOR_RIGHT_PORT = 10; 
+  public static final int SHOOT_MOTOR_LEFT_PORT = 0; 
+  public static final int SHOOT_MOTOR_RIGHT_PORT = 0; 
 
-  public static final int ARMANGLER_MOTOR_LEFT_PORT = 0; 
-  public static final int ARMANGLER_MOTOR_RIGHT_PORT = 0; 
+  public static final int ARMANGLER_MOTOR_LEFT_PORT = 16; 
+  public static final int ARMANGLER_MOTOR_RIGHT_PORT = 17; 
 
   public static final int CLIMBER_MOTOR_LEFT_PORT = 0; 
   public static final int CLIMBER_MOTOR_RIGHT_PORT = 0; 
   
 
+  public static final class ArmConstants {
+
+    public static final double kSVolts = 1;
+    public static final int[] kEncoderPorts = new int[]{1,0};
+    public static final double kGVolts = 1;
+    public static final double kVVoltSecondPerRad = 0.5;
+    public static final double kAVoltSecondSquaredPerRad = 0;
+    public static final double kP = 1;
+    public static final double kMaxVelocityRadPerSecond = 3;
+    public static final double kMaxAccelerationRadPerSecSquared = 10;
+    public static final int kEncoderPPR = 256;
+    public static final double kEncoderDistancePerPulse = 2*Math.PI / kEncoderPPR;
+    public static final double kArmOffsetRads = 0.5;
+
+
+  }
   public static final class AutonConstants
   {
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
