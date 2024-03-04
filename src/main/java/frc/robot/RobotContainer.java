@@ -84,6 +84,8 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   private final CommandXboxController driverXbox =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController secondaryDriverXbox =
+      new CommandXboxController(OperatorConstants.kSecondaryDriverControllerPort);
 
   TunableNumber angleP = new TunableNumber("Swerve/PID/ModuleAngle/P", SwerveParser.pidfPropertiesJson.angle.p);
   TunableNumber angleD = new TunableNumber("Swerve/PID/ModuleAngle/D", SwerveParser.pidfPropertiesJson.angle.d);
@@ -214,6 +216,9 @@ public class RobotContainer
     //buttons    System.out.println("got here");
     driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
     driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    
+    Command armAngler = new ArmAnglerCommand(m_ArmAngler, 0);
+    m_ArmAngler.setDefaultCommand(armAngler);
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
     driverXbox.y().whileTrue(new ParallelCommandGroup(

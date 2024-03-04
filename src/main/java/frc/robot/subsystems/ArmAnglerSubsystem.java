@@ -1,5 +1,10 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
@@ -9,21 +14,25 @@ import frc.robot.Constants;
 
 
 public class ArmAnglerSubsystem extends SubsystemBase {
-  private final PWMVictorSPX _ArmAnglerMotorLeft;
-  private final PWMVictorSPX _ArmAnglerMotorRight;
+  private final CANSparkMax _ArmAnglerMotorLeft;
+  private final CANSparkMax _ArmAnglerMotorRight;
   private Encoder encoder;
 
   
 
   public ArmAnglerSubsystem() {
-    _ArmAnglerMotorLeft = new PWMVictorSPX(Constants.ARMANGLER_MOTOR_LEFT_PORT);
-    _ArmAnglerMotorRight = new PWMVictorSPX(Constants.ARMANGLER_MOTOR_RIGHT_PORT);
-    _ArmAnglerMotorRight.addFollower(_ArmAnglerMotorLeft);
-    
+    _ArmAnglerMotorLeft = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    _ArmAnglerMotorRight = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    _ArmAnglerMotorLeft.restoreFactoryDefaults();
+    _ArmAnglerMotorRight.restoreFactoryDefaults();
+
+    _ArmAnglerMotorLeft.follow(_ArmAnglerMotorRight, true);
+    //_ArmAnglerMotorRight.setInverted(true);
     encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
                           Constants.ArmConstants.kEncoderPorts[1]);
 
   
+
   /* 
    * Example command factory method.
    *
@@ -32,7 +41,7 @@ public class ArmAnglerSubsystem extends SubsystemBase {
   }
 
   public void up (double speed) {
-    _ArmAnglerMotorRight.set(speed * 0.5);
+    _ArmAnglerMotorRight.set(speed*0.4);
     
 
   }
@@ -41,6 +50,10 @@ public class ArmAnglerSubsystem extends SubsystemBase {
   public void stop () {
     _ArmAnglerMotorRight.set(0);
    
+  }
+
+  public void move(DoubleSupplier s) {
+    _ArmAnglerMotorRight.set(s.getAsDouble());
   }
 
 
