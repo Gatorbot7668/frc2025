@@ -95,10 +95,10 @@ public class RobotContainer
   private SendableChooser<Command> autoChooser = null;
 
   // putting these here
-  public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
-  // public final IntakeSubsystem m_Intake = new IntakeSubsystem();
-  // public final ShootSubsystem m_Shoot = new ShootSubsystem();
-  // public final ClimberSubsystem m_Climber = new ClimberSubsystem();
+   public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
+   public final IntakeSubsystem m_Intake = new IntakeSubsystem();
+   public final ShootSubsystem m_Shoot = new ShootSubsystem();
+   public final ClimberSubsystem m_Climber = new ClimberSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -216,9 +216,19 @@ public class RobotContainer
     //buttons    System.out.println("got here");
     driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
     driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+
+    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 1));
+    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -1));
+    secondaryDriverXbox.y().whileTrue(new ParallelCommandGroup(
+        new ShootCommand(m_Shoot),
+        new IntakeCommand(m_Intake, 1)
+    ));
+    
+
     
     Command armAngler = new ArmAnglerCommand(m_ArmAngler, 0);
     m_ArmAngler.setDefaultCommand(armAngler);
+
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
     driverXbox.y().whileTrue(new ParallelCommandGroup(
