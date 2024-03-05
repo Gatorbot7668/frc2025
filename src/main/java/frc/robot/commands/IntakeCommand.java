@@ -7,7 +7,7 @@ public class IntakeCommand extends Command {
   private IntakeSubsystem m_Intake;
   private double m_direction;
 
-  public IntakeCommand(IntakeSubsystem Intake, float direction) {
+  public IntakeCommand(IntakeSubsystem Intake, double direction) {
     m_Intake = Intake;
     m_direction = direction;
     addRequirements(m_Intake);

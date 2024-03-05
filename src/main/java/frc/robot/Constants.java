@@ -28,12 +28,13 @@ public final class Constants
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
   //port constants
-  public static final int INTAKE_MOTOR_PORT = 0; 
-  public static final int SHOOT_MOTOR_PORT = 0; 
+  public static final int INTAKE_MOTOR_PORT = 15; 
+  public static final int SHOOT_MOTOR_PORT = 14; 
   public static final int ARMANGLER_MOTOR_LEFT_PORT = 16; 
   public static final int ARMANGLER_MOTOR_RIGHT_PORT = 17; 
   public static final int CLIMBER_MOTOR_LEFT_PORT = 0; 
   public static final int CLIMBER_MOTOR_RIGHT_PORT = 0; 
+  public static final int SHOOT_FOLLOW_MOTOR_PORT = 13;
   
 
   public static final class ArmConstants {

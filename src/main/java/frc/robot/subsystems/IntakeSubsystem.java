@@ -20,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void in(double speed) {
-    _motor.set(speed * 0.5);
+    _motor.set(speed);
   }
 
   public void stop() {
