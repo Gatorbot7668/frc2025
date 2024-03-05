@@ -13,21 +13,20 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax _motor;
-  
 
   public IntakeSubsystem() {
     _motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
   }
 
-  public void in (double speed) {
+  public void in(double speed) {
     _motor.set(speed * 0.5);
   }
 
-  public void stop () {
+  public void stop() {
     _motor.set(0);
   }
 
-  /* 
+  /*
    * Example command factory method.
    *
    * @return a command
@@ -42,7 +41,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */

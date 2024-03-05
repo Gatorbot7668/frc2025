@@ -14,25 +14,16 @@ public class ClimberSubsystem extends SubsystemBase {
     _motor = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
     _motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
     _motorFollower.follow(_motor);
-    
-
-  /* 
-   * Example command factory method.
-   *
-   * @return a command
-   */
   }
 
-  public void up (double speed) {
+  public void up(double speed) {
     _motor.set(speed * 0.5);
 
   }
 
-
-  public void stop () {
+  public void stop() {
     _motor.set(0);
   }
-
 
   @Override
   public void periodic() {

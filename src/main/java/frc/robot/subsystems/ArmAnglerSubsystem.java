@@ -10,13 +10,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 public class ArmAnglerSubsystem extends SubsystemBase {
   private final CANSparkMax _motorFollower;
   private final CANSparkMax _motor;
   private Encoder encoder;
-
-  
 
   public ArmAnglerSubsystem() {
     _motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
@@ -26,10 +23,10 @@ public class ArmAnglerSubsystem extends SubsystemBase {
 
     _motorFollower.follow(_motor, true);
     encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
-                          Constants.ArmConstants.kEncoderPorts[1]);
+        Constants.ArmConstants.kEncoderPorts[1]);
   }
 
-  /* 
+  /*
    * Example command factory method.
    *
    * @return a command
