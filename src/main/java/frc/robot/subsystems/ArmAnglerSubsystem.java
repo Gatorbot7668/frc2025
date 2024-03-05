@@ -18,8 +18,8 @@ public class ArmAnglerSubsystem extends SubsystemBase {
   public ArmAnglerSubsystem() {
     _motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
     _motorFollower = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
-    _motorFollower.restoreFactoryDefaults();
     _motor.restoreFactoryDefaults();
+    _motorFollower.restoreFactoryDefaults();
 
     _motorFollower.follow(_motor, true);
     encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],

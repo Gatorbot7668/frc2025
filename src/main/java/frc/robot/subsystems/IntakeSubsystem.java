@@ -16,6 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     _motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+    _motor.restoreFactoryDefaults();
   }
 
   public void in(double speed) {

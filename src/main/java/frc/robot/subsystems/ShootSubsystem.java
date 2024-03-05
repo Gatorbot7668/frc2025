@@ -12,6 +12,7 @@ public class ShootSubsystem extends SubsystemBase {
 
   public ShootSubsystem() {
     _motor = new CANSparkMax(Constants.SHOOT_MOTOR_PORT, MotorType.kBrushless);
+    _motor.restoreFactoryDefaults();
   }
 
   public void shoot() {
