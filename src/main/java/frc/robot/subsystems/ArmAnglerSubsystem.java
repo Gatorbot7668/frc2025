@@ -12,19 +12,19 @@ import frc.robot.Constants;
 
 
 public class ArmAnglerSubsystem extends SubsystemBase {
-  private final CANSparkMax _ArmAnglerMotorLeft;
-  private final CANSparkMax _ArmAnglerMotorRight;
+  private final CANSparkMax _motorFollower;
+  private final CANSparkMax _motor;
   private Encoder encoder;
 
   
 
   public ArmAnglerSubsystem() {
-    _ArmAnglerMotorLeft = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
-    _ArmAnglerMotorRight = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
-    _ArmAnglerMotorLeft.restoreFactoryDefaults();
-    _ArmAnglerMotorRight.restoreFactoryDefaults();
+    _motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    _motorFollower = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    _motorFollower.restoreFactoryDefaults();
+    _motor.restoreFactoryDefaults();
 
-    _ArmAnglerMotorLeft.follow(_ArmAnglerMotorRight, true);
+    _motorFollower.follow(_motor, true);
     encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
                           Constants.ArmConstants.kEncoderPorts[1]);
   }
@@ -36,18 +36,18 @@ public class ArmAnglerSubsystem extends SubsystemBase {
    */
 
   public void stop() {
-    _ArmAnglerMotorRight.set(0);
+    _motor.set(0);
   }
 
   public void move(DoubleSupplier s) {
-    _ArmAnglerMotorRight.set(s.getAsDouble());
+    _motor.set(s.getAsDouble());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("arm/encoder", encoder.getDistance());
-    SmartDashboard.putNumber("arm/motor", _ArmAnglerMotorRight.get());
+    SmartDashboard.putNumber("arm/motor", _motor.get());
   }
 
   @Override

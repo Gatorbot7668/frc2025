@@ -7,39 +7,31 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.CAN;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax _IntakeMotor;
+  private final CANSparkMax _motor;
   
 
   public IntakeSubsystem() {
-    _IntakeMotor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-    
+    _motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+  }
+
+  public void in (double speed) {
+    _motor.set(speed * 0.5);
+  }
+
+  public void stop () {
+    _motor.set(0);
+  }
 
   /* 
    * Example command factory method.
    *
    * @return a command
    */
-  }
-
-  public void in (double speed) {
-    _IntakeMotor.set(speed * 0.5);
-    
-
-  }
-
-
-  public void stop () {
-    _IntakeMotor.set(0);
-    
-  }
-
   public Command exampleMethodCommand() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
