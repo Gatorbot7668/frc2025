@@ -222,14 +222,14 @@ public class RobotContainer
       () -> (secondaryDriverXbox.getLeftTriggerAxis() - secondaryDriverXbox.getRightTriggerAxis())));
 
 
-    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 0.5));
-    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -0.5));
+    secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
+    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.5).withTimeout(2));
     //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
 
-     secondaryDriverXbox.y().whileTrue(new ParallelCommandGroup(
+     secondaryDriverXbox.y().onTrue(new ParallelCommandGroup(
          new ShootCommand(m_Shoot),
          new IntakeCommand(m_Intake, 1)
-     ));
+     ).withTimeout(2));
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
