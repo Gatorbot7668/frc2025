@@ -214,8 +214,11 @@ public class RobotContainer
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
     //buttons    System.out.println("got here");
-    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, 1));
-    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, -1));
+    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
+    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> -1));
+    m_ArmAngler.setDefaultCommand(new ArmAnglerCommand(
+      m_ArmAngler,
+      () -> (driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis())));
 
     secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 1));
     secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -1));
@@ -223,11 +226,6 @@ public class RobotContainer
         new ShootCommand(m_Shoot),
         new IntakeCommand(m_Intake, 1)
     ));
-    
-
-    
-    Command armAngler = new ArmAnglerCommand(m_ArmAngler, 0);
-    m_ArmAngler.setDefaultCommand(armAngler);
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));

@@ -1,17 +1,19 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ArmAnglerSubsystem;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ArmAnglerCommand extends Command {
    private ArmAnglerSubsystem m_armAngler;
-   private double m_direction;
+   private DoubleSupplier m_speedSupplier;
 
-   public ArmAnglerCommand(ArmAnglerSubsystem ArmAngler, float direction) {
+   public ArmAnglerCommand(ArmAnglerSubsystem ArmAngler, DoubleSupplier speedSupplier) {
     m_armAngler = ArmAngler;
-    m_direction = direction;
+    m_speedSupplier = speedSupplier;
     addRequirements(m_armAngler);
-
    }
 
 
@@ -22,7 +24,7 @@ public class ArmAnglerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_armAngler.up(m_direction);
+      m_armAngler.move(m_speedSupplier);
   }
 
   // Called once the command ends or is interrupted.
