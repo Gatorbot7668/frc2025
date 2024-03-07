@@ -209,8 +209,8 @@ public class RobotContainer
     drivebase.setDefaultCommand(
       // testMotors);
       // driveRobotOriented);
-      driveFieldOrientedDirectAngle);
-      // driveFieldOrientedAnglularVelocity);
+      // driveFieldOrientedDirectAngle);
+      driveFieldOrientedAnglularVelocity);
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
     //buttons    System.out.println("got here");
@@ -223,7 +223,7 @@ public class RobotContainer
 
 
     secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
-    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.5).withTimeout(2));
+    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.2).withTimeout(2));
     //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
 
      secondaryDriverXbox.y().onTrue(new ParallelCommandGroup(
