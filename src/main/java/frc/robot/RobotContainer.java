@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -225,11 +226,17 @@ public class RobotContainer
     secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
     secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.2).withTimeout(2));
     //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
-
-     secondaryDriverXbox.y().onTrue(new ParallelCommandGroup(
+    secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
+      new ShootCommand(m_Shoot).withTimeout(1.5),
+      (new ParallelCommandGroup(
          new ShootCommand(m_Shoot),
-         new IntakeCommand(m_Intake, 1)
-     ).withTimeout(2));
+         new IntakeCommand(m_Intake, 1).withTimeout(2)
+    ))));
+
+    //  secondaryDriverXbox.y().onTrue(new ParallelCommandGroup(
+    //      new ShootCommand(m_Shoot),
+    //      new IntakeCommand(m_Intake, 1)
+    //  ).withTimeout(2));
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
