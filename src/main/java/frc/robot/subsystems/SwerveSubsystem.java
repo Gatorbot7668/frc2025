@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -56,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public double maximumSpeed = Units.feetToMeters(14.5);
+  public double maximumSpeed = Units.feetToMeters(12.5);
   
   private CANSparkMaxSendable frontLeftAngleSendableMotor;
   private CANSparkMaxSendable frontLeftDriveSendableMotor;
@@ -389,6 +390,11 @@ public class SwerveSubsystem extends SubsystemBase
   public void driveFieldOriented(ChassisSpeeds velocity)
   {
     swerveDrive.driveFieldOriented(velocity);
+  }
+
+  //????!?!?!?!??!?!?!?!??!?!?!?!??!?!??????!?!?!?!?!??!?!?!?!?!?
+  public void slow() {
+    maximumSpeed = Units.feetToMeters(5);
   }
 
   /**

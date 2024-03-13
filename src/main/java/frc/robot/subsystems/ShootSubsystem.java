@@ -23,7 +23,7 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public void shoot() {
-    _leadMotor.set(-1);
+    _leadMotor.set(-0.7);
   }
 
   public void stop() {

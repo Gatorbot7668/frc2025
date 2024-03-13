@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.constraint.MaxVelocityConstraint;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -52,11 +54,13 @@ import swervelib.SwerveModule;
 import swervelib.parser.PIDFConfig;
 import swervelib.parser.SwerveParser;
 
+import java.beans.Encoder;
 import java.io.File;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest.ApplyChassisSpeeds;
 import com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -95,6 +99,7 @@ public class RobotContainer
   private SendableChooser<Command> autoChooser = null;
 
   // putting these here
+  //REPUT THESE!!!!
    public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
    public final IntakeSubsystem m_Intake = new IntakeSubsystem();
    public final ShootSubsystem m_Shoot = new ShootSubsystem();
@@ -130,12 +135,14 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.RIGHT_Y_DEADBAND)
+        () -> MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.RIGHT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.RIGHT_Y_DEADBAND)
+        
     ).withName("driveFieldOrientedDirectAngle");
     SmartDashboard.putData(driveFieldOrientedDirectAngle);
+    // MathUtil.applyDeadband(driverXbox.a().whileTrue, OperatorConstants.SLOW_DEADBAND);
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -210,26 +217,40 @@ public class RobotContainer
       // testMotors);
       // driveRobotOriented);
       // driveFieldOrientedDirectAngle);
+
       driveFieldOrientedAnglularVelocity);
+
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
     //buttons    System.out.println("got here");
-    driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
-    driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> -1));
+    // driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
+    // driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> -1));
    
     m_ArmAngler.setDefaultCommand(new ArmAnglerCommand(
       m_ArmAngler,
       () -> (secondaryDriverXbox.getLeftTriggerAxis() - secondaryDriverXbox.getRightTriggerAxis())));
 
+    
+    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 0.5));
+    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -0.5));
+    secondaryDriverXbox.x().whileTrue(new ShootCommand(m_Shoot));
 
-    secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
-    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.2).withTimeout(2));
-    //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
+    //  secondaryDriverXbox.y().whileTrue(new ParallelCommandGroup(
+    //      new ShootCommand(m_Shoot),
+    //      new IntakeCommand(m_Intake, 1)
+    //  ).withTimeout(5));
 
-     secondaryDriverXbox.y().onTrue(new ParallelCommandGroup(
+
+     secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
+         new ShootCommand(m_Shoot).withTimeout(1),
+         
+         new ParallelCommandGroup(
          new ShootCommand(m_Shoot),
-         new IntakeCommand(m_Intake, 1)
-     ).withTimeout(2));
+         new IntakeCommand(m_Intake, 1)).withTimeout(1.5)
+
+     ));
+
+
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
