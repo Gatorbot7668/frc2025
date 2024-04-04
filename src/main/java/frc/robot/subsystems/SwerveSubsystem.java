@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.robot.util.CANSparkMaxSendable;
 
 import java.io.File;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;import swervelib.SwerveController;
@@ -263,7 +264,7 @@ public class SwerveSubsystem extends SubsystemBase
    * @param headingY     Heading Y to calculate angle of the joystick.
    * @return Drive command.
    */
-  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
+  public Command driveCommandDirectAngle(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
                               DoubleSupplier headingY)
   {
     // swerveDrive.setHeadingCorrection(true); // Normally you would want heading correction for this kind of control.
@@ -351,10 +352,14 @@ public class SwerveSubsystem extends SubsystemBase
    * @param angularRotationX Angular velocity of the robot to set. Cubed for smoother controls.
    * @return Drive command.
    */
-  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX)
+  public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier angularRotationX,
+                              BooleanSupplier slow)
   {
     return run(() -> {
       int multiplier = isFieldFlipped() ? -1 : 1;
+      if (slow.getAsBoolean()) {
+        multiplier *= 0.75;
+      }
       // Make the robot move
       swerveDrive.drive(new Translation2d(
         multiplier * Math.pow(translationX.getAsDouble(), 3) * swerveDrive.getMaximumVelocity(),
