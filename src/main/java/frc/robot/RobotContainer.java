@@ -190,7 +190,7 @@ public class RobotContainer
     }).withName("testMotors");    
     SmartDashboard.putData(testMotors);
 
-    Command testAngleMotors1 = drivebase.run(() -> {
+    Command testAngleMotors = drivebase.run(() -> {
       SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
     }).withName("testAngleMotors");    
     SmartDashboard.putData(testAngleMotors);
