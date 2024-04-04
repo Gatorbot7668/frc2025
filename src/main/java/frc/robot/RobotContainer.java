@@ -239,7 +239,7 @@ public class RobotContainer
       (new ParallelCommandGroup(
          new ShootCommand(m_Shoot),
          new IntakeCommand(m_Intake, 1)
-     ).withTimeout(2));
+      ).withTimeout(2))));
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
