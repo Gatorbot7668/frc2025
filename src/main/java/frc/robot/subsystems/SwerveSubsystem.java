@@ -40,6 +40,7 @@ import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
 import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
+import swervelib.parser.PIDFConfig;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
@@ -105,6 +106,9 @@ public class SwerveSubsystem extends SubsystemBase
     SwerveModule frModule = swerveDrive.getModules()[1];
     SwerveModule blModule = swerveDrive.getModules()[2];
     SwerveModule brModule = swerveDrive.getModules()[3];
+
+    // Example of how to change a single motor's PID config
+    // frModule.configuration.anglePIDF = new PIDFConfig(0.1, 0, 0);
 
     frontLeftAngleSendableMotor = new CANSparkMaxSendable(
       (CANSparkMax) flModule.getAngleMotor().getMotor());
