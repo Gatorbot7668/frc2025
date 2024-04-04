@@ -230,27 +230,16 @@ public class RobotContainer
       m_ArmAngler,
       () -> (secondaryDriverXbox.getLeftTriggerAxis() - secondaryDriverXbox.getRightTriggerAxis())));
 
-    
-    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 0.5));
-    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -0.5));
-    secondaryDriverXbox.x().whileTrue(new ShootCommand(m_Shoot));
 
-    //  secondaryDriverXbox.y().whileTrue(new ParallelCommandGroup(
-    //      new ShootCommand(m_Shoot),
-    //      new IntakeCommand(m_Intake, 1)
-    //  ).withTimeout(5));
-
-
-     secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
-         new ShootCommand(m_Shoot).withTimeout(1),
-         
-         new ParallelCommandGroup(
+    secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
+    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.2).withTimeout(2));
+    //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
+    secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
+      new ShootCommand(m_Shoot).withTimeout(1.5),
+      (new ParallelCommandGroup(
          new ShootCommand(m_Shoot),
-         new IntakeCommand(m_Intake, 1)).withTimeout(1.5)
-
-     ));
-
-
+         new IntakeCommand(m_Intake, 1)
+     ).withTimeout(2));
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));

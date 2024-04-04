@@ -13,8 +13,10 @@ public class ClimberSubsystem extends SubsystemBase {
   public ClimberSubsystem() {
     _motor = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
     _motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+   
     _motor.restoreFactoryDefaults();
     _motorFollower.restoreFactoryDefaults();
+    
     _motorFollower.follow(_motor);
   }
 
