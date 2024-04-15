@@ -66,6 +66,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.GeometryUtil;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -247,6 +248,12 @@ public class RobotContainer
       secondaryDriverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
 
 
+
+      SmartDashboard.putData(m_ArmAngler.sysIdQuasistatic(SysIdRoutine.Direction.kForward).withName("arm forward quas"));
+      SmartDashboard.putData(m_ArmAngler.sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("arm back quas"));
+
+      SmartDashboard.putData(m_ArmAngler.sysIdDynamic(SysIdRoutine.Direction.kForward).withName("arm forward dynamic"));
+      SmartDashboard.putData(m_ArmAngler.sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("arm back dynamic"));
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
     driverXbox.y().whileTrue(new ParallelCommandGroup(

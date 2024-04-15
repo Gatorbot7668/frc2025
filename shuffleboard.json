@@ -41,7 +41,8 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
             }
           },
           "4,0": {
@@ -1942,15 +1943,58 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "8,2": {
+            "size": [
+              2,
+              3
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "HIDDEN",
+              "_children": [
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/arm back dynamic",
+                  "_title": "/SmartDashboard/arm back dynamic",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/arm back quas",
+                  "_title": "/SmartDashboard/arm back quas",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/arm forward dynamic",
+                  "_title": "/SmartDashboard/arm forward dynamic",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Command",
+                  "_source0": "network_table:///SmartDashboard/arm forward quas",
+                  "_title": "/SmartDashboard/arm forward quas",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": -92.0,
-    "y": 191.3333282470703,
-    "width": 1502.6666259765625,
-    "height": 960.6666870117188
+    "x": 0.0,
+    "y": 25.0,
+    "width": 1440.0,
+    "height": 815.0
   }
 }
