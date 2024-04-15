@@ -27,19 +27,11 @@ public class IntakeSubsystem extends SubsystemBase {
     _motor.set(0);
   }
 
-  /*
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public Command intakeCommand(double speed) {
+    return runEnd(() -> { in(speed); },
+                  () -> { stop();});
   }
+  
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a

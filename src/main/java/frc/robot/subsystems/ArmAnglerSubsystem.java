@@ -110,6 +110,11 @@ public class ArmAnglerSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("arm/velocity", neoEncoder.getVelocity());
   }
 
+  public Command moveArm(DoubleSupplier speed) {
+    return runEnd(() -> { move(speed); },
+                  () -> { stop();});
+  }
+
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation

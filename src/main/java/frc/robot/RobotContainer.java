@@ -38,9 +38,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDriveAdv;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.ArmAnglerCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -77,19 +74,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 public class RobotContainer
 {
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+  private final SwerveSubsystem m_drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve"));
-
-                                                            
-
-                                                                
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  // CommandJoystick driverController = new CommandJoystick(1);
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  private final CommandXboxController driverXbox =
+  private final CommandXboxController m_driverXbox =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController secondaryDriverXbox =
+  private final CommandXboxController m_secondaryDriverXbox =
       new CommandXboxController(OperatorConstants.kSecondaryDriverControllerPort);
 
   TunableNumber angleP = new TunableNumber("Swerve/PID/ModuleAngle/P", SwerveParser.pidfPropertiesJson.angle.p);
@@ -99,8 +88,6 @@ public class RobotContainer
 
   private SendableChooser<Command> autoChooser = null;
 
-  // putting these here
-  //REPUT THESE!!!!
    public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
    public final IntakeSubsystem m_Intake = new IntakeSubsystem();
    public final ShootSubsystem m_Shoot = new ShootSubsystem();
@@ -114,93 +101,53 @@ public class RobotContainer
 
     // Configure the trigger bindings
     configureBindings();
-
-
-     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
-                                                                                                OperatorConstants.LEFT_Y_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                                OperatorConstants.LEFT_X_DEADBAND),
-                                                                   () -> MathUtil.applyDeadband(driverXbox.getRightX(),
-                                                                                                OperatorConstants.RIGHT_X_DEADBAND),
-                                                                   driverXbox.getHID()::getYButtonPressed,
-                                                                   driverXbox.getHID()::getAButtonPressed,
-                                                                   driverXbox.getHID()::getXButtonPressed,
-                                                                   driverXbox.getHID()::getBButtonPressed);
-
-                                                                   
-
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the desired angle NOT angular rotation
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommandDirectAngle(
-        () -> MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.RIGHT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.RIGHT_Y_DEADBAND)
-        
-    ).withName("driveFieldOrientedDirectAngle");
-    SmartDashboard.putData(driveFieldOrientedDirectAngle);
-    // MathUtil.applyDeadband(driverXbox.a().whileTrue, OperatorConstants.SLOW_DEADBAND);
-
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the angular velocity of the robot
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
-        driverXbox.getHID()::getAButtonPressed
+    
+    Command driveFieldOrientedAnglularVelocity = m_drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
+        m_driverXbox.getHID()::getAButtonPressed
     ).withName("driveFieldOrientedAnglularVelocity");
     SmartDashboard.putData(driveFieldOrientedAnglularVelocity);
 
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
-    ).withName("driveFieldOrientedDirectAngleSim");
 
-    Command driveRobotOriented = drivebase.driveCommandRobotRelative(
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
+    Command driveRobotOriented = m_drivebase.driveCommandRobotRelative(
+        () -> -MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
     driveRobotOriented.setName("driveRobotOriented");
     SmartDashboard.putData(driveRobotOriented);
 
-    Command zeroGyro = drivebase.runOnce(() -> drivebase.zeroGyro()).withName("zeroGyro");
+    Command zeroGyro = m_drivebase.runOnce(() -> m_drivebase.zeroGyro()).withName("zeroGyro");
     // Command zeroGyro = new InstantCommand(drivebase::zeroGyro, drivebase).withName("zeroGyro");
     SmartDashboard.putData(zeroGyro);
 
-    Command resetOdometrytoAllianceZero = drivebase.runOnce(
-      () -> drivebase.resetOdometry(drivebase.invertIfFieldFlipped(new Pose2d(0, 0, new Rotation2d())))
+    Command resetOdometrytoAllianceZero = m_drivebase.runOnce(
+      () -> m_drivebase.resetOdometry(m_drivebase.invertIfFieldFlipped(new Pose2d(0, 0, new Rotation2d())))
     ).withName("resetOdometrytoAllianceZero");
     SmartDashboard.putData(resetOdometrytoAllianceZero);
 
-    Command addFakeVisionReading = drivebase.runOnce(() -> drivebase.addFakeVisionReading())
+    Command addFakeVisionReading = m_drivebase.runOnce(() -> m_drivebase.addFakeVisionReading())
       .withName("addFakeVisionReading");
     SmartDashboard.putData(addFakeVisionReading);
 
-    Command testMotors = drivebase.run(() -> {
+    Command testMotors = m_drivebase.run(() -> {
       // SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
-      SwerveDriveTest.powerAngleMotorsDutyCycle(drivebase.swerveDrive, driverXbox.getLeftX());
-      SwerveDriveTest.powerDriveMotorsDutyCycle(drivebase.swerveDrive, driverXbox.getLeftY());
+      SwerveDriveTest.powerAngleMotorsDutyCycle(m_drivebase.swerveDrive, m_driverXbox.getLeftX());
+      SwerveDriveTest.powerDriveMotorsDutyCycle(m_drivebase.swerveDrive, m_driverXbox.getLeftY());
     }).withName("testMotors");    
     SmartDashboard.putData(testMotors);
 
     
-    Command testAngleMotors = drivebase.run(() -> {
-      SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
+    Command testAngleMotors = m_drivebase.run(() -> {
+      SwerveDriveTest.angleModules(m_drivebase.swerveDrive, new Rotation2d(m_driverXbox.getLeftX() * Math.PI));
     }).withName("testAngleMotors");    
     SmartDashboard.putData(testAngleMotors);
 
     TunableNumber angle = new TunableNumber("testAngle", 90);
-    Command testSetAngle = drivebase.runEnd(
-      () -> SwerveDriveTest.angleModules(drivebase.swerveDrive, Rotation2d.fromDegrees(angle.get())),
-      () -> SwerveDriveTest.angleModules(drivebase.swerveDrive, Rotation2d.fromDegrees(0))
+    Command testSetAngle = m_drivebase.runEnd(
+      () -> SwerveDriveTest.angleModules(m_drivebase.swerveDrive, Rotation2d.fromDegrees(angle.get())),
+      () -> SwerveDriveTest.angleModules(m_drivebase.swerveDrive, Rotation2d.fromDegrees(0))
     ).withName("testSetAngle");    
     SmartDashboard.putData(testSetAngle);
 
@@ -211,12 +158,12 @@ public class RobotContainer
         new Pose2d(new Translation2d(1, 1), Rotation2d.fromDegrees(0))))
       .withName("testDriveToPose");
       */
-    Command testDriveToPose = drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
+    Command testDriveToPose = m_drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
                                   Rotation2d.fromDegrees(0)))
       /*.asProxy()*/.withName("testDriveToPose");
     SmartDashboard.putData(testDriveToPose);
 
-    drivebase.setDefaultCommand(
+    m_drivebase.setDefaultCommand(
       // testMotors);
       // driveRobotOriented);
       // driveFieldOrientedDirectAngle);
@@ -229,23 +176,22 @@ public class RobotContainer
     // driverXbox.a().w hileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
     // driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> -1));
    
-    m_ArmAngler.setDefaultCommand(new ArmAnglerCommand(
-      m_ArmAngler,
-      () -> (secondaryDriverXbox.getLeftTriggerAxis() - secondaryDriverXbox.getRightTriggerAxis())));
+  
+    m_ArmAngler.setDefaultCommand(m_ArmAngler.moveArm(
+      () -> (m_secondaryDriverXbox.getLeftTriggerAxis() - m_secondaryDriverXbox.getRightTriggerAxis())));
 
-
-    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 0.5));
-    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -0.4));
+    m_secondaryDriverXbox.a().whileTrue(m_Intake.intakeCommand(0.5));
+    m_secondaryDriverXbox.b().whileTrue(m_Intake.intakeCommand(-0.4));
     //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
-    secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
-      new ShootCommand(m_Shoot).withTimeout(1.5),
+    m_secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
+      m_Shoot.shootCommand().withTimeout(1.5),
       (new ParallelCommandGroup(
-         new ShootCommand(m_Shoot),
-         new IntakeCommand(m_Intake, 1)
+        m_Shoot.shootCommand(),
+         m_Intake.intakeCommand(1)
       ).withTimeout(2))));
 
-      secondaryDriverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
-      secondaryDriverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
+      m_secondaryDriverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
+      m_secondaryDriverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
 
 
 
@@ -264,31 +210,31 @@ public class RobotContainer
     driverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
     */
     SmartDashboard.putData(CommandScheduler.getInstance());
-    SmartDashboard.putData(drivebase);
+    SmartDashboard.putData(m_drivebase);
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   public void robotPeriodic() {
-    SmartDashboard.putNumber("joystick/left-X", driverXbox.getLeftX());
-    SmartDashboard.putNumber("joystick/left-Y", driverXbox.getLeftY());
-    SmartDashboard.putNumber("joystick/right-X", driverXbox.getRightX());
-    SmartDashboard.putNumber("joystick/right-Y", driverXbox.getRightY());
+    SmartDashboard.putNumber("joystick/left-X", m_driverXbox.getLeftX());
+    SmartDashboard.putNumber("joystick/left-Y", m_driverXbox.getLeftY());
+    SmartDashboard.putNumber("joystick/right-X", m_driverXbox.getRightX());
+    SmartDashboard.putNumber("joystick/right-Y", m_driverXbox.getRightY());
 
-    SmartDashboard.putNumber("pose/x", drivebase.getPose().getX());
-    SmartDashboard.putNumber("pose/y", drivebase.getPose().getY());
-    SmartDashboard.putNumber("pose/z", drivebase.getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("pose/x", m_drivebase.getPose().getX());
+    SmartDashboard.putNumber("pose/y", m_drivebase.getPose().getY());
+    SmartDashboard.putNumber("pose/z", m_drivebase.getPose().getRotation().getDegrees());
 
-    SmartDashboard.putString("alliance", drivebase.isFieldFlipped() ? "RED" : "BLUE");
+    SmartDashboard.putString("alliance", m_drivebase.isFieldFlipped() ? "RED" : "BLUE");
 
     if (angleD.hasChanged() || angleP.hasChanged()) {
-      for (SwerveModule module : drivebase.swerveDrive.getModules()) {
+      for (SwerveModule module : m_drivebase.swerveDrive.getModules()) {
         module.getAngleMotor().configurePIDF(new PIDFConfig(angleP.get(), angleD.get()));
       }
     }
     if (driveD.hasChanged() || driveP.hasChanged()) {
-      for (SwerveModule module : drivebase.swerveDrive.getModules()) {
+      for (SwerveModule module : m_drivebase.swerveDrive.getModules()) {
         module.getDriveMotor().configurePIDF(new PIDFConfig(driveP.get(), driveD.get()));
       }
     }
@@ -330,7 +276,7 @@ public class RobotContainer
 
         
     return new SequentialCommandGroup(
-      drivebase.driveAtSpeed(5, 0, 0, false).withTimeout(1.2)
+      m_drivebase.driveAtSpeed(5, 0, 0, false).withTimeout(1.2)
      // drivebase.driveAtSpeed(-5, 0, 0, false).withTimeout(0.5)
     );
  }
@@ -342,6 +288,6 @@ public class RobotContainer
 
   public void setMotorBrake(boolean brake)
   {
-    drivebase.setMotorBrake(brake);
+    m_drivebase.setMotorBrake(brake);
   }
 }
