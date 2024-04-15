@@ -370,6 +370,10 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
+  public Command driveAtSpeed(double x, double y, double z, boolean fieldRelative) {
+    return run(() -> swerveDrive.drive(new Translation2d(x, y), z, fieldRelative, false));
+  }
+
   /**
    * The primary method for controlling the drivebase.  Takes a {@link Translation2d} and a rotation rate, and
    * calculates and commands module states accordingly.  Can use either open-loop or closed-loop velocity control for

@@ -32,8 +32,8 @@ public final class Constants
   public static final int SHOOT_MOTOR_PORT = 14; 
   public static final int ARMANGLER_MOTOR_LEFT_PORT = 16; 
   public static final int ARMANGLER_MOTOR_RIGHT_PORT = 17; 
-  public static final int CLIMBER_MOTOR_LEFT_PORT = 0; 
-  public static final int CLIMBER_MOTOR_RIGHT_PORT = 0; 
+  public static final int CLIMBER_MOTOR_LEFT_PORT = 18; 
+  public static final int CLIMBER_MOTOR_RIGHT_PORT = 19; 
   public static final int SHOOT_FOLLOW_MOTOR_PORT = 13;
   
 

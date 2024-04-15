@@ -8,20 +8,20 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final CANSparkMax _motorFollower;
-  private final CANSparkMax _motor;
+   final CANSparkMax _motor;
 
   public ClimberSubsystem() {
-    _motor = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
-    _motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    _motor = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    _motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
    
-    _motor.restoreFactoryDefaults();
-    _motorFollower.restoreFactoryDefaults();
+     _motor.restoreFactoryDefaults();
+  //  _motorFollower.restoreFactoryDefaults();
     
-    _motorFollower.follow(_motor);
+  //  _motorFollower.follow(_motor);
   }
 
   public void up(double speed) {
-    _motor.set(speed * 0.5);
+    _motor.set(speed);
   }
 
   public void stop() {

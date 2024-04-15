@@ -103,7 +103,7 @@ public class RobotContainer
    public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
    public final IntakeSubsystem m_Intake = new IntakeSubsystem();
    public final ShootSubsystem m_Shoot = new ShootSubsystem();
-   // public final ClimberSubsystem m_Climber = new ClimberSubsystem();
+   public final ClimberSubsystem m_Climber = new ClimberSubsystem();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -190,6 +190,7 @@ public class RobotContainer
     }).withName("testMotors");    
     SmartDashboard.putData(testMotors);
 
+    
     Command testAngleMotors = drivebase.run(() -> {
       SwerveDriveTest.angleModules(drivebase.swerveDrive, new Rotation2d(driverXbox.getLeftX() * Math.PI));
     }).withName("testAngleMotors");    
@@ -224,7 +225,7 @@ public class RobotContainer
       // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
 
     //buttons    System.out.println("got here");
-    // driverXbox.a().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
+    // driverXbox.a().w hileTrue(new ArmAnglerCommand(m_ArmAngler, () -> 1));
     // driverXbox.x().whileTrue(new ArmAnglerCommand(m_ArmAngler, () -> -1));
    
     m_ArmAngler.setDefaultCommand(new ArmAnglerCommand(
@@ -232,8 +233,8 @@ public class RobotContainer
       () -> (secondaryDriverXbox.getLeftTriggerAxis() - secondaryDriverXbox.getRightTriggerAxis())));
 
 
-    secondaryDriverXbox.a().onTrue(new IntakeCommand(m_Intake, 0.5).withTimeout(1));
-    secondaryDriverXbox.b().onTrue(new IntakeCommand(m_Intake, -0.2).withTimeout(2));
+    secondaryDriverXbox.a().whileTrue(new IntakeCommand(m_Intake, 0.5));
+    secondaryDriverXbox.b().whileTrue(new IntakeCommand(m_Intake, -0.4));
     //secondaryDriverXbox.y().whileTrue(new ShootCommand(m_Shoot));
     secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
       new ShootCommand(m_Shoot).withTimeout(1.5),
@@ -241,6 +242,10 @@ public class RobotContainer
          new ShootCommand(m_Shoot),
          new IntakeCommand(m_Intake, 1)
       ).withTimeout(2))));
+
+      secondaryDriverXbox.rightBumper().whileTrue(new ClimberCommand(m_Climber, -1));
+      secondaryDriverXbox.leftBumper().whileTrue(new ClimberCommand(m_Climber, 1));
+
 
     /* 
     driverXbox.b().whileTrue(new IntakeCommand(m_Intake));
@@ -310,12 +315,18 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // return new PathPlannerAuto("test auto");
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
     // return drivebase.getAutonomousCommand("small path");
 
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
-  }
+
+        
+    return new SequentialCommandGroup(
+      drivebase.driveAtSpeed(5, 0, 0, false).withTimeout(1.2)
+     // drivebase.driveAtSpeed(-5, 0, 0, false).withTimeout(0.5)
+    );
+ }
 
   public void setDriveMode()
   {
