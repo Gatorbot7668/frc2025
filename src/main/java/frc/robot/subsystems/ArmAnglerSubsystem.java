@@ -14,12 +14,14 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog.MotorLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 
 import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
@@ -62,11 +64,11 @@ public class ArmAnglerSubsystem extends SubsystemBase {
               // characterized.
               log -> {
                 // Record a frame for the shooter motor.
-                log.motor("shooter-wheel")
+                log.motor("arm")
                     .voltage(
                         m_appliedVoltage.mut_replace(
                             _motor.get() * RobotController.getBatteryVoltage(), Volts))
-                    .angularPosition(m_angle.mut_replace(encoder.getDistance(), Rotations))
+                    .angularPosition(m_angle.mut_replace(encoder.getDistance(), Degrees))
                     .angularVelocity(
                         m_velocity.mut_replace(encoder.getRate(), RotationsPerSecond));
               },
