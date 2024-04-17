@@ -6,6 +6,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -16,9 +19,11 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog.MotorLog;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmConstants;
 
 import static edu.wpi.first.units.MutableMeasure.mutable;
 import static edu.wpi.first.units.Units.Degrees;
@@ -26,11 +31,15 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-public class ArmAnglerSubsystem extends SubsystemBase {
+public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax _motorFollower;
   private final CANSparkMax _motor;
   private Encoder encoder;
   private RelativeEncoder neoEncoder;
+  private final ArmFeedforward m_feedforward =
+      new ArmFeedforward(
+          ArmConstants.kSVolts, ArmConstants.kGVolts,
+          ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);
 
   // Mutable holder for unit-safe voltage values, persisted to avoid reallocation.
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
@@ -41,6 +50,15 @@ public class ArmAnglerSubsystem extends SubsystemBase {
   private final SysIdRoutine m_sysIdRoutine;
 
   public ArmAnglerSubsystem() {
+    super(
+        new ProfiledPIDController(
+            ArmConstants.kP,
+            0,
+            0,
+            new TrapezoidProfile.Constraints(
+                ArmConstants.kMaxVelocityRadPerSecond,
+                ArmConstants.kMaxAccelerationRadPerSecSquared)),
+        0);
     _motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
     _motorFollower = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
     _motor.restoreFactoryDefaults();
@@ -50,6 +68,10 @@ public class ArmAnglerSubsystem extends SubsystemBase {
     encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
         Constants.ArmConstants.kEncoderPorts[1]);
     neoEncoder = _motor.getEncoder();
+
+    // TODO:do we need this?
+    //m_encoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
+    setGoal(ArmConstants.kArmOffsetRads);
 
     m_sysIdRoutine =
       new SysIdRoutine(
@@ -76,7 +98,18 @@ public class ArmAnglerSubsystem extends SubsystemBase {
               // WPILog with this subsystem's name ("shooter")
               this));        
   }
+  @Override
+  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+    // Calculate the feedforward from the sepoint
+    double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
+    // Add the feedforward to the PID output to get the motor output
+    _motor.setVoltage(output + feedforward);
+  }
 
+  @Override
+  public double getMeasurement() {
+    return encoder.getDistance() + ArmConstants.kArmOffsetRads;
+  }
   /*
    * Example command factory method.
    *
@@ -106,10 +139,10 @@ public class ArmAnglerSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    super.periodic();
     SmartDashboard.putNumber("arm/encoder", encoder.getDistance());
     SmartDashboard.putNumber("arm/motor", _motor.get());
-    SmartDashboard.putNumber("arm/position", neoEncoder.getPosition());
-    SmartDashboard.putNumber("arm/velocity", neoEncoder.getVelocity());
+    SmartDashboard.putNumber("arm/rate", encoder.getRate());
   }
 
   public Command moveArm(DoubleSupplier speed) {

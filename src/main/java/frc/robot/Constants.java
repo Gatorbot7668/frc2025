@@ -40,7 +40,7 @@ public final class Constants
   public static final class ArmConstants {
 
     public static final double kSVolts = 1;
-    public static final int[] kEncoderPorts = new int[]{1,0};
+    public static final int[] kEncoderPorts = new int[]{0,1};
     public static final double kGVolts = 1;
     public static final double kVVoltSecondPerRad = 0.5;
     public static final double kAVoltSecondSquaredPerRad = 0;
