@@ -41,8 +41,7 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF"
+              "Visuals/Show Outside Circles": false
             }
           },
           "4,0": {
@@ -1947,7 +1946,7 @@
           "8,2": {
             "size": [
               2,
-              3
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -1985,6 +1984,19 @@
                   "_showGlyph": false
                 }
               ]
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/arm/encoder",
+              "_title": "/SmartDashboard/arm/encoder",
+              "_glyph": 148,
+              "_showGlyph": false
             }
           }
         }
