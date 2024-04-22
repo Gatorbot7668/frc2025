@@ -14,6 +14,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,7 +35,8 @@ import static edu.wpi.first.units.Units.Volts;
 public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax _motorFollower;
   private final CANSparkMax _motor;
-  private Encoder encoder;
+  private DutyCycleEncoder absEncoder;
+  private Encoder relEncoder;
   private RelativeEncoder neoEncoder;
   private final ArmFeedforward m_feedforward =
       new ArmFeedforward(
@@ -65,13 +67,14 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     _motorFollower.restoreFactoryDefaults();
 
     _motorFollower.follow(_motor, true);
-    encoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
-        Constants.ArmConstants.kEncoderPorts[1]);
+    absEncoder = new DutyCycleEncoder(Constants.ArmConstants.kDutyEncoderPort);
     neoEncoder = _motor.getEncoder();
+    relEncoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
+                              Constants.ArmConstants.kEncoderPorts[1]);
 
     // TODO:do we need this?
-    //m_encoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
-    setGoal(ArmConstants.kArmOffsetRads);
+    relEncoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
+    setGoal(ArmConstants.kArmOffsetRotations);
 
     m_sysIdRoutine =
       new SysIdRoutine(
@@ -90,9 +93,9 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
                     .voltage(
                         m_appliedVoltage.mut_replace(
                             _motor.get() * RobotController.getBatteryVoltage(), Volts))
-                    .angularPosition(m_angle.mut_replace(encoder.getDistance(), Degrees))
+                    .angularPosition(m_angle.mut_replace(getMeasurement(), Rotations))
                     .angularVelocity(
-                        m_velocity.mut_replace(encoder.getRate(), RotationsPerSecond));
+                        m_velocity.mut_replace(relEncoder.getRate(), RotationsPerSecond));
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
               // WPILog with this subsystem's name ("shooter")
@@ -108,7 +111,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return encoder.getDistance() + ArmConstants.kArmOffsetRads;
+    return absEncoder.getDistance() - ArmConstants.kArmOffsetRotations;
   }
   /*
    * Example command factory method.
@@ -140,9 +143,9 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   public void periodic() {
     // This method will be called once per scheduler run
     super.periodic();
-    SmartDashboard.putNumber("arm/encoder", encoder.getDistance());
+    SmartDashboard.putNumber("arm/encoder", absEncoder.getDistance());
     SmartDashboard.putNumber("arm/motor", _motor.get());
-    SmartDashboard.putNumber("arm/rate", encoder.getRate());
+    SmartDashboard.putNumber("arm/rate", relEncoder.getRate());
   }
 
   public Command moveArm(DoubleSupplier speed) {

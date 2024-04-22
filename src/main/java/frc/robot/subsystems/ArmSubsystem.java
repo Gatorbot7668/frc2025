@@ -37,7 +37,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     
     m_encoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
     // Start arm at rest in neutral position
-    setGoal(ArmConstants.kArmOffsetRads);
+    setGoal(ArmConstants.kArmOffsetRotations);
   }
 
   @Override
@@ -50,6 +50,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    return m_encoder.getDistance() + ArmConstants.kArmOffsetRads;
+    return m_encoder.getDistance() + ArmConstants.kArmOffsetRotations;
   }
 }

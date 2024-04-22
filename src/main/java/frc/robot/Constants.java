@@ -40,16 +40,19 @@ public final class Constants
   public static final class ArmConstants {
 
     public static final double kSVolts = 1;
-    public static final int[] kEncoderPorts = new int[]{0,1};
+    public static final int[] kEncoderPorts = new int[]{1,2};
     public static final double kGVolts = 1;
     public static final double kVVoltSecondPerRad = 0.5;
     public static final double kAVoltSecondSquaredPerRad = 0;
     public static final double kP = 1;
     public static final double kMaxVelocityRadPerSecond = 3;
     public static final double kMaxAccelerationRadPerSecSquared = 10;
-    public static final int kEncoderPPR = 256;
+    //revrobotics.com/rev-11-1271/, quadrature resolution
+    public static final int kEncoderPPR = 2048;
     public static final double kEncoderDistancePerPulse = 2*Math.PI / kEncoderPPR;
-    public static final double kArmOffsetRads = 0.5;
+    public static final double kArmOffsetRotations = 0.262274-0.25;
+    public static final int kDutyEncoderPort = 0;
+    
 
 
   }

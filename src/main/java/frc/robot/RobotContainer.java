@@ -178,7 +178,7 @@ public class RobotContainer
    
   
     m_ArmAngler.setDefaultCommand(m_ArmAngler.moveArm(
-      () -> (m_secondaryDriverXbox.getLeftTriggerAxis() - m_secondaryDriverXbox.getRightTriggerAxis())));
+      () -> (m_driverXbox.getLeftTriggerAxis() - m_driverXbox.getRightTriggerAxis())));
 
     m_secondaryDriverXbox.a().whileTrue(m_Intake.intakeCommand(0.5));
     m_secondaryDriverXbox.b().whileTrue(m_Intake.intakeCommand(-0.4));
@@ -268,17 +268,18 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // return new PathPlannerAuto("test auto");
-    // return autoChooser.getSelected();
+     return autoChooser.getSelected();
     // return drivebase.getAutonomousCommand("small path");
 
     // An example command will be run in autonomous
     // return Autos.exampleAuto(m_exampleSubsystem);
 
         
-    return new SequentialCommandGroup(
+    /*return new SequentialCommandGroup(
       m_drivebase.driveAtSpeed(5, 0, 0, false).withTimeout(1.2)
-     // drivebase.driveAtSpeed(-5, 0, 0, false).withTimeout(0.5)
-    );
+     // drivebase.driveAtSpeed(-5, 0, 0, false).withTimeout(0.5) );*/
+
+    
  }
 
   public void setDriveMode()
