@@ -72,7 +72,6 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     relEncoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
                               Constants.ArmConstants.kEncoderPorts[1]);
 
-    // TODO:do we need this?
     relEncoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
     setGoal(ArmConstants.kArmOffsetRotations);
 
@@ -83,7 +82,8 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
           new SysIdRoutine.Mechanism(
               // Tell SysId how to plumb the driving voltage to the motor(s).
               (Measure<Voltage> volts) -> {
-                _motor.setVoltage(volts.in(Volts));
+                // _motor.setVoltage(volts.in(Volts));
+                _motor.set(volts.in(Volts) / RobotController.getBatteryVoltage());
               },
               // Tell SysId how to record a frame of data for each motor on the mechanism being
               // characterized.
@@ -145,7 +145,11 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     super.periodic();
     SmartDashboard.putNumber("arm/encoder", absEncoder.getDistance());
     SmartDashboard.putNumber("arm/motor", _motor.get());
+    SmartDashboard.putNumber("arm/motor_bus_volt", _motor.getBusVoltage());
+    SmartDashboard.putNumber("arm/motor_bus_comp", _motor.getVoltageCompensationNominalVoltage());
     SmartDashboard.putNumber("arm/rate", relEncoder.getRate());
+    SmartDashboard.putNumber("arm/neorate", neoEncoder.getVelocity());
+    SmartDashboard.putNumber("arm/bat_voltage", RobotController.getBatteryVoltage());
   }
 
   public Command moveArm(DoubleSupplier speed) {

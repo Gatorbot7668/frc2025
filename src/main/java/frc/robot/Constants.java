@@ -47,7 +47,7 @@ public final class Constants
     public static final double kP = 1;
     public static final double kMaxVelocityRadPerSecond = 3;
     public static final double kMaxAccelerationRadPerSecSquared = 10;
-    //revrobotics.com/rev-11-1271/, quadrature resolution
+    // http://revrobotics.com/rev-11-1271/, quadrature resolution
     public static final int kEncoderPPR = 2048;
     public static final double kEncoderDistancePerPulse = 2*Math.PI / kEncoderPPR;
     public static final double kArmOffsetRotations = 0.262274-0.25;
