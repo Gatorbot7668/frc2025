@@ -44,13 +44,12 @@ public final class Constants
     public static final double kP = 1;
     public static final double kMaxVelocityRadPerSecond = 3;
     public static final double kMaxAccelerationRadPerSecSquared = 10;
-    // TODO: check units and describe how this was measured.
-    // 0.25 is quarter of a rotation (looking up, or 90 degrees)
-    // 0.262274 is offset that we measured when balancing the arm at 90 degrees,
-    // but what was the unit? Record what encoder we used to observe it.
-    // if absEncoder.getDistance() then the units were correct, but not any more
-    // because we now programmed it to be in radians (with setDistancePerRotation )
-    public static final double kArmOffsetRadians = Units.rotationsToRadians(0.262274-0.25);
+    // We measured the offset by finding a point where the arm was standing up
+    // vertically (angle π/2) and recorded the reported offset
+    // from the absolute encoder (0.411 radians), resulting in the value below.
+    //   offset_at_0 = π/2 - offset_when_vertical
+    public static final double kArmOffsetRadians = Math.PI / 2 - 0.411;
+    
     public static final int kDutyEncoderPort = 0;
   }
   

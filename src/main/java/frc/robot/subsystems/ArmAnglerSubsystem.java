@@ -115,10 +115,11 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     // For our Through Bore Encoder, Cycles per Revolution is 2048 per http://revrobotics.com/rev-11-1271/
     final int kRevThoroughBoreEncoderPPR = 2048;
     // 1 / PPR is how many rotations per pulse
-    relEncoder.setDistancePerPulse(Units.rotationsToRadians(1 / kRevThoroughBoreEncoderPPR));
+    relEncoder.setDistancePerPulse(Units.rotationsToRadians(1.0 / kRevThoroughBoreEncoderPPR));
     // Similar, set absolute encoder units to be in radians
     absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
 
+    // TODO  change to GetBusVoltage() * GetAppliedOutput()
     // SparkMax has different control modes (kCtrlType in https://docs.revrobotics.com/sparkmax/software-resources/configuration-parameters)
     // and they cannot be mixed. Set/get is Duty Cycle and set/getVoltage is Voltage. Explanation here
     //   https://www.chiefdelphi.com/t/sparkmax-set-vs-setvoltage/415059
@@ -142,6 +143,8 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
               // Tell SysId how to plumb the driving voltage to the motor(s).
               (Measure<Voltage> volts) -> {
                 // _motor.setVoltage(volts.in(Volts));
+                SmartDashboard.putNumber("arm/sydid-volts", volts.in(Volts));
+                
                 _motor.set(volts.in(Volts) / RobotController.getBatteryVoltage());
               },
               // Tell SysId how to record a frame of data for each motor on the mechanism being
@@ -171,7 +174,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   @Override
   // Returns radians
   public double getMeasurement() {
-    return absEncoder.getDistance() - ArmConstants.kArmOffsetRadians;
+    return absEncoder.getDistance() + ArmConstants.kArmOffsetRadians;
   }
   /*
    * Example command factory method.
@@ -204,6 +207,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     // This method will be called once per scheduler run
     super.periodic();
     SmartDashboard.putNumber("arm/encoder", absEncoder.getDistance());
+    SmartDashboard.putNumber("arm/adjust_encoder", getMeasurement());
     SmartDashboard.putNumber("arm/motor", _motor.get());
     SmartDashboard.putNumber("arm/motor_bus_volt", _motor.getBusVoltage());
     SmartDashboard.putNumber("arm/motor_applied_output", _motor.getAppliedOutput());
