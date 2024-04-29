@@ -16,6 +16,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -38,6 +39,11 @@ import frc.robot.Constants.ArmConstants;
 
 // Arm theory (combine feeedback and feedforward controls):
 // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html
+//
+// Is it the case that Trapezoidal motion profile is needed because feedforward
+// can only be calculated for a given angle, so need fine-grained progression of setpoints?
+// The article above hints at that, in
+// "accurately converge to the setpoint over time after a “jump” command"
 
 // Switching to spark's internal PID calculator might be better
 //  for reasons explained in https://www.chiefdelphi.com/t/spark-max-pid/340527/7 
@@ -87,8 +93,10 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
             0,
             new TrapezoidProfile.Constraints(
                 ArmConstants.kMaxVelocityRadPerSecond,
-                ArmConstants.kMaxAccelerationRadPerSecSquared)),
-        0);
+                ArmConstants.kMaxAccelerationRadPerSecSquared)));
+    // Start pointing up
+    setGoal(Units.degreesToRadians(90));
+
     _motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
     _motorFollower = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
     _motor.restoreFactoryDefaults();
@@ -105,13 +113,11 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     // See the explanation of CPR and PPR at
     // https://docs.wpilib.org/en/stable/docs/hardware/sensors/encoders-hardware.html#quaderature-encoder-resolution
     // For our Through Bore Encoder, Cycles per Revolution is 2048 per http://revrobotics.com/rev-11-1271/
-    int kEncoderPPR = 2048;
-    // 1 / PPR is how many rotations per pulse, multiply by 2*PI to get radians per pulse.
-    relEncoder.setDistancePerPulse(2 * Math.PI / kEncoderPPR);
+    final int kRevThoroughBoreEncoderPPR = 2048;
+    // 1 / PPR is how many rotations per pulse
+    relEncoder.setDistancePerPulse(Units.rotationsToRadians(1 / kRevThoroughBoreEncoderPPR));
     // Similar, set absolute encoder units to be in radians
-    absEncoder.setDistancePerRotation(2 * Math.PI);
-    // Goal is in rRadians too    
-    setGoal(ArmConstants.kArmOffsetRotationsRadians);
+    absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
 
     // SparkMax has different control modes (kCtrlType in https://docs.revrobotics.com/sparkmax/software-resources/configuration-parameters)
     // and they cannot be mixed. Set/get is Duty Cycle and set/getVoltage is Voltage. Explanation here
@@ -124,6 +130,10 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/combining-feedforward-feedback.html#using-feedforward-components-with-pid
     // "Since feedforward voltages are physically meaningful, it is best to use the setVoltage()
     // method when applying them to motors to compensate for “voltage sag” from the battery."
+    //
+    // Is this the right way to read voltage for SysId?
+    //    https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136
+    //    https://www.chiefdelphi.com/t/sysid-routine-not-properly-recording-motor-speed/455172
     m_sysIdRoutine =
       new SysIdRoutine(
           // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
@@ -161,7 +171,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   @Override
   // Returns radians
   public double getMeasurement() {
-    return absEncoder.getDistance() - ArmConstants.kArmOffsetRotationsRadians;
+    return absEncoder.getDistance() - ArmConstants.kArmOffsetRadians;
   }
   /*
    * Example command factory method.
@@ -196,6 +206,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("arm/encoder", absEncoder.getDistance());
     SmartDashboard.putNumber("arm/motor", _motor.get());
     SmartDashboard.putNumber("arm/motor_bus_volt", _motor.getBusVoltage());
+    SmartDashboard.putNumber("arm/motor_applied_output", _motor.getAppliedOutput());
     SmartDashboard.putNumber("arm/motor_bus_comp", _motor.getVoltageCompensationNominalVoltage());
     SmartDashboard.putNumber("arm/rate", relEncoder.getRate());
     SmartDashboard.putNumber("arm/neorate", neoEncoder.getVelocity());

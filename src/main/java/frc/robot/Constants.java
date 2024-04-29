@@ -7,9 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalSource;
 import swervelib.math.Matter;
 
 /**
@@ -38,7 +36,6 @@ public final class Constants
   
 
   public static final class ArmConstants {
-
     public static final double kSVolts = 1;
     public static final int[] kEncoderPorts = new int[]{1,2};
     public static final double kGVolts = 1;
@@ -47,7 +44,7 @@ public final class Constants
     public static final double kP = 1;
     public static final double kMaxVelocityRadPerSecond = 3;
     public static final double kMaxAccelerationRadPerSecSquared = 10;
-    public static final double kArmOffsetRotationsRadians = (0.262274-0.25) / (2 * Math.PI);
+    public static final double kArmOffsetRadians = Units.rotationsToRadians(0.262274-0.25);
     public static final int kDutyEncoderPort = 0;
   }
   
