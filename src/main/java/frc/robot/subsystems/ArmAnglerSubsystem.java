@@ -1,10 +1,17 @@
 package frc.robot.subsystems;
 
+import static edu.wpi.first.units.MutableMeasure.mutable;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -18,20 +25,41 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.sysid.SysIdRoutineLog.MotorLog;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
-import static edu.wpi.first.units.MutableMeasure.mutable;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
-import static edu.wpi.first.units.Units.Volts;
+// This uses
+//   NEO v1.1 brushless motor: https://www.revrobotics.com/rev-21-1650/ 
+//   REV Through Bore Encoder: https://www.revrobotics.com/rev-11-1271/
+//   Spark Max motor controller: https://www.revrobotics.com/rev-11-2158/
 
+// Arm theory (combine feeedback and feedforward controls):
+// https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/tuning-vertical-arm.html
+
+// Switching to spark's internal PID calculator might be better
+//  for reasons explained in https://www.chiefdelphi.com/t/spark-max-pid/340527/7 
+//  more precise control and  
+// https://docs.revrobotics.com/sparkmax/operating-modes/closed-loop-control
+// and then we'd switch to ProfiledPIDSubsystem to TrapezoidProfileSubsystem
+// https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/armbotoffboard/subsystems/ArmSubsystem.java
+// and https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Position%20Closed%20Loop%20Control/src/main/java/frc/robot/Robot.java
+// Will need to configure setFeedbackDevice like it is done here
+// https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Encoder%20Feedback%20Device/src/main/java/frc/robot/Robot.java
+//
+// Hardware setup for it: https://docs.revrobotics.com/sparkmax/operating-modes/using-encoders
+
+// Sysid code is taken from
+// https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/sysid/subsystems/Shooter.java
+// ProfiledPIDSubsysem implementation is from
+// https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/armbot/subsystems/ArmSubsystem.java
+
+// Don't use Rev's SmartMotion, explained in https://www.chiefdelphi.com/t/understanding-and-tuning-smart-motion-for-an-arm/426639/5
+// and acknowledged by Rev in a reply to the post.
+//
+// All angular quantities without units are in radians.
 public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax _motorFollower;
   private final CANSparkMax _motor;
@@ -68,13 +96,34 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
 
     _motorFollower.follow(_motor, true);
     absEncoder = new DutyCycleEncoder(Constants.ArmConstants.kDutyEncoderPort);
+    // This returns the internal hall sensor whose counts per revolution is 42, very low.
+    // Probably not useful because the resolution is so poor.
     neoEncoder = _motor.getEncoder();
     relEncoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
                               Constants.ArmConstants.kEncoderPorts[1]);
 
-    relEncoder.setDistancePerPulse(ArmConstants.kEncoderDistancePerPulse);
-    setGoal(ArmConstants.kArmOffsetRotations);
+    // See the explanation of CPR and PPR at
+    // https://docs.wpilib.org/en/stable/docs/hardware/sensors/encoders-hardware.html#quaderature-encoder-resolution
+    // For our Through Bore Encoder, Cycles per Revolution is 2048 per http://revrobotics.com/rev-11-1271/
+    int kEncoderPPR = 2048;
+    // 1 / PPR is how many rotations per pulse, multiply by 2*PI to get radians per pulse.
+    relEncoder.setDistancePerPulse(2 * Math.PI / kEncoderPPR);
+    // Similar, set absolute encoder units to be in radians
+    absEncoder.setDistancePerRotation(2 * Math.PI);
+    // Goal is in rRadians too    
+    setGoal(ArmConstants.kArmOffsetRotationsRadians);
 
+    // SparkMax has different control modes (kCtrlType in https://docs.revrobotics.com/sparkmax/software-resources/configuration-parameters)
+    // and they cannot be mixed. Set/get is Duty Cycle and set/getVoltage is Voltage. Explanation here
+    //   https://www.chiefdelphi.com/t/sparkmax-set-vs-setvoltage/415059
+    // set/getVoltage should be better for us because we need absolute power control when
+    // trying to move to an angle in presence of gravitational force.
+    // Velocity and Position are two other control modes and these seem to be not useful for a
+    // mechanism whose feedforward component is identified using SysId, which is all about
+    // voltage.
+    // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/combining-feedforward-feedback.html#using-feedforward-components-with-pid
+    // "Since feedforward voltages are physically meaningful, it is best to use the setVoltage()
+    // method when applying them to motors to compensate for “voltage sag” from the battery."
     m_sysIdRoutine =
       new SysIdRoutine(
           // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
@@ -93,9 +142,9 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
                     .voltage(
                         m_appliedVoltage.mut_replace(
                             _motor.get() * RobotController.getBatteryVoltage(), Volts))
-                    .angularPosition(m_angle.mut_replace(getMeasurement(), Rotations))
+                    .angularPosition(m_angle.mut_replace(getMeasurement(), Radians))
                     .angularVelocity(
-                        m_velocity.mut_replace(relEncoder.getRate(), RotationsPerSecond));
+                        m_velocity.mut_replace(relEncoder.getRate(), RadiansPerSecond));
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
               // WPILog with this subsystem's name ("shooter")
@@ -103,15 +152,16 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   }
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    // Calculate the feedforward from the sepoint
+    // Calculate the feedforward from the setpoint
     double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
     // Add the feedforward to the PID output to get the motor output
     _motor.setVoltage(output + feedforward);
   }
 
   @Override
+  // Returns radians
   public double getMeasurement() {
-    return absEncoder.getDistance() - ArmConstants.kArmOffsetRotations;
+    return absEncoder.getDistance() - ArmConstants.kArmOffsetRotationsRadians;
   }
   /*
    * Example command factory method.
