@@ -38,19 +38,26 @@ public final class Constants
   public static final class ArmConstants {
     public static final int kDutyEncoderPort = 0;
     public static final int[] kEncoderPorts = new int[]{1,2};
-    
+
     public static final double kSVolts = 1;
     public static final double kGVolts = 1;
     public static final double kVVoltSecondPerRad = 0.5;
     public static final double kAVoltSecondSquaredPerRad = 0;
     public static final double kP = 1;
-    public static final double kMaxVelocityRadPerSecond = 3;
-    public static final double kMaxAccelerationRadPerSecSquared = 10;
     // We measured the offset by finding a point where the arm was standing up
     // vertically (angle π/2) and recorded the reported offset
     // from the absolute encoder (0.411 radians), resulting in the value below.
     //   offset_at_0 = π/2 - offset_when_vertical
     public static final double kArmOffsetRadians = Math.PI / 2 - 0.411;
+
+    // Safety constants
+    // TODO: currently in rotations because data taken from SysId but
+    // remeasure using manual controls.
+    public static final double kLimitAngleBackwardRadians = Units.rotationsToRadians(0.04);
+    public static final double kLimitAngleForwardRadians = Units.rotationsToRadians(0.4);
+    // TODO: set these before trying Trapezoid motion profile
+    public static final double kMaxVelocityRadPerSecond = 3;
+    public static final double kMaxAccelerationRadPerSecSquared = 10;
   }
   
   public static final class AutonConstants

@@ -7,6 +7,7 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -17,6 +18,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -174,12 +176,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // in the constructor.
     return m_absEncoder.getDistance() + ArmConstants.kArmOffsetRadians;
   }
+
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutine.quasistatic(direction);
+    return m_sysIdRoutine.quasistatic(direction).until(angleNotSafeSupplier(direction));
   }
 
   public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-    return m_sysIdRoutine.dynamic(direction);
+    return m_sysIdRoutine.dynamic(direction).until(angleNotSafeSupplier(direction));
   }
 
   public void stop() {
@@ -192,7 +195,22 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public Command moveArm(DoubleSupplier speed) {
     return runEnd(() -> { move(speed); },
-                  () -> { stop();});
+                  () -> { stop();})
+                  .until(angleNotSafeSupplier(speed));
+  }
+
+  private boolean angleNotSafe(boolean forward) {
+    double angle = getMeasurement();
+    if (forward) return angle > ArmConstants.kLimitAngleForwardRadians;
+    return angle < ArmConstants.kLimitAngleBackwardRadians;
+  }
+
+  private BooleanSupplier angleNotSafeSupplier(SysIdRoutine.Direction direction) {
+    return () -> angleNotSafe(direction == SysIdRoutine.Direction.kForward);
+  }
+
+  private BooleanSupplier angleNotSafeSupplier(DoubleSupplier speed) {
+    return () -> angleNotSafe(speed.getAsDouble() > 0);
   }
 
   @Override
