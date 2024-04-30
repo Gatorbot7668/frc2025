@@ -42,7 +42,7 @@ import frc.robot.commands.ClimberCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
-import frc.robot.subsystems.ArmAnglerSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.util.TunableNumber;
 import swervelib.telemetry.SwerveDriveTelemetry;
@@ -88,7 +88,7 @@ public class RobotContainer
 
   private SendableChooser<Command> autoChooser = null;
 
-   public final ArmAnglerSubsystem m_ArmAngler = new ArmAnglerSubsystem();
+   public final ArmSubsystem m_ArmAngler = new ArmSubsystem();
    public final IntakeSubsystem m_Intake = new IntakeSubsystem();
    public final ShootSubsystem m_Shoot = new ShootSubsystem();
    public final ClimberSubsystem m_Climber = new ClimberSubsystem();

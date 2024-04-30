@@ -79,7 +79,7 @@ import frc.robot.Constants.ArmConstants;
 //   (Velocity and Position are two other control modes and these seem to be not useful for a
 //   mechanism whose feedforward component is identified using SysId, which is all about voltage)
 
-public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
+public class ArmSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax m_motorFollower;
   private final CANSparkMax m_motor;
   private final DutyCycleEncoder m_absEncoder;
@@ -96,7 +96,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
   private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
 
-  public ArmAnglerSubsystem() {
+  public ArmSubsystem() {
     super(new ProfiledPIDController(
             ArmConstants.kP,
             0,
@@ -157,7 +157,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
                         m_velocity.mut_replace(m_relEncoder.getRate(), RadiansPerSecond));
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
-              // WPILog with this subsystem's name ("ArmAnglerSubsystem")
+              // WPILog with this subsystem's name ("ArmSubsystem")
               this));        
   }
   @Override
