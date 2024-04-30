@@ -36,8 +36,10 @@ public final class Constants
   
 
   public static final class ArmConstants {
-    public static final double kSVolts = 1;
+    public static final int kDutyEncoderPort = 0;
     public static final int[] kEncoderPorts = new int[]{1,2};
+    
+    public static final double kSVolts = 1;
     public static final double kGVolts = 1;
     public static final double kVVoltSecondPerRad = 0.5;
     public static final double kAVoltSecondSquaredPerRad = 0;
@@ -49,8 +51,6 @@ public final class Constants
     // from the absolute encoder (0.411 radians), resulting in the value below.
     //   offset_at_0 = π/2 - offset_when_vertical
     public static final double kArmOffsetRadians = Math.PI / 2 - 0.411;
-    
-    public static final int kDutyEncoderPort = 0;
   }
   
   public static final class AutonConstants

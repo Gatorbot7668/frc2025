@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
-// This uses
+// This mechanism uses
 //   NEO v1.1 brushless motor: https://www.revrobotics.com/rev-21-1650/ 
 //   REV Through Bore Encoder: https://www.revrobotics.com/rev-11-1271/
 //   Spark Max motor controller: https://www.revrobotics.com/rev-11-2158/
@@ -64,8 +64,22 @@ import frc.robot.Constants.ArmConstants;
 
 // Don't use Rev's SmartMotion, explained in https://www.chiefdelphi.com/t/understanding-and-tuning-smart-motion-for-an-arm/426639/5
 // and acknowledged by Rev in a reply to the post.
-//
+
 // All angular quantities without units are in radians.
+
+// Note on the method of motor control:
+//   SparkMax has different control modes (kCtrlType in https://docs.revrobotics.com/sparkmax/software-resources/configuration-parameters)
+//   and they cannot be mixed. Set/get is Duty Cycle and set/getVoltage is Voltage. Explanation here
+//     https://www.chiefdelphi.com/t/sparkmax-set-vs-setvoltage/415059
+//   set/getVoltage should be better for us because we need absolute power control when
+//   trying to move to an angle in presence of gravitational force. Also
+//   https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/combining-feedforward-feedback.html#using-feedforward-components-with-pid
+//      Since feedforward voltages are physically meaningful, it is best to use the setVoltage()
+//      method when applying them to motors to compensate for “voltage sag” from the battery."
+//
+//   (Velocity and Position are two other control modes and these seem to be not useful for a
+//   mechanism whose feedforward component is identified using SysId, which is all about voltage)
+
 public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax _motorFollower;
   private final CANSparkMax _motor;
@@ -119,22 +133,6 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
     // Similar, set absolute encoder units to be in radians
     absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
 
-    // TODO  change to GetBusVoltage() * GetAppliedOutput()
-    // SparkMax has different control modes (kCtrlType in https://docs.revrobotics.com/sparkmax/software-resources/configuration-parameters)
-    // and they cannot be mixed. Set/get is Duty Cycle and set/getVoltage is Voltage. Explanation here
-    //   https://www.chiefdelphi.com/t/sparkmax-set-vs-setvoltage/415059
-    // set/getVoltage should be better for us because we need absolute power control when
-    // trying to move to an angle in presence of gravitational force.
-    // Velocity and Position are two other control modes and these seem to be not useful for a
-    // mechanism whose feedforward component is identified using SysId, which is all about
-    // voltage.
-    // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/combining-feedforward-feedback.html#using-feedforward-components-with-pid
-    // "Since feedforward voltages are physically meaningful, it is best to use the setVoltage()
-    // method when applying them to motors to compensate for “voltage sag” from the battery."
-    //
-    // TODO: Is this the right way to read voltage for SysId?
-    //    https://www.chiefdelphi.com/t/get-voltage-from-spark-max/344136
-    //    https://www.chiefdelphi.com/t/sysid-routine-not-properly-recording-motor-speed/455172
     m_sysIdRoutine =
       new SysIdRoutine(
           // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
@@ -142,10 +140,7 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
           new SysIdRoutine.Mechanism(
               // Tell SysId how to plumb the driving voltage to the motor(s).
               (Measure<Voltage> volts) -> {
-                // _motor.setVoltage(volts.in(Volts));
-                SmartDashboard.putNumber("arm/sydid-volts", volts.in(Volts));
-                
-                _motor.set(volts.in(Volts) / RobotController.getBatteryVoltage());
+                _motor.setVoltage(volts.in(Volts));
               },
               // Tell SysId how to record a frame of data for each motor on the mechanism being
               // characterized.
@@ -153,8 +148,13 @@ public class ArmAnglerSubsystem extends ProfiledPIDSubsystem {
                 // Record a frame for the shooter motor.
                 log.motor("arm")
                     .voltage(
+                        // Annoingly there is no getVoltage() method and get() cannot be used with setVoltage();
+                        // see the discussion at
+                        // https://www.chiefdelphi.com/t/sysid-routine-not-properly-recording-motor-speed/455172
                         m_appliedVoltage.mut_replace(
-                            _motor.get() * RobotController.getBatteryVoltage(), Volts))
+                            // _motor.get() * RobotController.getBatteryVoltage(),
+                            _motor.getBusVoltage() * _motor.getAppliedOutput(),
+                            Volts))
                     .angularPosition(m_angle.mut_replace(getMeasurement(), Radians))
                     .angularVelocity(
                         m_velocity.mut_replace(relEncoder.getRate(), RadiansPerSecond));
