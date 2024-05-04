@@ -16,9 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ClimberCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
@@ -134,8 +132,8 @@ public class RobotContainer
             m_shoot.shootCommand(),
             m_intake.intakeCommand(1)).withTimeout(2))));
 
-    m_secondaryDriverXbox.rightBumper().whileTrue(new ClimberCommand(m_climber, -1));
-    m_secondaryDriverXbox.leftBumper().whileTrue(new ClimberCommand(m_climber, 1));
+    m_secondaryDriverXbox.rightBumper().whileTrue(m_climber.climbCommand(-1));
+    m_secondaryDriverXbox.leftBumper().whileTrue(m_climber.climbCommand(1));
 
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(m_drivebase);
