@@ -41,12 +41,12 @@ public class RobotContainer
   private final CommandXboxController m_secondaryDriverXbox =
       new CommandXboxController(OperatorConstants.kSecondaryDriverControllerPort);
 
-  TunableNumber angleP = new TunableNumber("Swerve/PID/ModuleAngle/P", SwerveParser.pidfPropertiesJson.angle.p);
-  TunableNumber angleD = new TunableNumber("Swerve/PID/ModuleAngle/D", SwerveParser.pidfPropertiesJson.angle.d);
-  TunableNumber driveP = new TunableNumber("Swerve/PID/ModuleDrive/P", SwerveParser.pidfPropertiesJson.drive.p);
-  TunableNumber driveD = new TunableNumber("Swerve/PID/ModuleDrive/D", SwerveParser.pidfPropertiesJson.drive.d);
+  TunableNumber m_angleP = new TunableNumber("Swerve/PID/ModuleAngle/P", SwerveParser.pidfPropertiesJson.angle.p);
+  TunableNumber m_angleD = new TunableNumber("Swerve/PID/ModuleAngle/D", SwerveParser.pidfPropertiesJson.angle.d);
+  TunableNumber m_driveP = new TunableNumber("Swerve/PID/ModuleDrive/P", SwerveParser.pidfPropertiesJson.drive.p);
+  TunableNumber m_driveD = new TunableNumber("Swerve/PID/ModuleDrive/D", SwerveParser.pidfPropertiesJson.drive.d);
 
-  private SendableChooser<Command> autoChooser = null;
+  private SendableChooser<Command> m_autoChooser = null;
 
   private final ArmSubsystem m_armAngler = new ArmSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
@@ -138,8 +138,8 @@ public class RobotContainer
     SmartDashboard.putData(CommandScheduler.getInstance());
     SmartDashboard.putData(m_drivebase);
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    m_autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
   }
 
   private void addCommandToDashboard(Command cmd) {
@@ -158,21 +158,21 @@ public class RobotContainer
 
     SmartDashboard.putString("alliance", m_drivebase.isFieldFlipped() ? "RED" : "BLUE");
 
-    if (angleD.hasChanged() || angleP.hasChanged()) {
+    if (m_angleD.hasChanged() || m_angleP.hasChanged()) {
       for (SwerveModule module : m_drivebase.swerveDrive.getModules()) {
-        module.getAngleMotor().configurePIDF(new PIDFConfig(angleP.get(), angleD.get()));
+        module.getAngleMotor().configurePIDF(new PIDFConfig(m_angleP.get(), m_angleD.get()));
       }
     }
-    if (driveD.hasChanged() || driveP.hasChanged()) {
+    if (m_driveD.hasChanged() || m_driveP.hasChanged()) {
       for (SwerveModule module : m_drivebase.swerveDrive.getModules()) {
-        module.getDriveMotor().configurePIDF(new PIDFConfig(driveP.get(), driveD.get()));
+        module.getDriveMotor().configurePIDF(new PIDFConfig(m_driveP.get(), m_driveD.get()));
       }
     }
   }
 
   public Command getAutonomousCommand() {
     // return new PathPlannerAuto("test auto");
-     return autoChooser.getSelected();
+     return m_autoChooser.getSelected();
     // return drivebase.getAutonomousCommand("small path");
 
     // An example command will be run in autonomous

@@ -12,19 +12,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax _motor;
+  private final CANSparkMax m_motor;
 
   public IntakeSubsystem() {
-    _motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
-    _motor.restoreFactoryDefaults();
+    m_motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+    m_motor.restoreFactoryDefaults();
   }
 
   public void in(double speed) {
-    _motor.set(speed);
+    m_motor.set(speed);
   }
 
   public void stop() {
-    _motor.set(0);
+    m_motor.set(0);
   }
 
   public Command intakeCommand(double speed) {

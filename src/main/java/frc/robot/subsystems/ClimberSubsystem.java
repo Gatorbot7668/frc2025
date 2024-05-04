@@ -8,25 +8,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private final CANSparkMax _motorFollower;
-  private final CANSparkMax _motor;
+  private final CANSparkMax m_motorFollower;
+  private final CANSparkMax m_motor;
 
   public ClimberSubsystem() {
-    _motor = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
-    _motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    m_motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
    
-    _motor.restoreFactoryDefaults();
-    _motorFollower.restoreFactoryDefaults();
+    m_motor.restoreFactoryDefaults();
+    m_motorFollower.restoreFactoryDefaults();
     
   //  _motorFollower.follow(_motor);
   }
 
   public void up(double speed) {
-    _motor.set(speed);
+    m_motor.set(speed);
   }
 
   public void stop() {
-    _motor.set(0);
+    m_motor.set(0);
   }
 
   public Command climbCommand(double speed) {

@@ -9,26 +9,25 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
 
 public class ShootSubsystem extends SubsystemBase {
-  private final CANSparkMax _leadMotor;
-  private final CANSparkMax _followMotor;
-
+  private final CANSparkMax m_leadMotor;
+  private final CANSparkMax m_followMotor;
 
   public ShootSubsystem() {
-    _leadMotor = new CANSparkMax(Constants.SHOOT_MOTOR_PORT, MotorType.kBrushless);
-    _followMotor = new CANSparkMax(Constants.SHOOT_FOLLOW_MOTOR_PORT, MotorType.kBrushless);
+    m_leadMotor = new CANSparkMax(Constants.SHOOT_MOTOR_PORT, MotorType.kBrushless);
+    m_followMotor = new CANSparkMax(Constants.SHOOT_FOLLOW_MOTOR_PORT, MotorType.kBrushless);
     
-    _leadMotor.restoreFactoryDefaults();
-     _followMotor.restoreFactoryDefaults();
+    m_leadMotor.restoreFactoryDefaults();
+    m_followMotor.restoreFactoryDefaults();
 
-    _followMotor.follow(_leadMotor);
+    m_followMotor.follow(m_leadMotor);
   }
 
   public void shoot() {
-    _leadMotor.set(-0.7);
+    m_leadMotor.set(-0.7);
   }
 
   public void stop() {
-    _leadMotor.set(0);
+    m_leadMotor.set(0);
   }
 
   public Command shootCommand() {
