@@ -178,7 +178,8 @@ public class RobotContainer
    
   
     m_ArmAngler.setDefaultCommand(m_ArmAngler.moveArm(
-      () -> (m_driverXbox.getLeftTriggerAxis() - m_driverXbox.getRightTriggerAxis())));
+      () -> (m_driverXbox.getLeftTriggerAxis() - m_driverXbox.getRightTriggerAxis()),
+      m_driverXbox.getHID()::getLeftBumperPressed));
 
     m_secondaryDriverXbox.a().whileTrue(m_Intake.intakeCommand(0.5));
     m_secondaryDriverXbox.b().whileTrue(m_Intake.intakeCommand(-0.4));
