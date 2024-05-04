@@ -160,11 +160,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
               },
               // Tell SysId to make generated commands require this subsystem, suffix test state in
               // WPILog with this subsystem's name ("ArmSubsystem")
-              this));        
-    SmartDashboard.putData(sysIdQuasistatic(SysIdRoutine.Direction.kForward).withName("arm/id/fwd quas"));
-    SmartDashboard.putData(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("arm/id/back quas"));
-    SmartDashboard.putData(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("arm/id/fwd dynamic"));
-    SmartDashboard.putData(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("arm/id/back dynamic"));
+              this));
+    addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kForward).withName("fwd quas"));
+    addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("back quas"));
+    addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("fwd dynamic"));
+    addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("back dynamic"));
+  }
+
+  private void addSysidCommandToDashboard(Command cmd) {
+    SmartDashboard.putData("arm/sysid/" + cmd.getName(), cmd);
   }
 
   @Override

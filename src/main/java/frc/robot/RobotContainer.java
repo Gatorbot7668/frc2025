@@ -60,47 +60,47 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
-        m_driverXbox.getHID()::getAButtonPressed).withName("driveFieldOrientedAnglularVelocity");
-    SmartDashboard.putData(driveFieldOrientedAnglularVelocity);
+        m_driverXbox.getHID()::getAButtonPressed)
+        .withName("driveFieldOriented");
 
     Command driveRobotOriented = m_drivebase.driveCommandRobotRelative(
         () -> -MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
-    driveRobotOriented.setName("driveRobotOriented");
-    SmartDashboard.putData(driveRobotOriented);
+        () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND))
+        .withName("driveRobotOriented");
+    addCommandToDashboard(driveRobotOriented);
 
     Command zeroGyro = m_drivebase.runOnce(() -> m_drivebase.zeroGyro()).withName("zeroGyro");
-    SmartDashboard.putData(zeroGyro);
+    addCommandToDashboard(zeroGyro);
 
     Command resetOdometrytoAllianceZero = m_drivebase.runOnce(
         () -> m_drivebase.resetOdometry(m_drivebase.invertIfFieldFlipped(new Pose2d(0, 0, new Rotation2d()))))
         .withName("resetOdometrytoAllianceZero");
-    SmartDashboard.putData(resetOdometrytoAllianceZero);
+    addCommandToDashboard(resetOdometrytoAllianceZero);
 
     Command addFakeVisionReading = m_drivebase.runOnce(() -> m_drivebase.addFakeVisionReading())
         .withName("addFakeVisionReading");
-    SmartDashboard.putData(addFakeVisionReading);
+    addCommandToDashboard(addFakeVisionReading);
 
     Command testMotors = m_drivebase.run(() -> {
-      // SwerveDriveTest.angleModules(drivebase.swerveDrive, new
-      // Rotation2d(driverXbox.getLeftX() * Math.PI));
       SwerveDriveTest.powerAngleMotorsDutyCycle(m_drivebase.swerveDrive, m_driverXbox.getLeftX());
       SwerveDriveTest.powerDriveMotorsDutyCycle(m_drivebase.swerveDrive, m_driverXbox.getLeftY());
     }).withName("testMotors");
-    SmartDashboard.putData(testMotors);
+    addCommandToDashboard(testMotors);
 
     Command testAngleMotors = m_drivebase.run(() -> {
-      SwerveDriveTest.angleModules(m_drivebase.swerveDrive, new Rotation2d(m_driverXbox.getLeftX() * Math.PI));
+      SwerveDriveTest.angleModules(m_drivebase.swerveDrive, 
+        // Divided by 2 because want to go -180 to 180, not full circle
+        Rotation2d.fromRotations(m_driverXbox.getLeftX() / 2));
     }).withName("testAngleMotors");
-    SmartDashboard.putData(testAngleMotors);
+    addCommandToDashboard(testAngleMotors);
 
     TunableNumber angle = new TunableNumber("testAngle", 90);
     Command testSetAngle = m_drivebase.runEnd(
         () -> SwerveDriveTest.angleModules(m_drivebase.swerveDrive, Rotation2d.fromDegrees(angle.get())),
         () -> SwerveDriveTest.angleModules(m_drivebase.swerveDrive, Rotation2d.fromDegrees(0)))
         .withName("testSetAngle");
-    SmartDashboard.putData(testSetAngle);
+    addCommandToDashboard(testSetAngle);
 
     /*
      * Command testDriveToPose = drivebase.runOnce(
@@ -112,7 +112,7 @@ public class RobotContainer
     Command testDriveToPose = m_drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
         Rotation2d.fromDegrees(0)))
         /* .asProxy() */.withName("testDriveToPose");
-    SmartDashboard.putData(testDriveToPose);
+    addCommandToDashboard(testDriveToPose);
 
     m_drivebase.setDefaultCommand(
         // testMotors);
@@ -142,6 +142,10 @@ public class RobotContainer
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
+  }
+
+  private void addCommandToDashboard(Command cmd) {
+    SmartDashboard.putData("cmd/" + cmd.getName(), cmd);
   }
 
   public void robotPeriodic() {
