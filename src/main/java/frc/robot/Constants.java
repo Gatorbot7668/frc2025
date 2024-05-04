@@ -53,8 +53,8 @@ public final class Constants
     // Safety constants
     // TODO: currently in rotations because data taken from SysId but
     // remeasure using manual controls.
-    public static final double kLimitAngleBackwardRadians = Units.rotationsToRadians(0.04);
-    public static final double kLimitAngleForwardRadians = Units.rotationsToRadians(0.4);
+    public static final double kLimitAngleBackwardRadians = 0.12;
+    public static final double kLimitAngleForwardRadians = 2.75;
     // TODO: set these before trying Trapezoid motion profile
     public static final double kMaxVelocityRadPerSecond = 3;
     public static final double kMaxAccelerationRadPerSecSquared = 10;
