@@ -161,7 +161,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
               // Tell SysId to make generated commands require this subsystem, suffix test state in
               // WPILog with this subsystem's name ("ArmSubsystem")
               this));        
+    SmartDashboard.putData(sysIdQuasistatic(SysIdRoutine.Direction.kForward).withName("arm/id/fwd quas"));
+    SmartDashboard.putData(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("arm/id/back quas"));
+    SmartDashboard.putData(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("arm/id/fwd dynamic"));
+    SmartDashboard.putData(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("arm/id/back dynamic"));
   }
+
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Calculate the feedforward from the setpoint
@@ -220,6 +225,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public void periodic() {
     // This method will be called once per scheduler run
     super.periodic();
+
     SmartDashboard.putNumber("arm/encoder/abs/raw", m_absEncoder.getDistance());
     SmartDashboard.putNumber("arm/encoder/abs/adjusted", getMeasurement());
     SmartDashboard.putNumber("arm/encoder/relative", m_relEncoder.getRate());

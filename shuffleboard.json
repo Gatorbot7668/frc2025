@@ -41,7 +41,8 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
             }
           },
           "4,0": {
@@ -1950,36 +1951,36 @@
             ],
             "content": {
               "_type": "List Layout",
-              "_title": "List Layout",
+              "_title": "Arm SysId",
               "_glyph": 149,
               "_showGlyph": false,
               "Layout/Label position": "HIDDEN",
               "_children": [
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/arm back dynamic",
-                  "_title": "/SmartDashboard/arm back dynamic",
+                  "_source0": "network_table:///SmartDashboard/arm/id/back dynamic",
+                  "_title": "back dynamic",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/arm back quas",
-                  "_title": "/SmartDashboard/arm back quas",
+                  "_source0": "network_table:///SmartDashboard/arm/id/fwd dynamic",
+                  "_title": "forward dynamic",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/arm forward dynamic",
-                  "_title": "/SmartDashboard/arm forward dynamic",
+                  "_source0": "network_table:///SmartDashboard/arm/id/back quas",
+                  "_title": "back quas",
                   "_glyph": 148,
                   "_showGlyph": false
                 },
                 {
                   "_type": "Command",
-                  "_source0": "network_table:///SmartDashboard/arm forward quas",
-                  "_title": "/SmartDashboard/arm forward quas",
+                  "_source0": "network_table:///SmartDashboard/arm/id/fwd quas",
+                  "_title": "forward quas",
                   "_glyph": 148,
                   "_showGlyph": false
                 }
@@ -2004,9 +2005,9 @@
     }
   ],
   "windowGeometry": {
-    "x": 31.0,
-    "y": 25.0,
-    "width": 1440.0,
-    "height": 814.0
+    "x": 10.0,
+    "y": 40.0,
+    "width": 1492.0,
+    "height": 944.0
   }
 }

@@ -210,20 +210,6 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   /**
-   * Get the path follower with events.
-   *
-   * @param pathName       PathPlanner path name.
-   * @param setOdomToStart Set the odometry position to the start of the path.
-   * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command.
-   */
-  /* unneeded
-  public Command getAutonomousCommand(String pathName)
-  {
-    return new PathPlannerAuto(pathName);
-  }
-  */
-
-    /**
    * Use PathPlanner Path finding to go to a point on the field.
    *
    * @param pose Target {@link Pose2d} to go to.

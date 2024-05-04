@@ -1,4 +1,6 @@
 Next tasks:
+* why left-bumper does not work for arm safety
+* arm motor seems no longer in break mode
 * adjust `maximumSpeed` in SwerveSubsystem constructor
 * set correct default drive command
 * debug why path finding does not work
@@ -14,7 +16,6 @@ Next tasks:
 * make sure zeroGyro works (assigned to A button)
   * should also zero position
 * integrate limelight, but will need to test on a real field (the team is going to one?)
-* clean up commands in RobotContainer
 * invert for Red station and test everything for both Blue and Red (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)
 
 Useful links:
