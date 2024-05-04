@@ -174,7 +174,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement() {
     // getDistance returns radians because we set the appropriate setDistancePerRotation
     // in the constructor.
-    return m_absEncoder.getDistance() + ArmConstants.kArmOffsetRadians;
+    return ((m_absEncoder.getDistance() + ArmConstants.kArmOffsetRadians) % (Math.PI * 2));
   }
 
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
@@ -193,10 +193,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     m_motor.set(s.getAsDouble());
   }
 
-  public Command moveArm(DoubleSupplier speed) {
-    return runEnd(() -> { move(speed); },
-                  () -> { stop();})
-                  .until(angleNotSafeSupplier(speed));
+  public Command moveArm(DoubleSupplier speed, BooleanSupplier unsafe) {
+    Command cmd = runEnd(() -> { move(speed); },
+                         () -> { stop();});
+    if (!unsafe.getAsBoolean()) {
+      cmd = cmd.until(angleNotSafeSupplier(speed));
+    }
+    return cmd;
   }
 
   private boolean angleNotSafe(boolean forward) {
