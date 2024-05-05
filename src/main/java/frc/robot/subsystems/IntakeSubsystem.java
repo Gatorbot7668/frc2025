@@ -8,14 +8,14 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.CANDeviceID;
 import frc.robot.util.CANSparkMaxSendable;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMaxSendable m_motor;
 
   public IntakeSubsystem() {
-    m_motor = new CANSparkMaxSendable(Constants.kIntakeMotorPorts, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(CANDeviceID.kIntakeMotor, MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
 
     addChild("motor", m_motor);

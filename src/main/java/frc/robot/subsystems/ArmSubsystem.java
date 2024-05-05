@@ -32,8 +32,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.CANDeviceID;
+import frc.robot.Constants.DIOPort;
 import frc.robot.util.CANSparkMaxSendable;
 
 // This mechanism uses
@@ -115,14 +116,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // Start pointing up
     setGoal(Units.degreesToRadians(90));
 
-    m_motor = new CANSparkMaxSendable(Constants.kArmMotorPorts.port1(), MotorType.kBrushless);
-    m_motorFollower = new CANSparkMaxSendable(Constants.kArmMotorPorts.port2(), MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(CANDeviceID.kArmMotors.id1(), MotorType.kBrushless);
+    m_motorFollower = new CANSparkMaxSendable(CANDeviceID.kArmMotors.id2(), MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();
 
     m_motorFollower.follow(m_motor, true);
-    m_absEncoder = new DutyCycleEncoder(Constants.kDutyEncoderPort);
-    m_relEncoder = new Encoder(Constants.kQuadratureEncoderPort.port1(), Constants.kQuadratureEncoderPort.port2());
+    m_absEncoder = new DutyCycleEncoder(DIOPort.kDutyEncoder);
+    m_relEncoder = new Encoder(DIOPort.kQuadratureEncoderChannelA, DIOPort.kQuadratureEncoderChannelB);
     // This returns the internal hall sensor whose counts per revolution is 42, very low.
     // Probably not useful because the resolution is so poor.
     m_neoEncoder = m_motor.getEncoder();

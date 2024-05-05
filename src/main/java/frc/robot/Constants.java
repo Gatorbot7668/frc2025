@@ -10,7 +10,6 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
@@ -42,17 +41,22 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
-  public record TwoPorts(int port1, int port2) {}
+  public static record TwoIDs(int id1, int id2) {}
 
-  // port constants
-  public static final int kIntakeMotorPorts = 15; 
-  public static final TwoPorts kShootMotorPorts = new TwoPorts(13, 14);
-  public static final TwoPorts kArmMotorPorts = new TwoPorts(16, 17); 
-  public static final TwoPorts kClimberMotorPorts = new TwoPorts(18, 19); 
+  public static final class CANDeviceID {
+    // CAN IDs 1-8 are taken by Swerve motors and 9-12 - by Swerve encoders
 
-  // DIO ports
-  public static final int kDutyEncoderPort = 0;
-  public static final TwoPorts kQuadratureEncoderPort = new TwoPorts(1, 2);
+    public static final TwoIDs kShootMotors = new TwoIDs(13, 14);
+    public static final int kIntakeMotor = 15;
+    public static final TwoIDs kArmMotors = new TwoIDs(16, 17);
+    public static final TwoIDs kClimberMotors = new TwoIDs(18, 19);
+  }
+
+  public static final class DIOPort {
+    public static final int kDutyEncoder = 0;
+    public static final int kQuadratureEncoderChannelA = 1;
+    public static final int kQuadratureEncoderChannelB = 2;
+  }
 
   public static class SwerveConstants {
     // see also PID constants in pidfproperties.json
