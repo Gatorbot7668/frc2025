@@ -15,7 +15,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMaxSendable m_motor;
 
   public IntakeSubsystem() {
-    m_motor = new CANSparkMaxSendable(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.kIntakeMotorPorts, MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
 
     addChild("motor", m_motor);

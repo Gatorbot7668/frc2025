@@ -13,8 +13,8 @@ public class ShootSubsystem extends SubsystemBase {
   private final CANSparkMaxSendable m_followMotor;
 
   public ShootSubsystem() {
-    m_motor = new CANSparkMaxSendable(Constants.SHOOT_MOTOR_PORT, MotorType.kBrushless);
-    m_followMotor = new CANSparkMaxSendable(Constants.SHOOT_FOLLOW_MOTOR_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.kShootMotorPorts.port1(), MotorType.kBrushless);
+    m_followMotor = new CANSparkMaxSendable(Constants.kShootMotorPorts.port2(), MotorType.kBrushless);
     
     m_motor.restoreFactoryDefaults();
     m_followMotor.restoreFactoryDefaults();

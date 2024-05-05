@@ -7,6 +7,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AdvancedDriveCommandsConstants;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import static edu.wpi.first.units.Units.Kilograms;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
+
 import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -117,7 +122,9 @@ public class AbsoluteDriveAdv extends Command
     // Limit velocity to prevent tippy
     Translation2d translation = SwerveController.getTranslation2d(desiredSpeeds);
     translation = SwerveMath.limitVelocity(translation, swerve.getFieldVelocity(), swerve.getPose(),
-                                           AdvancedDriveCommandsConstants.LOOP_TIME, AdvancedDriveCommandsConstants.ROBOT_MASS, List.of(AdvancedDriveCommandsConstants.CHASSIS),
+                                           AdvancedDriveCommandsConstants.kLooptime.in(Seconds),
+                                           AdvancedDriveCommandsConstants.kRobotMass.in(Kilograms),
+                                           List.of(AdvancedDriveCommandsConstants.kChassisMatter),
                                            swerve.getSwerveDriveConfiguration());
     SmartDashboard.putNumber("LimitedTranslation", translation.getX());
     SmartDashboard.putString("Translation", translation.toString());
@@ -126,7 +133,9 @@ public class AbsoluteDriveAdv extends Command
     if (headingX == 0 && headingY == 0 && Math.abs(headingAdjust.getAsDouble()) > 0)
     {
       resetHeading = true;
-      swerve.drive(translation, (AdvancedDriveCommandsConstants.TURN_CONSTANT * -headingAdjust.getAsDouble()), true);
+      swerve.drive(translation,
+                   AdvancedDriveCommandsConstants.kTurnSpeed.times(-headingAdjust.getAsDouble()).in(RadiansPerSecond),
+                   true);
     } else
     {
       swerve.drive(translation, desiredSpeeds.omegaRadiansPerSecond, true);

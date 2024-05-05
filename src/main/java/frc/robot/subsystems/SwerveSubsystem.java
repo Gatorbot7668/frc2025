@@ -25,9 +25,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
-import frc.robot.Constants.AutonConstants;
+import frc.robot.Constants.PathPlannerConstants;
+import frc.robot.Constants.SwerveConstants;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.robot.util.CANSparkMaxSendableAdapter;
+
+import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import java.io.File;
 import java.util.function.BooleanSupplier;
@@ -47,16 +50,10 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-
   /**
    * Swerve drive object.
    */
   public final SwerveDrive swerveDrive;
-  /**
-   * Maximum speed of the robot in meters per second, used to limit acceleration.
-   */
-  public double maximumSpeed = Units.feetToMeters(12.5);
-  
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -79,7 +76,7 @@ public class SwerveSubsystem extends SubsystemBase
 
     try {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(
-        maximumSpeed, angleConversionFactor, driveConversionFactor);
+        SwerveConstants.kMaxSpeed.in(MetersPerSecond), angleConversionFactor, driveConversionFactor);
       // Alternative method if conversion factors are supplied via JSON file
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);      
     } catch (Exception e) {
@@ -98,7 +95,7 @@ public class SwerveSubsystem extends SubsystemBase
 
     // Example of how to change a single motor's PID config
     // swerveDrive.getModules()[idx].configuration.anglePIDF = new PIDFConfig(0.1, 0, 0);
-    
+
     SmartDashboard.putData("swerve/subsystem", this);
   }
 
@@ -121,7 +118,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg)
   {
-    swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maximumSpeed);
+    swerveDrive = new SwerveDrive(driveCfg, controllerCfg, SwerveConstants.kMaxSpeed.in(MetersPerSecond));
   }
 
   public boolean isFieldFlipped() {
@@ -145,9 +142,9 @@ public class SwerveSubsystem extends SubsystemBase
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( 
           // HolonomicPathFollowerConfig, this should likely live in your Constants class
-          AutonConstants.TRANSLATION_PID, // Translation PID constants
-          AutonConstants.ANGLE_PID, // Rotation PID constants
-          4.5, // Max module speed, in m/s
+          PathPlannerConstants.kTranslationPID, // Translation PID constants
+          PathPlannerConstants.kAnglePID, // Rotation PID constants
+          PathPlannerConstants.kMaxSpeed.in(MetersPerSecond), // Max module speed, in m/s
           // Drive base radius in meters. Distance from robot center to furthest module.
           swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
           new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -232,8 +229,7 @@ public class SwerveSubsystem extends SubsystemBase
       double yHeading = Math.pow(headingY.getAsDouble(), 3); // Smooth controll out
       // Make the robot move
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(xInput, yInput,
-                                                                      xHeading,
-                                                                      headingY.getAsDouble(),
+                                                                      xHeading, yHeading,
                                                                       swerveDrive.getOdometryHeading().getRadians(),
                                                                       swerveDrive.getMaximumVelocity()));
     });
@@ -363,11 +359,6 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.driveFieldOriented(velocity);
   }
 
-  //????!?!?!?!??!?!?!?!??!?!?!?!??!?!??????!?!?!?!?!??!?!?!?!?!?
-  public void slow() {
-    maximumSpeed = Units.feetToMeters(5);
-  }
-
   /**
    * Drive according to the chassis robot oriented velocity.
    *
@@ -445,7 +436,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void zeroGyro()
   {
-    System.out.println("zeroGyro");
     swerveDrive.zeroGyro();
   }
 
@@ -489,7 +479,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                         headingX,
                                                         headingY,
                                                         getHeading().getRadians(),
-                                                        maximumSpeed);
+                                                        SwerveConstants.kMaxSpeed.in(MetersPerSecond));
   }
 
   /**
@@ -509,7 +499,7 @@ public class SwerveSubsystem extends SubsystemBase
                                                         yInput,
                                                         angle.getRadians(),
                                                         getHeading().getRadians(),
-                                                        maximumSpeed);
+                                                        SwerveConstants.kMaxSpeed.in(MetersPerSecond));
   }
 
   /**

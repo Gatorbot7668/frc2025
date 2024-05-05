@@ -5,7 +5,10 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.VoltsPerRadianPerSecond;
+import static edu.wpi.first.units.Units.VoltsPerRadianPerSecondSquared;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -20,6 +23,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
+import edu.wpi.first.units.Per;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -89,8 +93,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private final Encoder m_relEncoder;
   private final RelativeEncoder m_neoEncoder;
   private final ArmFeedforward m_feedforward = new ArmFeedforward(
-          ArmConstants.kSVolts, ArmConstants.kGVolts,
-          ArmConstants.kVVoltSecondPerRad, ArmConstants.kAVoltSecondSquaredPerRad);
+          ArmConstants.kS.in(Volts), ArmConstants.kG.in(Volts),
+          ArmConstants.kV.in(VoltsPerRadianPerSecond),
+          ArmConstants.kA.in(VoltsPerRadianPerSecondSquared));
 
   private final SysIdRoutine m_sysIdRoutine;
 
@@ -105,19 +110,19 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             ArmConstants.kI,
             ArmConstants.kD,
             new TrapezoidProfile.Constraints(
-                ArmConstants.kMaxVelocityRadPerSecond,
-                ArmConstants.kMaxAccelerationRadPerSecSquared)));
+                ArmConstants.kMaxVelocity.in(RadiansPerSecond),
+                ArmConstants.kMaxAcceleration.in(RadiansPerSecond.per(Second)))));
     // Start pointing up
     setGoal(Units.degreesToRadians(90));
 
-    m_motor = new CANSparkMaxSendable(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
-    m_motorFollower = new CANSparkMaxSendable(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.kArmMotorPorts.port1(), MotorType.kBrushless);
+    m_motorFollower = new CANSparkMaxSendable(Constants.kArmMotorPorts.port2(), MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();
 
     m_motorFollower.follow(m_motor, true);
-    m_absEncoder = new DutyCycleEncoder(Constants.DUTY_ENCODER_PORT);
-    m_relEncoder = new Encoder(Constants.QUADRATURE_ENCODER_PORTS[0], Constants.QUADRATURE_ENCODER_PORTS[1]);
+    m_absEncoder = new DutyCycleEncoder(Constants.kDutyEncoderPort);
+    m_relEncoder = new Encoder(Constants.kQuadratureEncoderPort.port1(), Constants.kQuadratureEncoderPort.port2());
     // This returns the internal hall sensor whose counts per revolution is 42, very low.
     // Probably not useful because the resolution is so poor.
     m_neoEncoder = m_motor.getEncoder();
@@ -194,7 +199,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement() {
     // getDistance returns radians because we set the appropriate setDistancePerRotation
     // in the constructor.
-    return ((m_absEncoder.getDistance() + ArmConstants.kArmOffsetRadians) % (Math.PI * 2));
+    return ((m_absEncoder.getDistance() + ArmConstants.kArmOffset.in(Radians)) % (Math.PI * 2));
   }
 
   public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
@@ -225,8 +230,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   private boolean angleNotSafe(boolean forward) {
     double angle = getMeasurement();
-    if (forward) return angle > ArmConstants.kMaxAngleForwardRadians;
-    return angle < ArmConstants.kMaxAngleBackwardRadians;
+    if (forward) return angle > ArmConstants.kMaxAngleForward.in(Radians);
+    return angle < ArmConstants.kMaxAngleBackward.in(Radians);
   }
 
   private BooleanSupplier angleNotSafeSupplier(SysIdRoutine.Direction direction) {

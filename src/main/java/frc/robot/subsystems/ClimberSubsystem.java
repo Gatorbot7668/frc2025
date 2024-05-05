@@ -12,8 +12,8 @@ public class ClimberSubsystem extends SubsystemBase {
   private final CANSparkMaxSendable m_motor;
 
   public ClimberSubsystem() {
-    m_motor = new CANSparkMaxSendable(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
-    m_motorFollower = new CANSparkMaxSendable(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.kClimberMotorPorts.port1(), MotorType.kBrushless);
+    m_motorFollower = new CANSparkMaxSendable(Constants.kClimberMotorPorts.port2(), MotorType.kBrushless);
    
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();

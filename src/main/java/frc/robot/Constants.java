@@ -4,10 +4,32 @@
 
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Kilograms;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Milliseconds;
+import static edu.wpi.first.units.Units.Pounds;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.VoltsPerRadianPerSecond;
+import static edu.wpi.first.units.Units.VoltsPerRadianPerSecondSquared;
+
 import com.pathplanner.lib.util.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Mass;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Per;
+import edu.wpi.first.units.Time;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import swervelib.math.Matter;
 
 /**
@@ -20,59 +42,65 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
+  public record TwoPorts(int port1, int port2) {}
+
   // port constants
-  public static final int INTAKE_MOTOR_PORT = 15; 
-  public static final int SHOOT_MOTOR_PORT = 14; 
-  public static final int ARMANGLER_MOTOR_LEFT_PORT = 16; 
-  public static final int ARMANGLER_MOTOR_RIGHT_PORT = 17; 
-  public static final int CLIMBER_MOTOR_LEFT_PORT = 18; 
-  public static final int CLIMBER_MOTOR_RIGHT_PORT = 19; 
-  public static final int SHOOT_FOLLOW_MOTOR_PORT = 13;
+  public static final int kIntakeMotorPorts = 15; 
+  public static final TwoPorts kShootMotorPorts = new TwoPorts(13, 14);
+  public static final TwoPorts kArmMotorPorts = new TwoPorts(16, 17); 
+  public static final TwoPorts kClimberMotorPorts = new TwoPorts(18, 19); 
 
   // DIO ports
-  public static final int DUTY_ENCODER_PORT = 0;
-  public static final int[] QUADRATURE_ENCODER_PORTS = new int[]{1,2};
+  public static final int kDutyEncoderPort = 0;
+  public static final TwoPorts kQuadratureEncoderPort = new TwoPorts(1, 2);
+
+  public static class SwerveConstants {
+    // see also PID constants in pidfproperties.json
+
+    // Maximum speed of the robot in meters per second, used to limit acceleration.
+    public final static Measure<Velocity<Distance>> kMaxSpeed = MetersPerSecond.of(4);
+  }
+
+  public static final class PathPlannerConstants {
+    public static final PIDConstants kTranslationPID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants kAnglePID = new PIDConstants(0.4, 0, 0.01);
+    public final static Measure<Velocity<Distance>> kMaxSpeed = MetersPerSecond.of(4);
+  }
+
+  public static final class DrivebaseConstants {
+    // Hold time on motor brakes when disabled
+    public static final Measure<Time> kWheelLockTime = Seconds.of(10);
+  }
 
   public static final class ArmConstants {
     // feedforward constants
-    public static final double kSVolts = 1;
-    public static final double kGVolts = 1;
-    public static final double kVVoltSecondPerRad = 0.5;
-    public static final double kAVoltSecondSquaredPerRad = 0;
+    public static final Measure<Voltage> kS = Volts.of(1);
+    public static final Measure<Voltage> kG = Volts.of(1);
+    public static final Measure<Per<Voltage, Velocity<Angle>>> kV = VoltsPerRadianPerSecond.of(0.5);
+    public static final Measure<Per<Voltage, Velocity<Velocity<Angle>>>> kA = VoltsPerRadianPerSecondSquared.of(0);
 
     // PID constants
     public static final double kP = 1;
-    public static final double kD = 0;
     public static final double kI = 0;
+    public static final double kD = 0;
 
     // Safety limits
-    public static final double kMaxAngleBackwardRadians = 0.12;
-    public static final double kMaxAngleForwardRadians = 2.75;
+    public static final Measure<Angle> kMaxAngleBackward = Radians.of(0.12);
+    public static final Measure<Angle> kMaxAngleForward = Radians.of(2.75);
+
     // TODO: set these before trying Trapezoid motion profile
-    public static final double kMaxVelocityRadPerSecond = 3;
-    public static final double kMaxAccelerationRadPerSecSquared = 10;
+    public static final Measure<Velocity<Angle>> kMaxVelocity = RotationsPerSecond.of(0.5);
+    public static final Measure<Velocity<Velocity<Angle>>> kMaxAcceleration = 
+      RotationsPerSecond.per(Second).of(1.5);
 
     // We measured the offset by finding a point where the arm was standing up
-    // vertically (angle π/2) and recorded the reported offset
+    // vertically (vertical_angle = 90 degrees) and recorded the reported offset
     // from the absolute encoder (0.411 radians), resulting in the value below.
-    //   offset_at_0 = π/2 - offset_when_vertical
-    public static final double kArmOffsetRadians = Math.PI / 2 - 0.411;
+    //   offset_at_0 = vertical_angle - offset_when_vertical
+    public static final Measure<Angle> kArmOffset = Degrees.of(90).minus(Radians.of(0.411));
   }
   
-  public static final class AutonConstants
-  {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
-    public static final PIDConstants ANGLE_PID   = new PIDConstants(0.4, 0, 0.01);
-  }
-
-  public static final class DrivebaseConstants
-  {
-    // Hold time on motor brakes when disabled
-    public static final double WHEEL_LOCK_TIME = 10; // seconds
-  }
-
-  public static class OperatorConstants
-  {
+  public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kSecondaryDriverControllerPort = 1;
 
@@ -84,14 +112,12 @@ public final class Constants
   }
 
   public static class AdvancedDriveCommandsConstants {
-    public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-    public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
-    public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-    public static final double TURN_CONSTANT    = 6;
-
-    //     move max speed constants from SwerveSubsystem
+    public static final Measure<Mass> kRobotMass = Pounds.of(50);
+    public static final Matter kChassisMatter = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), kRobotMass.in(Kilograms));
+    public static final Measure<Time> kLooptime = Milliseconds.of(130); // 20ms + 110ms sprk max velocity lag
+    public static final Measure<Velocity<Angle>> kTurnSpeed = RotationsPerSecond.of(1);
   }
 
   // Whether TunableNumbers are changeable via SmartDashboard
-  public static boolean tuningMode = true;
+  public static final boolean kTuningMode = true;
 }
