@@ -4,22 +4,24 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.CANSparkMaxSendable;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final CANSparkMax m_motor;
+  private final CANSparkMaxSendable m_motor;
 
   public IntakeSubsystem() {
-    m_motor = new CANSparkMax(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.INTAKE_MOTOR_PORT, MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
+
+    addChild("motor", m_motor);
   }
 
-  public void in(double speed) {
+  public void intake(double speed) {
     m_motor.set(speed);
   }
 
@@ -28,7 +30,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public Command intakeCommand(double speed) {
-    return runEnd(() -> { in(speed); },
+    return runEnd(() -> { intake(speed); },
                   () -> { stop();});
   }
 

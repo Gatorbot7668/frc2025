@@ -1,8 +1,7 @@
 Next tasks:
-* why left-bumper does not work for arm safety
+* check that left-bumper works for arm safety
 * arm motor seems no longer in break mode
 * adjust `maximumSpeed` in SwerveSubsystem constructor
-* set correct default drive command
 * debug why path finding does not work
 * calibrate NavX, https://yagsl.gitbook.io/yagsl/devices/gyroscope/navx
 * name the robot and move deploy/swerve files into a subdirectory, to prep for
@@ -13,7 +12,7 @@ Next tasks:
   * angle and drive for indiviual modules is in pidfproperties.json
   * robot angle is in controllerproperties.json
   * robot drive is in SwerveSubsystem.setupPathPlanner
-* make sure zeroGyro works (assigned to A button)
+* make sure zeroGyro works
   * should also zero position
 * integrate limelight, but will need to test on a real field (the team is going to one?)
 * invert for Red station and test everything for both Blue and Red (https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#always-blue-origin)

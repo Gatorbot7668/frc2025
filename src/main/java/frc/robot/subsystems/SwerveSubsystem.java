@@ -21,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -56,15 +57,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public double maximumSpeed = Units.feetToMeters(12.5);
   
-  private CANSparkMaxSendableAdapter frontLeftAngleSendableMotor;
-  private CANSparkMaxSendableAdapter frontLeftDriveSendableMotor;
-  private CANSparkMaxSendableAdapter frontRightAngleSendableMotor;
-  private CANSparkMaxSendableAdapter frontRightDriveSendableMotor;
-  private CANSparkMaxSendableAdapter backLeftAngleSendableMotor;
-  private CANSparkMaxSendableAdapter backLeftDriveSendableMotor;
-  private CANSparkMaxSendableAdapter backRightAngleSendableMotor;
-  private CANSparkMaxSendableAdapter backRightDriveSendableMotor;
-
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -99,43 +91,26 @@ public class SwerveSubsystem extends SubsystemBase
     setupPathPlanner();
 
     // 0 to 3. front left -> front right -> back left -> back right (from SverveModule.moduleNumber documentation)
-    SwerveModule flModule = swerveDrive.getModules()[0];
-    SwerveModule frModule = swerveDrive.getModules()[1];
-    SwerveModule blModule = swerveDrive.getModules()[2];
-    SwerveModule brModule = swerveDrive.getModules()[3];
+    addLiveWindowModule("FL", 0);
+    addLiveWindowModule("FR", 1);
+    addLiveWindowModule("BL", 2);
+    addLiveWindowModule("BR", 3);
 
     // Example of how to change a single motor's PID config
-    // frModule.configuration.anglePIDF = new PIDFConfig(0.1, 0, 0);
+    // swerveDrive.getModules()[idx].configuration.anglePIDF = new PIDFConfig(0.1, 0, 0);
+    
+    SmartDashboard.putData("swerve/subsystem", this);
+  }
 
-    frontLeftAngleSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) flModule.getAngleMotor().getMotor());
-    frontLeftDriveSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) flModule.getDriveMotor().getMotor());
-    frontRightAngleSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) frModule.getAngleMotor().getMotor());
-    frontRightDriveSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) frModule.getDriveMotor().getMotor());
-    backLeftAngleSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) blModule.getAngleMotor().getMotor());
-    backLeftDriveSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) blModule.getDriveMotor().getMotor());
-    backRightAngleSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) brModule.getAngleMotor().getMotor());
-    backRightDriveSendableMotor = new CANSparkMaxSendableAdapter(
-      (CANSparkMax) brModule.getDriveMotor().getMotor());
+  private void addLiveWindowModule(String name, int idx) {
+    SwerveModule module = swerveDrive.getModules()[idx];
 
-    addChild("FL angle motor", frontLeftAngleSendableMotor);
-    addChild("FL drive motor", frontLeftDriveSendableMotor);
-    addChild("FR angle motor", frontRightAngleSendableMotor);
-    addChild("FR drive motor", frontRightDriveSendableMotor);
-    addChild("BL angle motor", backLeftAngleSendableMotor);
-    addChild("BL drive motor", backLeftDriveSendableMotor);
-    addChild("BR angle motor", backRightAngleSendableMotor);
-    addChild("BR drive motor", backRightDriveSendableMotor);
-    addChild("FL encoder", (Sendable) flModule.getAbsoluteEncoder().getAbsoluteEncoder());
-    addChild("FR encoder", (Sendable) frModule.getAbsoluteEncoder().getAbsoluteEncoder());
-    addChild("BL encoder", (Sendable) blModule.getAbsoluteEncoder().getAbsoluteEncoder());
-    addChild("BR encoder", (Sendable) brModule.getAbsoluteEncoder().getAbsoluteEncoder());
+    addChild(name + " angle motor", new CANSparkMaxSendableAdapter(
+      (CANSparkMax) module.getAngleMotor().getMotor()));
+    addChild(name + " drive motor", new CANSparkMaxSendableAdapter(
+      (CANSparkMax) module.getDriveMotor().getMotor()));
+    addChild(name + " encoder",
+      (Sendable) module.getAbsoluteEncoder().getAbsoluteEncoder());
   }
 
   /**
@@ -600,7 +575,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void addFakeVisionReading()
   {
-    System.out.println("addFakeVisionReading");
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 }

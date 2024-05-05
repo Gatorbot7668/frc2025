@@ -11,14 +11,12 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
@@ -36,7 +34,7 @@ import frc.robot.util.CANSparkMaxSendable;
 
 // This mechanism uses
 //   NEO v1.1 brushless motor: https://www.revrobotics.com/rev-21-1650/ 
-//   REV Through Bore Encoder: https://www.revrobotics.com/rev-11-1271/
+//   REV Through Bore Encoder: https://www.revrobotics.com/rev-11-1271/ 
 //   Spark Max motor controller: https://www.revrobotics.com/rev-11-2158/
 
 // Arm theory (combine feeedback and feedforward controls):
@@ -58,6 +56,8 @@ import frc.robot.util.CANSparkMaxSendable;
 // https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Encoder%20Feedback%20Device/src/main/java/frc/robot/Robot.java
 //
 // Hardware setup for it: https://docs.revrobotics.com/sparkmax/operating-modes/using-encoders
+//
+// BUT: unclear if can also get absolute signal when the encoderis used in this mode.s
 
 // Sysid code is taken from
 // https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/sysid/subsystems/Shooter.java
@@ -102,8 +102,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public ArmSubsystem() {
     super(new ProfiledPIDController(
             ArmConstants.kP,
-            0,
-            0,
+            ArmConstants.kI,
+            ArmConstants.kD,
             new TrapezoidProfile.Constraints(
                 ArmConstants.kMaxVelocityRadPerSecond,
                 ArmConstants.kMaxAccelerationRadPerSecSquared)));
@@ -116,9 +116,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     m_motorFollower.restoreFactoryDefaults();
 
     m_motorFollower.follow(m_motor, true);
-    m_absEncoder = new DutyCycleEncoder(Constants.ArmConstants.kDutyEncoderPort);
-    m_relEncoder = new Encoder(Constants.ArmConstants.kEncoderPorts[0],
-                              Constants.ArmConstants.kEncoderPorts[1]);
+    m_absEncoder = new DutyCycleEncoder(Constants.DUTY_ENCODER_PORT);
+    m_relEncoder = new Encoder(Constants.QUADRATURE_ENCODER_PORTS[0], Constants.QUADRATURE_ENCODER_PORTS[1]);
     // This returns the internal hall sensor whose counts per revolution is 42, very low.
     // Probably not useful because the resolution is so poor.
     m_neoEncoder = m_motor.getEncoder();
@@ -132,38 +131,47 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // Similar, set absolute encoder units to be in radians
     m_absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
 
-    addChild("arm", m_motor);
+    // LiveWindow
+    addChild("motor", m_motor);
+    addChild("abs encoder", m_absEncoder);
+    addChild("rel encoder", m_relEncoder);
+    addChild("pid", getController());
 
-    m_sysIdRoutine =
-      new SysIdRoutine(
-          // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
-          new SysIdRoutine.Config(),
-          new SysIdRoutine.Mechanism(
-              // Tell SysId how to plumb the driving voltage to the motor(s).
-              (Measure<Voltage> volts) -> {
-                m_motor.setVoltage(volts.in(Volts));
-              },
-              // Tell SysId how to record a frame of data for each motor on the mechanism being
-              // characterized.
-              log -> {
-                // Record a frame for the shooter motor.
-                log.motor("arm")
-                    .voltage(
-                        // Annoingly there is no getVoltage() method and get() cannot be used with setVoltage();
-                        // see the discussion at
-                        // https://www.chiefdelphi.com/t/sysid-routine-not-properly-recording-motor-speed/455172
-                        m_appliedVoltage.mut_replace(
-                            // TODO: remove this the next line works
-                            // _motor.get() * RobotController.getBatteryVoltage(),
-                            m_motor.getBusVoltage() * m_motor.getAppliedOutput(),
-                            Volts))
-                    .angularPosition(m_angle.mut_replace(getMeasurement(), Radians))
-                    .angularVelocity(
-                        m_velocity.mut_replace(m_relEncoder.getRate(), RadiansPerSecond));
-              },
-              // Tell SysId to make generated commands require this subsystem, suffix test state in
-              // WPILog with this subsystem's name ("ArmSubsystem")
-              this));
+    // Regular SmartDashboard
+    SmartDashboard.putData("arm/sendable/subsystem", this);
+    SmartDashboard.putData("arm/sendable/encoder/abs", m_absEncoder);
+    SmartDashboard.putData("arm/sendable/encoder/rel", m_relEncoder);
+    SmartDashboard.putData("arm/sendable/motor", m_motor);
+    SmartDashboard.putData("arm/sendable/pid", getController());
+
+    m_sysIdRoutine = new SysIdRoutine(
+        // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
+        new SysIdRoutine.Config(),
+        new SysIdRoutine.Mechanism(
+            // Tell SysId how to plumb the driving voltage to the motor(s).
+            (Measure<Voltage> volts) -> { m_motor.setVoltage(volts.in(Volts)); },
+            // Tell SysId how to record a frame of data for each motor on the mechanism
+            // being characterized.
+            log -> {
+              // Record a frame for the shooter motor.
+              log.motor("arm")
+                  .voltage(
+                      // Annoingly there is no getVoltage() method and get() cannot be used with
+                      // setVoltage();
+                      // see the discussion at
+                      // https://www.chiefdelphi.com/t/sysid-routine-not-properly-recording-motor-speed/455172
+                      m_appliedVoltage.mut_replace(
+                          // TODO: remove this the next line works
+                          // _motor.get() * RobotController.getBatteryVoltage(),
+                          m_motor.getBusVoltage() * m_motor.getAppliedOutput(),
+                          Volts))
+                  .angularPosition(m_angle.mut_replace(getMeasurement(), Radians))
+                  .angularVelocity(m_velocity.mut_replace(m_relEncoder.getRate(), RadiansPerSecond));
+            },
+            // Tell SysId to make generated commands require this subsystem, suffix test
+            // state in
+            // WPILog with this subsystem's name ("ArmSubsystem")
+            this));
     addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kForward).withName("fwd quas"));
     addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("back quas"));
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("fwd dynamic"));
@@ -205,19 +213,20 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     m_motor.set(s.getAsDouble());
   }
 
-  public Command moveArm(DoubleSupplier speed, BooleanSupplier unsafe) {
-    Command cmd = runEnd(() -> { move(speed); },
-                         () -> { stop();});
-    if (!unsafe.getAsBoolean()) {
-      cmd = cmd.until(angleNotSafeSupplier(speed));
-    }
-    return cmd;
+  public Command unsafeMoveArm(DoubleSupplier speed) {
+    return runEnd(() -> { move(speed); },
+                  () -> { stop();}).withName("unsafeMoveArm");
+  }
+
+  public Command moveArm(DoubleSupplier speed) {
+    return unsafeMoveArm(speed).until(
+      angleNotSafeSupplier(speed)).withName("safeMoveArm");
   }
 
   private boolean angleNotSafe(boolean forward) {
     double angle = getMeasurement();
-    if (forward) return angle > ArmConstants.kLimitAngleForwardRadians;
-    return angle < ArmConstants.kLimitAngleBackwardRadians;
+    if (forward) return angle > ArmConstants.kMaxAngleForwardRadians;
+    return angle < ArmConstants.kMaxAngleBackwardRadians;
   }
 
   private BooleanSupplier angleNotSafeSupplier(SysIdRoutine.Direction direction) {

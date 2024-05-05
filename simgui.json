@@ -1,66 +1,16 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "CANCoder (v6)[11]": {
-        "header": {
-          "open": true
-        }
-      },
-      "DutyCycleEncoder[0]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [1]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [4]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [5]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [6]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [7]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [8]": {
-        "header": {
-          "open": true
-        }
-      },
-      "navX-Sensor[0]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/ArmSubsystem": "Subsystem",
+      "/LiveWindow/ArmSubsystem/motor": "Motor Controller",
+      "/LiveWindow/ArmSubsystem/pid": "ProfiledPIDController",
+      "/LiveWindow/ClimberSubsystem": "Subsystem",
+      "/LiveWindow/ClimberSubsystem/motor": "Motor Controller",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem/motor": "Motor Controller",
+      "/LiveWindow/ShootSubsystem": "Subsystem",
+      "/LiveWindow/ShootSubsystem/motor": "Motor Controller",
       "/LiveWindow/SwerveSubsystem": "Subsystem",
       "/LiveWindow/SwerveSubsystem/BL angle motor": "Motor Controller",
       "/LiveWindow/SwerveSubsystem/BL drive motor": "Motor Controller",
@@ -82,7 +32,23 @@
       "/LiveWindow/Ungrouped/PIDController[18]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[19]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[20]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[21]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[22]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[23]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[24]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[25]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[26]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[27]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[28]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[29]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[30]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[31]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[32]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[33]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[34]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[35]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[5]": "PIDController",
@@ -93,6 +59,13 @@
       "/LiveWindow/Ungrouped/PWMSparkMax[16]": "Motor Controller",
       "/LiveWindow/Ungrouped/PWMSparkMax[17]": "Motor Controller",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/SparkMax[13]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[14]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[15]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[16]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[17]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[18]": "Motor Controller",
+      "/LiveWindow/Ungrouped/SparkMax[19]": "Motor Controller",
       "/Shuffleboard/Drivetrain/SwerveSubsystem": "Subsystem",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
@@ -103,6 +76,23 @@
       "/SmartDashboard/arm back quas": "Command",
       "/SmartDashboard/arm forward dynamic": "Command",
       "/SmartDashboard/arm forward quas": "Command",
+      "/SmartDashboard/arm/sendable/motor": "Motor Controller",
+      "/SmartDashboard/arm/sendable/pid": "ProfiledPIDController",
+      "/SmartDashboard/arm/sendable/subsystem": "Subsystem",
+      "/SmartDashboard/arm/sysid/back dynamic": "Command",
+      "/SmartDashboard/arm/sysid/back quas": "Command",
+      "/SmartDashboard/arm/sysid/fwd dynamic": "Command",
+      "/SmartDashboard/arm/sysid/fwd quas": "Command",
+      "/SmartDashboard/arm_s/motor": "Motor Controller",
+      "/SmartDashboard/arm_s/pid": "ProfiledPIDController",
+      "/SmartDashboard/cmd/addFakeVisionReading": "Command",
+      "/SmartDashboard/cmd/driveRobotOriented": "Command",
+      "/SmartDashboard/cmd/resetOdometrytoAllianceZero": "Command",
+      "/SmartDashboard/cmd/testAngleMotors": "Command",
+      "/SmartDashboard/cmd/testDriveToPose": "Command",
+      "/SmartDashboard/cmd/testMotors": "Command",
+      "/SmartDashboard/cmd/testSetAngle": "Command",
+      "/SmartDashboard/cmd/zeroGyro": "Command",
       "/SmartDashboard/commands/addFakeVisionReading": "Command",
       "/SmartDashboard/commands/driveFieldOrientedAnglularVelocity": "Command",
       "/SmartDashboard/commands/driveFieldOrientedDirectAngle": "Command",
@@ -120,6 +110,7 @@
       "/SmartDashboard/navX-Sensor[1]": "Gyro",
       "/SmartDashboard/resetOdometry": "Command",
       "/SmartDashboard/resetOdometrytoAllianceZero": "Command",
+      "/SmartDashboard/swerve/subsystem": "Subsystem",
       "/SmartDashboard/testAngleMotors": "Command",
       "/SmartDashboard/testDriveToPose": "Command",
       "/SmartDashboard/testMotors": "Command",

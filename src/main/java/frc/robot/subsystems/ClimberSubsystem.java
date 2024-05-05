@@ -1,27 +1,29 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.CANSparkMaxSendable;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private final CANSparkMax m_motorFollower;
-  private final CANSparkMax m_motor;
+  private final CANSparkMaxSendable m_motorFollower;
+  private final CANSparkMaxSendable m_motor;
 
   public ClimberSubsystem() {
-    m_motor = new CANSparkMax(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
-    m_motorFollower = new CANSparkMax(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.CLIMBER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    m_motorFollower = new CANSparkMaxSendable(Constants.CLIMBER_MOTOR_LEFT_PORT, MotorType.kBrushless);
    
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();
     
-  //  _motorFollower.follow(_motor);
+    m_motorFollower.follow(m_motor);
+
+    addChild("motor", m_motor);
   }
 
-  public void up(double speed) {
+  public void climb(double speed) {
     m_motor.set(speed);
   }
 
@@ -30,7 +32,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public Command climbCommand(double speed) {
-    return runEnd(() -> { up(speed); },
+    return runEnd(() -> { climb(speed); },
                   () -> { stop();});
   }
 

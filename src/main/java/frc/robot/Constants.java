@@ -20,12 +20,7 @@ import swervelib.math.Matter;
  */
 public final class Constants
 {
-
-  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
-  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-
-  //port constants
+  // port constants
   public static final int INTAKE_MOTOR_PORT = 15; 
   public static final int SHOOT_MOTOR_PORT = 14; 
   public static final int ARMANGLER_MOTOR_LEFT_PORT = 16; 
@@ -33,31 +28,35 @@ public final class Constants
   public static final int CLIMBER_MOTOR_LEFT_PORT = 18; 
   public static final int CLIMBER_MOTOR_RIGHT_PORT = 19; 
   public static final int SHOOT_FOLLOW_MOTOR_PORT = 13;
-  
+
+  // DIO ports
+  public static final int DUTY_ENCODER_PORT = 0;
+  public static final int[] QUADRATURE_ENCODER_PORTS = new int[]{1,2};
 
   public static final class ArmConstants {
-    public static final int kDutyEncoderPort = 0;
-    public static final int[] kEncoderPorts = new int[]{1,2};
-
+    // feedforward constants
     public static final double kSVolts = 1;
     public static final double kGVolts = 1;
     public static final double kVVoltSecondPerRad = 0.5;
     public static final double kAVoltSecondSquaredPerRad = 0;
+
+    // PID constants
     public static final double kP = 1;
+    public static final double kD = 0;
+    public static final double kI = 0;
+
+    // Safety limits
+    public static final double kMaxAngleBackwardRadians = 0.12;
+    public static final double kMaxAngleForwardRadians = 2.75;
+    // TODO: set these before trying Trapezoid motion profile
+    public static final double kMaxVelocityRadPerSecond = 3;
+    public static final double kMaxAccelerationRadPerSecSquared = 10;
+
     // We measured the offset by finding a point where the arm was standing up
     // vertically (angle π/2) and recorded the reported offset
     // from the absolute encoder (0.411 radians), resulting in the value below.
     //   offset_at_0 = π/2 - offset_when_vertical
     public static final double kArmOffsetRadians = Math.PI / 2 - 0.411;
-
-    // Safety constants
-    // TODO: currently in rotations because data taken from SysId but
-    // remeasure using manual controls.
-    public static final double kLimitAngleBackwardRadians = 0.12;
-    public static final double kLimitAngleForwardRadians = 2.75;
-    // TODO: set these before trying Trapezoid motion profile
-    public static final double kMaxVelocityRadPerSecond = 3;
-    public static final double kMaxAccelerationRadPerSecSquared = 10;
   }
   
   public static final class AutonConstants
@@ -86,7 +85,10 @@ public final class Constants
     public static final double TURN_CONSTANT    = 6;
   }
 
-  
+  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
+
   // Whether TunableNumbers are changeable via SmartDashboard
   public static boolean tuningMode = true;
 }

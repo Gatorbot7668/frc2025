@@ -1,1409 +1,7 @@
 {
   "tabPane": [
     {
-      "title": "SmartDashboard",
-      "autoPopulate": true,
-      "autoPopulatePrefix": "SmartDashboard/",
-      "widgetPane": {
-        "gridSize": 128.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "0,0": {
-            "size": [
-              2,
-              2
-            ],
-            "content": {
-              "_type": "Gyro",
-              "_source0": "network_table:///SmartDashboard/navX-Sensor[1]",
-              "_title": "navX-Sensor[1]",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Visuals/Major tick spacing": 45.0,
-              "Visuals/Starting angle": 180.0,
-              "Visuals/Show tick mark ring": true,
-              "Visuals/Counter clockwise": false
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Field",
-              "_source0": "network_table:///SmartDashboard/Field",
-              "_title": "Field",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Game/Game": "k2024Crescendo",
-              "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF"
-            }
-          },
-          "4,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Absolute Encoder",
-              "_title": "Module[frontleft] Raw Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Angle Encoder",
-              "_title": "Module[frontleft] Raw Angle Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Drive Encoder",
-              "_title": "Module[frontleft] Raw Drive Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Adjusted Absolute Encoder",
-              "_title": "Module[frontleft] Adjusted Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Absolute Encoder Read Issue",
-              "_title": "Module[frontleft] Absolute Encoder Read Issue",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Adjusted IMU Yaw",
-              "_title": "Adjusted IMU Yaw",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Absolute Encoder",
-              "_title": "Module[frontright] Raw Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Angle Encoder",
-              "_title": "Module[frontright] Raw Angle Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Drive Encoder",
-              "_title": "Module[frontright] Raw Drive Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Adjusted Absolute Encoder",
-              "_title": "Module[frontright] Adjusted Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Absolute Encoder Read Issue",
-              "_title": "Module[frontright] Absolute Encoder Read Issue",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Absolute Encoder",
-              "_title": "Module[backleft] Raw Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Angle Encoder",
-              "_title": "Module[backleft] Raw Angle Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Drive Encoder",
-              "_title": "Module[backleft] Raw Drive Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Adjusted Absolute Encoder",
-              "_title": "Module[backleft] Adjusted Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Absolute Encoder Read Issue",
-              "_title": "Module[backleft] Absolute Encoder Read Issue",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Absolute Encoder",
-              "_title": "Module[backright] Raw Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Angle Encoder",
-              "_title": "Module[backright] Raw Angle Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Drive Encoder",
-              "_title": "Module[backright] Raw Drive Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Adjusted Absolute Encoder",
-              "_title": "Module[backright] Adjusted Absolute Encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Absolute Encoder Read Issue",
-              "_title": "Module[backright] Absolute Encoder Read Issue",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/moduleCount",
-              "_title": "swerve/moduleCount",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/robotRotation",
-              "_title": "swerve/robotRotation",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/maxSpeed",
-              "_title": "swerve/maxSpeed",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/rotationUnit",
-              "_title": "swerve/rotationUnit",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/sizeLeftRight",
-              "_title": "swerve/sizeLeftRight",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/sizeFrontBack",
-              "_title": "swerve/sizeFrontBack",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/forwardDirection",
-              "_title": "swerve/forwardDirection",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/swerve/maxAngularVelocity",
-              "_title": "swerve/maxAngularVelocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/RobotVelocity",
-              "_title": "RobotVelocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Speed Setpoint",
-              "_title": "Module[frontleft] Speed Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontleft] Angle Setpoint",
-              "_title": "Module[frontleft] Angle Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Speed Setpoint",
-              "_title": "Module[frontright] Speed Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[frontright] Angle Setpoint",
-              "_title": "Module[frontright] Angle Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "0,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Speed Setpoint",
-              "_title": "Module[backleft] Speed Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backleft] Angle Setpoint",
-              "_title": "Module[backleft] Angle Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "2,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Speed Setpoint",
-              "_title": "Module[backright] Speed Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Module[backright] Angle Setpoint",
-              "_title": "Module[backright] Angle Setpoint",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Drive angle",
-              "_title": "Drive angle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Auto Selector",
-              "_title": "Auto Selector",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/DB/Button 0",
-              "_title": "DB/Button 0",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "7,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/DB/Button 1",
-              "_title": "DB/Button 1",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "8,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/DB/Button 2",
-              "_title": "DB/Button 2",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "9,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/DB/Button 3",
-              "_title": "DB/Button 3",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "0,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Raw IMU Yaw",
-              "_title": "Raw IMU Yaw",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "1,5": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Basic Subsystem",
-              "_source0": "network_table:///SmartDashboard/SwerveSubsystem",
-              "_title": "SwerveSubsystem",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "3,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/driveRobotOriented",
-              "_title": "driveRobotOriented",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/driveFieldOrientedDirectAngle",
-              "_title": "driveFieldOrientedDirectAngle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/RunCommand",
-              "_title": "RunCommand",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/driveFieldOrientedAnglularVelocity",
-              "_title": "driveFieldOrientedAnglularVelocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/testAngleMotors",
-              "_title": "testAngleMotors",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/testMotors",
-              "_title": "testMotors",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/testDriveToPose",
-              "_title": "testDriveToPose",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Boolean Box",
-              "_source0": "network_table:///SmartDashboard/testSetAngle/running",
-              "_title": "testSetAngle/running",
-              "_glyph": 148,
-              "_showGlyph": false,
-              "Colors/Color when true": "#7CFC00FF",
-              "Colors/Color when false": "#8B0000FF"
-            }
-          },
-          "11,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleAngle/P",
-              "_title": "TunableNumbers/Swerve/PID/ModuleAngle/P",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleAngle/D",
-              "_title": "TunableNumbers/Swerve/PID/ModuleAngle/D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleDrive/P",
-              "_title": "TunableNumbers/Swerve/PID/ModuleDrive/P",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleDrive/D",
-              "_title": "TunableNumbers/Swerve/PID/ModuleDrive/D",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/zeroGyro",
-              "_title": "zeroGyro",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/resetOdometrytoAllianceZero",
-              "_title": "resetOdometrytoAllianceZero",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/addFakeVisionReading",
-              "_title": "addFakeVisionReading",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/TunableNumbers/testAngle",
-              "_title": "TunableNumbers/testAngle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Command",
-              "_source0": "network_table:///SmartDashboard/testSetAngle",
-              "_title": "testSetAngle",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "10,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/joystick/left-X",
-              "_title": "joystick/left-X",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "11,5": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/joystick/left-Y",
-              "_title": "joystick/left-Y",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "LiveWindow",
-      "autoPopulate": true,
-      "autoPopulatePrefix": "LiveWindow/",
-      "widgetPane": {
-        "gridSize": 128.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {
-          "0,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/SwerveSubsystem",
-              "_title": "SwerveSubsystem",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL encoder/Position",
-                  "_title": "BL encoder/Position",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL drive motor",
-                  "_title": "FL drive motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL angle motor",
-                  "_title": "FL angle motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR angle motor",
-                  "_title": "BR angle motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR encoder/Position",
-                  "_title": "FR encoder/Position",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL angle motor",
-                  "_title": "BL angle motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL encoder/Position",
-                  "_title": "FL encoder/Position",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR drive motor",
-                  "_title": "BR drive motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR encoder/Position",
-                  "_title": "BR encoder/Position",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR angle motor",
-                  "_title": "FR angle motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR drive motor",
-                  "_title": "FR drive motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                },
-                {
-                  "_type": "Motor Controller",
-                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL drive motor",
-                  "_title": "BL drive motor",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Visuals/Orientation": "HORIZONTAL"
-                }
-              ]
-            }
-          },
-          "2,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/Ungrouped",
-              "_title": "Ungrouped",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": [
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor[1]/Value",
-                  "_title": "navX-Sensor[1]/Value",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Subsystem Layout",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler/Ids",
-                  "_title": "Scheduler/Ids",
-                  "_glyph": 149,
-                  "_showGlyph": false,
-                  "Layout/Label position": "BOTTOM",
-                  "_children": []
-                },
-                {
-                  "_type": "Subsystem Layout",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler/Cancel",
-                  "_title": "Scheduler/Cancel",
-                  "_glyph": 149,
-                  "_showGlyph": false,
-                  "Layout/Label position": "BOTTOM",
-                  "_children": []
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
-                  "_title": "PIDController[1]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[4]",
-                  "_title": "PIDController[4]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]",
-                  "_title": "PIDController[2]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[3]",
-                  "_title": "PIDController[3]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[11]",
-                  "_title": "PIDController[11]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[10]",
-                  "_title": "PIDController[10]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[5]",
-                  "_title": "PIDController[5]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[6]",
-                  "_title": "PIDController[6]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[12]",
-                  "_title": "PIDController[12]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[13]",
-                  "_title": "PIDController[13]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[14]",
-                  "_title": "PIDController[14]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[9]",
-                  "_title": "PIDController[9]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[7]",
-                  "_title": "PIDController[7]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[16]",
-                  "_title": "PIDController[16]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[18]",
-                  "_title": "PIDController[18]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[19]",
-                  "_title": "PIDController[19]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[17]",
-                  "_title": "PIDController[17]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[15]",
-                  "_title": "PIDController[15]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[8]",
-                  "_title": "PIDController[8]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[34]",
-                  "_title": "PIDController[34]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[30]",
-                  "_title": "PIDController[30]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[26]",
-                  "_title": "PIDController[26]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[24]",
-                  "_title": "PIDController[24]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[32]",
-                  "_title": "PIDController[32]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[31]",
-                  "_title": "PIDController[31]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[27]",
-                  "_title": "PIDController[27]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[29]",
-                  "_title": "PIDController[29]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[23]",
-                  "_title": "PIDController[23]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[25]",
-                  "_title": "PIDController[25]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Encoder",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Encoder[0]",
-                  "_title": "Encoder[0]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[28]",
-                  "_title": "PIDController[28]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[22]",
-                  "_title": "PIDController[22]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[33]",
-                  "_title": "PIDController[33]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[21]",
-                  "_title": "PIDController[21]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[20]",
-                  "_title": "PIDController[20]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
-                  "_title": "DigitalInput[0]/Value",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/DutyCycle Encoder[0]/Distance",
-                  "_title": "DutyCycle Encoder[0]/Distance",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Boolean Box",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/DutyCycle Encoder[0]/Is Connected",
-                  "_title": "DutyCycle Encoder[0]/Is Connected",
-                  "_glyph": 148,
-                  "_showGlyph": false,
-                  "Colors/Color when true": "#7CFC00FF",
-                  "Colors/Color when false": "#8B0000FF"
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Frequency",
-                  "_title": "Duty Cycle[0]/Frequency",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Output",
-                  "_title": "Duty Cycle[0]/Output",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "PID Controller",
-                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[35]",
-                  "_title": "PIDController[35]",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                }
-              ]
-            }
-          },
-          "4,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/IntakeSubsystem",
-              "_title": "IntakeSubsystem",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": []
-            }
-          },
-          "6,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/ShootSubsystem",
-              "_title": "ShootSubsystem",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": []
-            }
-          },
-          "8,0": {
-            "size": [
-              2,
-              4
-            ],
-            "content": {
-              "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/ArmASubsystem",
-              "_title": "ArmSubsystem",
-              "_glyph": 149,
-              "_showGlyph": false,
-              "Layout/Label position": "BOTTOM",
-              "_children": []
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "Swerve",
+      "title": "Chassis",
       "autoPopulate": false,
       "autoPopulatePrefix": "",
       "widgetPane": {
@@ -1709,19 +307,6 @@
               "_showGlyph": false
             }
           },
-          "0,4": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Basic Subsystem",
-              "_source0": "network_table:///Shuffleboard/Drivetrain/SwerveSubsystem",
-              "_title": "SwerveSubsystem",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
           "2,0": {
             "size": [
               3,
@@ -1737,13 +322,13 @@
           },
           "5,0": {
             "size": [
-              3,
+              4,
               2
             ],
             "content": {
               "_type": "Network Table Tree",
               "_source0": "network_table:///SmartDashboard/Scheduler",
-              "_title": "SmartDashboard/Scheduler",
+              "_title": "robot scheduler",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -1892,10 +477,10 @@
               ]
             }
           },
-          "5,2": {
+          "7,3": {
             "size": [
               1,
-              1
+              2
             ],
             "content": {
               "_type": "List Layout",
@@ -1928,7 +513,7 @@
               ]
             }
           },
-          "7,2": {
+          "6,2": {
             "size": [
               1,
               1
@@ -1936,12 +521,12 @@
             "content": {
               "_type": "ComboBox Chooser",
               "_source0": "network_table:///SmartDashboard/Auto Chooser",
-              "_title": "/SmartDashboard/Auto Chooser",
+              "_title": "Auto Chooser",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "6,2": {
+          "7,2": {
             "size": [
               1,
               1
@@ -1950,6 +535,19 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/alliance",
               "_title": "alliance",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/swerve/subsystem",
+              "_title": "swerve scheduler",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -1968,7 +566,7 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "1,1": {
+          "0,0": {
             "size": [
               1,
               2
@@ -2010,13 +608,1257 @@
                 }
               ]
             }
+          },
+          "1,0": {
+            "size": [
+              1,
+              2
+            ],
+            "content": {
+              "_type": "Profiled PID Controller",
+              "_source0": "network_table:///SmartDashboard/arm/sendable/pid",
+              "_title": "pid",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,1": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///SmartDashboard/arm/sendable/encoder/abs",
+              "_title": "abs encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Encoder",
+              "_source0": "network_table:///SmartDashboard/arm/sendable/encoder/rel",
+              "_title": "rel encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Motor Controller",
+              "_source0": "network_table:///SmartDashboard/arm/sendable/motor",
+              "_title": "motor",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Orientation": "HORIZONTAL"
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/arm/sendable/subsystem",
+              "_title": "scheduler",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Field",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              9,
+              5
+            ],
+            "content": {
+              "_type": "Field",
+              "_source0": "network_table:///SmartDashboard/Field",
+              "_title": "SmartDashboard/Field",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Game/Game": "k2024Crescendo",
+              "Visuals/Robot Icon Size": 50.0,
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "SmartDashboard",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "Gyro",
+              "_source0": "network_table:///SmartDashboard/navX-Sensor[1]",
+              "_title": "/navX-Sensor[1]",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Major tick spacing": 45.0,
+              "Visuals/Starting angle": 180.0,
+              "Visuals/Show tick mark ring": true,
+              "Visuals/Counter clockwise": false
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Field",
+              "_source0": "network_table:///SmartDashboard/Field",
+              "_title": "/Field",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Game/Game": "k2024Crescendo",
+              "Visuals/Robot Icon Size": 50.0,
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleAngle/P",
+              "_title": "/TunableNumbers/Swerve/PID/ModuleAngle/P",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleAngle/D",
+              "_title": "/TunableNumbers/Swerve/PID/ModuleAngle/D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleDrive/P",
+              "_title": "/TunableNumbers/Swerve/PID/ModuleDrive/P",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TunableNumbers/Swerve/PID/ModuleDrive/D",
+              "_title": "/TunableNumbers/Swerve/PID/ModuleDrive/D",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Absolute Encoder",
+              "_title": "/Module[frontleft] Raw Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Angle Encoder",
+              "_title": "/Module[frontleft] Raw Angle Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontleft] Raw Drive Encoder",
+              "_title": "/Module[frontleft] Raw Drive Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontleft] Adjusted Absolute Encoder",
+              "_title": "/Module[frontleft] Adjusted Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontleft] Absolute Encoder Read Issue",
+              "_title": "/Module[frontleft] Absolute Encoder Read Issue",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Raw IMU Yaw",
+              "_title": "/Raw IMU Yaw",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Adjusted IMU Yaw",
+              "_title": "/Adjusted IMU Yaw",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Absolute Encoder",
+              "_title": "/Module[frontright] Raw Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Angle Encoder",
+              "_title": "/Module[frontright] Raw Angle Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontright] Raw Drive Encoder",
+              "_title": "/Module[frontright] Raw Drive Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontright] Adjusted Absolute Encoder",
+              "_title": "/Module[frontright] Adjusted Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[frontright] Absolute Encoder Read Issue",
+              "_title": "/Module[frontright] Absolute Encoder Read Issue",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Absolute Encoder",
+              "_title": "/Module[backleft] Raw Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Angle Encoder",
+              "_title": "/Module[backleft] Raw Angle Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backleft] Raw Drive Encoder",
+              "_title": "/Module[backleft] Raw Drive Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backleft] Adjusted Absolute Encoder",
+              "_title": "/Module[backleft] Adjusted Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backleft] Absolute Encoder Read Issue",
+              "_title": "/Module[backleft] Absolute Encoder Read Issue",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Absolute Encoder",
+              "_title": "/Module[backright] Raw Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Angle Encoder",
+              "_title": "/Module[backright] Raw Angle Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backright] Raw Drive Encoder",
+              "_title": "/Module[backright] Raw Drive Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backright] Adjusted Absolute Encoder",
+              "_title": "/Module[backright] Adjusted Absolute Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Module[backright] Absolute Encoder Read Issue",
+              "_title": "/Module[backright] Absolute Encoder Read Issue",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/moduleCount",
+              "_title": "/swerve/moduleCount",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/robotRotation",
+              "_title": "/swerve/robotRotation",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/maxSpeed",
+              "_title": "/swerve/maxSpeed",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/rotationUnit",
+              "_title": "/swerve/rotationUnit",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/sizeLeftRight",
+              "_title": "/swerve/sizeLeftRight",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/sizeFrontBack",
+              "_title": "/swerve/sizeFrontBack",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/forwardDirection",
+              "_title": "/swerve/forwardDirection",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/swerve/maxAngularVelocity",
+              "_title": "/swerve/maxAngularVelocity",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/arm/sysid/fwd quas",
+              "_title": "/arm/sysid/fwd quas",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/arm/sysid/back quas",
+              "_title": "/arm/sysid/back quas",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/arm/sysid/fwd dynamic",
+              "_title": "/arm/sysid/fwd dynamic",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/arm/sysid/back dynamic",
+              "_title": "/arm/sysid/back dynamic",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/driveRobotOriented",
+              "_title": "/cmd/driveRobotOriented",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/zeroGyro",
+              "_title": "/cmd/zeroGyro",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/resetOdometrytoAllianceZero",
+              "_title": "/cmd/resetOdometrytoAllianceZero",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/addFakeVisionReading",
+              "_title": "/cmd/addFakeVisionReading",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/testMotors",
+              "_title": "/cmd/testMotors",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/testAngleMotors",
+              "_title": "/cmd/testAngleMotors",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "LiveWindow",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/IntakeSubsystem",
+              "_title": "IntakeSubsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/IntakeSubsystem/motor",
+                  "_title": "motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "2,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/Ungrouped",
+              "_title": "Ungrouped",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Frequency",
+                  "_title": "Duty Cycle[0]/Frequency",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Output",
+                  "_title": "Duty Cycle[0]/Output",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[20]",
+                  "_title": "PIDController[20]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[14]",
+                  "_title": "PIDController[14]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[18]",
+                  "_title": "PIDController[18]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[9]",
+                  "_title": "PIDController[9]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[4]",
+                  "_title": "PIDController[4]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[3]",
+                  "_title": "PIDController[3]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor[1]/Value",
+                  "_title": "navX-Sensor[1]/Value",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[15]",
+                  "_title": "PIDController[15]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[16]",
+                  "_title": "SparkMax[16]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[30]",
+                  "_title": "PIDController[30]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[23]",
+                  "_title": "PIDController[23]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[19]",
+                  "_title": "SparkMax[19]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[15]",
+                  "_title": "SparkMax[15]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[8]",
+                  "_title": "PIDController[8]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[25]",
+                  "_title": "PIDController[25]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[19]",
+                  "_title": "PIDController[19]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[13]",
+                  "_title": "PIDController[13]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[17]",
+                  "_title": "PIDController[17]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[10]",
+                  "_title": "PIDController[10]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
+                  "_title": "DigitalInput[0]/Value",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[27]",
+                  "_title": "PIDController[27]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[5]",
+                  "_title": "PIDController[5]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[22]",
+                  "_title": "PIDController[22]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[28]",
+                  "_title": "PIDController[28]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[12]",
+                  "_title": "PIDController[12]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[31]",
+                  "_title": "PIDController[31]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]",
+                  "_title": "PIDController[2]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[11]",
+                  "_title": "PIDController[11]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[21]",
+                  "_title": "PIDController[21]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[29]",
+                  "_title": "PIDController[29]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[24]",
+                  "_title": "PIDController[24]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[34]",
+                  "_title": "PIDController[34]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[6]",
+                  "_title": "PIDController[6]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[16]",
+                  "_title": "PIDController[16]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[35]",
+                  "_title": "PIDController[35]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[32]",
+                  "_title": "PIDController[32]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[26]",
+                  "_title": "PIDController[26]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[33]",
+                  "_title": "PIDController[33]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[13]",
+                  "_title": "SparkMax[13]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[18]",
+                  "_title": "SparkMax[18]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[14]",
+                  "_title": "SparkMax[14]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/SparkMax[17]",
+                  "_title": "SparkMax[17]",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[7]",
+                  "_title": "PIDController[7]",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          },
+          "4,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/ClimberSubsystem",
+              "_title": "ClimberSubsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Motor Controller",
+                  "_source0": "network_table:///LiveWindow/ClimberSubsystem/motor",
+                  "_title": "motor",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Orientation": "HORIZONTAL"
+                }
+              ]
+            }
+          },
+          "6,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/ArmSubsystem",
+              "_title": "ArmSubsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/rel encoder/Speed",
+                  "_title": "rel encoder/Speed",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/rel encoder/Distance",
+                  "_title": "rel encoder/Distance",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/motor/Value",
+                  "_title": "motor/Value",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Profiled PID Controller",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/pid",
+                  "_title": "pid",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/abs encoder/Distance",
+                  "_title": "abs encoder/Distance",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/ArmSubsystem/abs encoder/Is Connected",
+                  "_title": "abs encoder/Is Connected",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                }
+              ]
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/SwerveSubsystem",
+              "_title": "SwerveSubsystem",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BR encoder/Position",
+                  "_title": "BR encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/BL encoder/Position",
+                  "_title": "BL encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FL encoder/Position",
+                  "_title": "FL encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/SwerveSubsystem/FR encoder/Position",
+                  "_title": "FR encoder/Position",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          },
+          "0,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Motor Controller",
+              "_source0": "network_table:///LiveWindow/ShootSubsystem/motor",
+              "_title": "ShootSubsystem/motor",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Visuals/Orientation": "HORIZONTAL"
+            }
           }
         }
       }
     }
   ],
   "windowGeometry": {
-    "x": 10.0,
+    "x": 85.0,
     "y": 38.0,
     "width": 1492.0,
     "height": 944.0
