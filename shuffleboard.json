@@ -1304,6 +1304,52 @@
                   "_title": "PIDController[20]",
                   "_glyph": 148,
                   "_showGlyph": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[0]/Value",
+                  "_title": "DigitalInput[0]/Value",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DutyCycle Encoder[0]/Distance",
+                  "_title": "DutyCycle Encoder[0]/Distance",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DutyCycle Encoder[0]/Is Connected",
+                  "_title": "DutyCycle Encoder[0]/Is Connected",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Frequency",
+                  "_title": "Duty Cycle[0]/Frequency",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Duty Cycle[0]/Output",
+                  "_title": "Duty Cycle[0]/Output",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[35]",
+                  "_title": "PIDController[35]",
+                  "_glyph": 148,
+                  "_showGlyph": false
                 }
               ]
             }
@@ -1345,8 +1391,8 @@
             ],
             "content": {
               "_type": "Subsystem Layout",
-              "_source0": "network_table:///LiveWindow/ArmAnglerSubsystem",
-              "_title": "ArmAnglerSubsystem",
+              "_source0": "network_table:///LiveWindow/ArmASubsystem",
+              "_title": "ArmSubsystem",
               "_glyph": 149,
               "_showGlyph": false,
               "Layout/Label position": "BOTTOM",
@@ -1907,10 +1953,24 @@
               "_glyph": 148,
               "_showGlyph": false
             }
-          },
-          "8,2": {
+          }
+        }
+      }
+    },
+    {
+      "title": "Arm",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "1,1": {
             "size": [
-              2,
+              1,
               2
             ],
             "content": {
@@ -1949,19 +2009,6 @@
                   "_showGlyph": false
                 }
               ]
-            }
-          },
-          "8,4": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/arm/encoder",
-              "_title": "/SmartDashboard/arm/encoder",
-              "_glyph": 148,
-              "_showGlyph": false
             }
           }
         }

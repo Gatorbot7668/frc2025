@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants.AutonConstants;
 import edu.wpi.first.wpilibj2.command.WrapperCommand;
-import frc.robot.util.CANSparkMaxSendable;
+import frc.robot.util.CANSparkMaxSendableAdapter;
 
 import java.io.File;
 import java.util.function.BooleanSupplier;
@@ -56,14 +56,14 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public double maximumSpeed = Units.feetToMeters(12.5);
   
-  private CANSparkMaxSendable frontLeftAngleSendableMotor;
-  private CANSparkMaxSendable frontLeftDriveSendableMotor;
-  private CANSparkMaxSendable frontRightAngleSendableMotor;
-  private CANSparkMaxSendable frontRightDriveSendableMotor;
-  private CANSparkMaxSendable backLeftAngleSendableMotor;
-  private CANSparkMaxSendable backLeftDriveSendableMotor;
-  private CANSparkMaxSendable backRightAngleSendableMotor;
-  private CANSparkMaxSendable backRightDriveSendableMotor;
+  private CANSparkMaxSendableAdapter frontLeftAngleSendableMotor;
+  private CANSparkMaxSendableAdapter frontLeftDriveSendableMotor;
+  private CANSparkMaxSendableAdapter frontRightAngleSendableMotor;
+  private CANSparkMaxSendableAdapter frontRightDriveSendableMotor;
+  private CANSparkMaxSendableAdapter backLeftAngleSendableMotor;
+  private CANSparkMaxSendableAdapter backLeftDriveSendableMotor;
+  private CANSparkMaxSendableAdapter backRightAngleSendableMotor;
+  private CANSparkMaxSendableAdapter backRightDriveSendableMotor;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -107,21 +107,21 @@ public class SwerveSubsystem extends SubsystemBase
     // Example of how to change a single motor's PID config
     // frModule.configuration.anglePIDF = new PIDFConfig(0.1, 0, 0);
 
-    frontLeftAngleSendableMotor = new CANSparkMaxSendable(
+    frontLeftAngleSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) flModule.getAngleMotor().getMotor());
-    frontLeftDriveSendableMotor = new CANSparkMaxSendable(
+    frontLeftDriveSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) flModule.getDriveMotor().getMotor());
-    frontRightAngleSendableMotor = new CANSparkMaxSendable(
+    frontRightAngleSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) frModule.getAngleMotor().getMotor());
-    frontRightDriveSendableMotor = new CANSparkMaxSendable(
+    frontRightDriveSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) frModule.getDriveMotor().getMotor());
-    backLeftAngleSendableMotor = new CANSparkMaxSendable(
+    backLeftAngleSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) blModule.getAngleMotor().getMotor());
-    backLeftDriveSendableMotor = new CANSparkMaxSendable(
+    backLeftDriveSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) blModule.getDriveMotor().getMotor());
-    backRightAngleSendableMotor = new CANSparkMaxSendable(
+    backRightAngleSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) brModule.getAngleMotor().getMotor());
-    backRightDriveSendableMotor = new CANSparkMaxSendable(
+    backRightDriveSendableMotor = new CANSparkMaxSendableAdapter(
       (CANSparkMax) brModule.getDriveMotor().getMotor());
 
     addChild("FL angle motor", frontLeftAngleSendableMotor);

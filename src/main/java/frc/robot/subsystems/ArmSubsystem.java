@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.util.CANSparkMaxSendable;
 
 // This mechanism uses
 //   NEO v1.1 brushless motor: https://www.revrobotics.com/rev-21-1650/ 
@@ -82,8 +83,8 @@ import frc.robot.Constants.ArmConstants;
 //   mechanism whose feedforward component is identified using SysId, which is all about voltage)
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
-  private final CANSparkMax m_motorFollower;
-  private final CANSparkMax m_motor;
+  private final CANSparkMaxSendable m_motorFollower;
+  private final CANSparkMaxSendable m_motor;
   private final DutyCycleEncoder m_absEncoder;
   private final Encoder m_relEncoder;
   private final RelativeEncoder m_neoEncoder;
@@ -109,8 +110,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // Start pointing up
     setGoal(Units.degreesToRadians(90));
 
-    m_motor = new CANSparkMax(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
-    m_motorFollower = new CANSparkMax(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
+    m_motor = new CANSparkMaxSendable(Constants.ARMANGLER_MOTOR_LEFT_PORT, MotorType.kBrushless);
+    m_motorFollower = new CANSparkMaxSendable(Constants.ARMANGLER_MOTOR_RIGHT_PORT, MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();
 
@@ -130,6 +131,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     m_relEncoder.setDistancePerPulse(Units.rotationsToRadians(1.0 / kRevThoroughBoreEncoderPPR));
     // Similar, set absolute encoder units to be in radians
     m_absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
+
+    addChild("arm", m_motor);
 
     m_sysIdRoutine =
       new SysIdRoutine(
