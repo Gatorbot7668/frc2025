@@ -48,6 +48,24 @@ import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
+// Notes for if we ever decide to SysId this swerve:
+// - the math is here https://docs.wpilib.org/en/stable/docs/software/advanced-controls/introduction/introduction-to-feedforward.html#the-permanent-magnet-dc-motor-feedforward-equation
+// - the default feedforward controller in YAGSL is configured without Ks term,
+//   which I find  strange, as Ks seems to be the most useful part
+//   (see here https://github.com/BroncBotz3481/YAGSL-Lib/blob/2024/src/main/java/swervelib/parser/SwerveParser.java#L116
+//    and SwerveMath.createDriveFeedforward that it calls)
+//   - kV term is calculated as optimalVoltage / maxSpeed, which I do not understand,
+//     should it not be a cruising voltage? "how much voltage is needed to hold (or “cruise”) at a given constant velocity",
+//     according to the wpilib article referenced above. But also probably does not
+//     matter because we do not need to hold constant speed anywhere
+//     - maxSpeed is provided in the construction code below,
+//     - optimalVoltage is from PhysicalPropertiesJson.swervelib.parser.json, 12V by
+//       default. Can be overridden in physicalproperties.json.
+// - thus, we might want to set our own feedforward, by calling SwerveDrive.replaceSwerveModuleFeedforward,
+//   but be careful about other functions that reset it, SwerveDrive.setMaximumSpeed at the moment is the only one
+// - the current SwerveSubsystem.sysIdDriveMotorCommand is too high-level, it does all
+//   four routines in a single call, but we migth want to do it by hand for better
+//   safety control (so that the robot does not ram into anything)
 public class SwerveSubsystem extends SubsystemBase
 {
   /**

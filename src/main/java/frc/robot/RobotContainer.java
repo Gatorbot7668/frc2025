@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,6 +27,9 @@ import swervelib.SwerveDriveTest;
 import swervelib.SwerveModule;
 import swervelib.parser.PIDFConfig;
 import swervelib.parser.SwerveParser;
+
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Meters;
 
 import java.io.File;
 import java.util.function.DoubleSupplier;
@@ -57,8 +59,8 @@ public class RobotContainer
 
   public RobotContainer() {
     Command driveFieldOrientedAnglularVelocity = m_drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -MathUtil.applyDeadband(m_driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
         m_driverXbox.getHID()::getAButtonPressed)
         .withName("driveFieldOriented");
@@ -109,8 +111,9 @@ public class RobotContainer
      * new Pose2d(new Translation2d(1, 1), Rotation2d.fromDegrees(0))))
      * .withName("testDriveToPose");
      */
-    Command testDriveToPose = m_drivebase.driveToRelativePose(new Pose2d(new Translation2d(1, 1),
-        Rotation2d.fromDegrees(0)))
+    Command testDriveToPose = m_drivebase.driveToRelativePose(
+      new Pose2d(new Translation2d(Meters.of(0), Meters.of(0.1)),
+                                   new Rotation2d(Degrees.of(0))))
         /* .asProxy() */.withName("testDriveToPose");
     addCommandToDashboard(testDriveToPose);
 
@@ -121,6 +124,7 @@ public class RobotContainer
         // !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle :
         // driveFieldOrientedDirectAngleSim);
         driveFieldOrientedAnglularVelocity);
+    m_driverXbox.leftBumper().whileTrue(driveRobotOriented);
 
     DoubleSupplier moveArmSupplier =
        () -> (m_driverXbox.getLeftTriggerAxis() - m_driverXbox.getRightTriggerAxis());

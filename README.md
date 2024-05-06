@@ -1,4 +1,7 @@
 Next tasks:
+* adjust for NavX being offcenter
+* learn how to reset PathPlanner - cleanup deploy folder on the robot
+*
 * check that left-bumper works for arm safety
 * arm motor seems no longer in break mode
 * adjust `maximumSpeed` in SwerveSubsystem constructor
