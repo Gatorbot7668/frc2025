@@ -70,24 +70,24 @@ public final class Constants
 
   public static final class ArmConstants {
     // feedforward constants
-    public static final Measure<Voltage> kS = Volts.of(1);
-    public static final Measure<Voltage> kG = Volts.of(1);
+    public static final Measure<Voltage> kS = Volts.of(0.0142);
+    public static final Measure<Voltage> kG = Volts.of(0.0225);
     public static final Measure<Per<Voltage, Velocity<Angle>>> kV = VoltsPerRadianPerSecond.of(0.5);
     public static final Measure<Per<Voltage, Velocity<Velocity<Angle>>>> kA = VoltsPerRadianPerSecondSquared.of(0);
 
     // PID constants
-    public static final double kP = 1;
+    public static final double kP = 17;
     public static final double kI = 0;
     public static final double kD = 0;
 
     // Safety limits
-    public static final Measure<Angle> kMaxAngleBackward = Radians.of(0.12);
-    public static final Measure<Angle> kMaxAngleForward = Radians.of(2.75);
+    public static final Measure<Angle> kMaxAngleBackward = Degrees.of(15);
+    public static final Measure<Angle> kMaxAngleForward = Degrees.of(160);
 
     // TODO: set these before trying Trapezoid motion profile
     public static final Measure<Velocity<Angle>> kMaxVelocity = RotationsPerSecond.of(0.5);
     public static final Measure<Velocity<Velocity<Angle>>> kMaxAcceleration = 
-      RotationsPerSecond.per(Second).of(1.5);
+      RotationsPerSecond.per(Second).of(1);
 
     // We measured the offset by finding a point where the arm was standing up
     // vertically (vertical_angle = 90 degrees) and recorded the reported offset

@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -130,6 +131,20 @@ public class RobotContainer
        () -> (m_driverXbox.getLeftTriggerAxis() - m_driverXbox.getRightTriggerAxis());
     m_arm.setDefaultCommand(m_arm.moveArm(moveArmSupplier));
     m_driverXbox.leftBumper().whileTrue(m_arm.unsafeMoveArm(moveArmSupplier));
+
+    Command enableArm = m_arm.runOnce(
+      () -> m_arm.enable()).withName("enableArm");
+    addCommandToDashboard(enableArm);
+
+    Command disableArm = m_arm.runOnce(
+      () -> m_arm.disable()).withName("disableArm");
+    addCommandToDashboard(disableArm);
+
+
+    TunableNumber armAngle = new TunableNumber("armAngle", 90);
+    Command setArmAngle = m_arm.runOnce(
+        () -> m_arm.setGoal(Units.degreesToRadians(armAngle.get()))).withName("setArmAngle");
+    addCommandToDashboard(setArmAngle);
 
     m_secondaryDriverXbox.a().whileTrue(m_intake.intakeCommand(0.5));
     m_secondaryDriverXbox.b().whileTrue(m_intake.intakeCommand(-0.4));

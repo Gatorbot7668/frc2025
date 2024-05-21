@@ -13,10 +13,14 @@ import static edu.wpi.first.units.Units.VoltsPerRadianPerSecondSquared;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import javax.crypto.SecretKey;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -25,11 +29,14 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.MutableMeasure;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CANDeviceID;
@@ -86,7 +93,10 @@ import frc.robot.util.CANSparkMaxSendable;
 //   (Velocity and Position are two other control modes and these seem to be not useful for a
 //   mechanism whose feedforward component is identified using SysId, which is all about voltage)
 
-public class ArmSubsystem extends ProfiledPIDSubsystem {
+
+// public class ArmSubsystem extends ProfiledPIDSubsystem {
+public class ArmSubsystem extends SubsystemBase implements Sendable {
+  private PIDController m_pidController;
   private final CANSparkMaxSendable m_motorFollower;
   private final CANSparkMaxSendable m_motor;
   private final DutyCycleEncoder m_absEncoder;
@@ -103,8 +113,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private final MutableMeasure<Voltage> m_appliedVoltage = mutable(Volts.of(0));
   private final MutableMeasure<Angle> m_angle = mutable(Rotations.of(0));
   private final MutableMeasure<Velocity<Angle>> m_velocity = mutable(RotationsPerSecond.of(0));
+  private boolean m_enabled = false;
 
   public ArmSubsystem() {
+    /* 
     super(new ProfiledPIDController(
             ArmConstants.kP,
             ArmConstants.kI,
@@ -112,6 +124,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             new TrapezoidProfile.Constraints(
                 ArmConstants.kMaxVelocity.in(RadiansPerSecond),
                 ArmConstants.kMaxAcceleration.in(RadiansPerSecond.per(Second)))));
+            */
+    m_pidController = new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
     // Start pointing up
     setGoal(Units.degreesToRadians(90));
 
@@ -140,14 +154,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     addChild("motor", m_motor);
     addChild("abs encoder", m_absEncoder);
     addChild("rel encoder", m_relEncoder);
-    addChild("pid", getController());
+    // addChild("pid", getController());
 
     // Regular SmartDashboard
     SmartDashboard.putData("arm/sendable/subsystem", this);
     SmartDashboard.putData("arm/sendable/encoder/abs", m_absEncoder);
     SmartDashboard.putData("arm/sendable/encoder/rel", m_relEncoder);
     SmartDashboard.putData("arm/sendable/motor", m_motor);
-    SmartDashboard.putData("arm/sendable/pid", getController());
+    SmartDashboard.putData("arm/sendable/manual_pid", this);
+    // SmartDashboard.putData("arm/sendable/pid", getController());
 
     m_sysIdRoutine = new SysIdRoutine(
         // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
@@ -187,15 +202,44 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putData("arm/sysid/" + cmd.getName(), cmd);
   }
 
+  public void setGoal(double goal) {
+    m_pidController.setSetpoint(goal);
+  }
+  double getGoal() {
+    return m_pidController.getSetpoint();
+  }
+
+  public void enable() { m_enabled = true; }
+  public void disable() { m_enabled = false; }
+  public boolean isEnabled() { return m_enabled; }
+ 
+  /*
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Calculate the feedforward from the setpoint
     double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
     // Add the feedforward to the PID output to get the motor output
     m_motor.setVoltage(output + feedforward);
+    SmartDashboard.putNumber("arm/output/output", output);
+    SmartDashboard.putNumber("arm/output/feedforward", feedforward);
+    SmartDashboard.putNumber("arm/output/position", setpoint.position);
+    SmartDashboard.putNumber("arm/output/velocity", setpoint.velocity);
+  }
+  */
+  void setVoltageWithPID() {
+    double voltage = 0;
+    if (m_enabled) {
+      double pid_voltage = m_pidController.calculate(getMeasurement());
+      double ff_voltage = m_feedforward.calculate(getMeasurement(), 0);
+      SmartDashboard.putNumber("arm/controller/pid_voltage", pid_voltage);
+      SmartDashboard.putNumber("arm/controller/ff_voltage", ff_voltage);
+      voltage = pid_voltage;// + ff_voltage;
+    }
+    SmartDashboard.putNumber("arm/controller/voltage", voltage);
+    m_motor.setVoltage(voltage);
   }
 
-  @Override
+  // @Override
   public double getMeasurement() {
     // getDistance returns radians because we set the appropriate setDistancePerRotation
     // in the constructor.
@@ -247,6 +291,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // This method will be called once per scheduler run
     super.periodic();
 
+    setVoltageWithPID();
+
+    SmartDashboard.putBoolean("arm/output/enabled", isEnabled());
     SmartDashboard.putNumber("arm/encoder/abs/raw", m_absEncoder.getDistance());
     SmartDashboard.putNumber("arm/encoder/abs/adjusted", getMeasurement());
     SmartDashboard.putNumber("arm/encoder/relative", m_relEncoder.getRate());
@@ -255,6 +302,24 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("arm/motor/bus_voltage", m_motor.getBusVoltage());
     SmartDashboard.putNumber("arm/motor/applied_output", m_motor.getAppliedOutput());
     SmartDashboard.putNumber("arm/motor/voltage_compensation", m_motor.getVoltageCompensationNominalVoltage());
+  }
+
+  public void initSendable(SendableBuilder builder) {
+    builder.setSmartDashboardType("ProfiledPIDController");
+    builder.addDoubleProperty("p", m_pidController::getP, m_pidController::setP);
+    builder.addDoubleProperty("i", m_pidController::getI, m_pidController::setI);
+    builder.addDoubleProperty("d", m_pidController::getD, m_pidController::setD);
+    builder.addDoubleProperty(
+        "izone",
+        m_pidController::getIZone,
+        (double toSet) -> {
+          try {
+            m_pidController.setIZone(toSet);
+          } catch (IllegalArgumentException e) {
+            MathSharedStore.reportError("IZone must be a non-negative number!", e.getStackTrace());
+          }
+        });
+    builder.addDoubleProperty("goal", this::getGoal, this::setGoal);
   }
 
   @Override
