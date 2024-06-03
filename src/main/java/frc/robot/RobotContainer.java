@@ -132,23 +132,24 @@ public class RobotContainer
     m_arm.setDefaultCommand(m_arm.moveArm(moveArmSupplier));
     m_driverXbox.leftBumper().whileTrue(m_arm.unsafeMoveArm(moveArmSupplier));
 
-    Command enableArm = m_arm.runOnce(
-      () -> m_arm.enable()).withName("enableArm");
+    Command enableArm = m_arm.runEnd(
+      () -> m_arm.enable(),
+      () -> m_arm.disable()).withName("enableArm");
     addCommandToDashboard(enableArm);
 
+    /*
     Command disableArm = m_arm.runOnce(
-      () -> m_arm.disable()).withName("disableArm");
     addCommandToDashboard(disableArm);
-
+*/
 
     TunableNumber armAngle = new TunableNumber("armAngle", 90);
     Command setArmAngle = m_arm.runOnce(
         () -> m_arm.setGoal(Units.degreesToRadians(armAngle.get()))).withName("setArmAngle");
     addCommandToDashboard(setArmAngle);
 
-    m_secondaryDriverXbox.a().whileTrue(m_intake.intakeCommand(0.5));
-    m_secondaryDriverXbox.b().whileTrue(m_intake.intakeCommand(-0.4));
-    m_secondaryDriverXbox.y().onTrue(new SequentialCommandGroup(
+    m_driverXbox.a().whileTrue(m_intake.intakeCommand(0.5));
+    m_driverXbox.b().whileTrue(m_intake.intakeCommand(-0.4));
+    m_driverXbox.y().onTrue(new SequentialCommandGroup(
         m_shoot.shootCommand(-0.7).withTimeout(1.5),
         (new ParallelCommandGroup(
             m_shoot.shootCommand(-0.7),
@@ -165,6 +166,10 @@ public class RobotContainer
 
   private void addCommandToDashboard(Command cmd) {
     SmartDashboard.putData("cmd/" + cmd.getName(), cmd);
+  }
+
+  public void simulationInit() {
+    m_arm.simulationInit();
   }
 
   public void robotPeriodic() {

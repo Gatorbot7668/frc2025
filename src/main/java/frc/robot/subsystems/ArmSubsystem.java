@@ -13,15 +13,15 @@ import static edu.wpi.first.units.Units.VoltsPerRadianPerSecondSquared;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
-import javax.crypto.SecretKey;
-
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.Angle;
@@ -33,11 +33,13 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CANDeviceID;
 import frc.robot.Constants.DIOPort;
@@ -198,6 +200,11 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("back dynamic"));
   }
 
+  public void simulationInit() {
+    REVPhysicsSim.getInstance().addSparkMax(m_motor, DCMotor.getNEO(1));
+    REVPhysicsSim.getInstance().addSparkMax(m_motorFollower, DCMotor.getNEO(1));
+  }
+
   private void addSysidCommandToDashboard(Command cmd) {
     SmartDashboard.putData("arm/sysid/" + cmd.getName(), cmd);
   }
@@ -233,7 +240,10 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
       double ff_voltage = m_feedforward.calculate(getMeasurement(), 0);
       SmartDashboard.putNumber("arm/controller/pid_voltage", pid_voltage);
       SmartDashboard.putNumber("arm/controller/ff_voltage", ff_voltage);
-      voltage = pid_voltage;// + ff_voltage;
+      voltage = pid_voltage + ff_voltage;
+      double batVoltage = RobotController.getBatteryVoltage() * 0.8;
+      if (voltage > batVoltage) voltage = batVoltage;
+      if (voltage < -batVoltage) voltage = -batVoltage;
     }
     SmartDashboard.putNumber("arm/controller/voltage", voltage);
     m_motor.setVoltage(voltage);
@@ -255,11 +265,13 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
   }
 
   public void stop() {
-    m_motor.set(0);
+    m_motor.setVoltage(0);
+
   }
 
   public void move(DoubleSupplier s) {
-    m_motor.set(s.getAsDouble());
+    m_motor.setVoltage(12.0 * s.getAsDouble());
+    // m_motor.set(s.getAsDouble());
   }
 
   public Command unsafeMoveArm(DoubleSupplier speed) {
