@@ -34,6 +34,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
@@ -97,7 +98,7 @@ import frc.robot.util.CANSparkMaxSendable;
 
 
 // public class ArmSubsystem extends ProfiledPIDSubsystem {
-public class ArmSubsystem extends SubsystemBase implements Sendable {
+public class ArmSubsystem extends SubsystemBase {
   private PIDController m_pidController;
   private final CANSparkMaxSendable m_motorFollower;
   private final CANSparkMaxSendable m_motor;
@@ -152,19 +153,20 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     // Similar, set absolute encoder units to be in radians
     m_absEncoder.setDistancePerRotation(Units.rotationsToRadians(1));
 
+    PIDSendable pid_sendable = new PIDSendable();
+
     // LiveWindow
     addChild("motor", m_motor);
     addChild("abs encoder", m_absEncoder);
     addChild("rel encoder", m_relEncoder);
-    // addChild("pid", getController());
+    addChild("pid", pid_sendable);
 
     // Regular SmartDashboard
     SmartDashboard.putData("arm/sendable/subsystem", this);
     SmartDashboard.putData("arm/sendable/encoder/abs", m_absEncoder);
     SmartDashboard.putData("arm/sendable/encoder/rel", m_relEncoder);
     SmartDashboard.putData("arm/sendable/motor", m_motor);
-    SmartDashboard.putData("arm/sendable/manual_pid", this);
-    // SmartDashboard.putData("arm/sendable/pid", getController());
+    SmartDashboard.putData("arm/sendable/pid", pid_sendable);
 
     m_sysIdRoutine = new SysIdRoutine(
         // Empty config defaults to 1 volt/second ramp rate and 7 volt step voltage.
@@ -198,6 +200,26 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("back quas"));
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("fwd dynamic"));
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("back dynamic"));
+  }
+
+  private class PIDSendable implements Sendable {
+    public void initSendable(SendableBuilder builder) {
+      builder.setSmartDashboardType("ProfiledPIDController");
+      builder.addDoubleProperty("p", m_pidController::getP, m_pidController::setP);
+      builder.addDoubleProperty("i", m_pidController::getI, m_pidController::setI);
+      builder.addDoubleProperty("d", m_pidController::getD, m_pidController::setD);
+      builder.addDoubleProperty(
+        "izone",
+        m_pidController::getIZone,
+        (double toSet) -> {
+          try {
+            m_pidController.setIZone(toSet);
+          } catch (IllegalArgumentException e) {
+            MathSharedStore.reportError("IZone must be a non-negative number!", e.getStackTrace());
+          }
+        });
+      builder.addDoubleProperty("goal", ArmSubsystem.this::getGoal, ArmSubsystem.this::setGoal);
+    }
   }
 
   public void simulationInit() {
@@ -314,24 +336,6 @@ public class ArmSubsystem extends SubsystemBase implements Sendable {
     SmartDashboard.putNumber("arm/motor/bus_voltage", m_motor.getBusVoltage());
     SmartDashboard.putNumber("arm/motor/applied_output", m_motor.getAppliedOutput());
     SmartDashboard.putNumber("arm/motor/voltage_compensation", m_motor.getVoltageCompensationNominalVoltage());
-  }
-
-  public void initSendable(SendableBuilder builder) {
-    builder.setSmartDashboardType("ProfiledPIDController");
-    builder.addDoubleProperty("p", m_pidController::getP, m_pidController::setP);
-    builder.addDoubleProperty("i", m_pidController::getI, m_pidController::setI);
-    builder.addDoubleProperty("d", m_pidController::getD, m_pidController::setD);
-    builder.addDoubleProperty(
-        "izone",
-        m_pidController::getIZone,
-        (double toSet) -> {
-          try {
-            m_pidController.setIZone(toSet);
-          } catch (IllegalArgumentException e) {
-            MathSharedStore.reportError("IZone must be a non-negative number!", e.getStackTrace());
-          }
-        });
-    builder.addDoubleProperty("goal", this::getGoal, this::setGoal);
   }
 
   @Override

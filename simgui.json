@@ -79,7 +79,7 @@
       "/SmartDashboard/arm/sendable/manual_pid": "ProfiledPIDController",
       "/SmartDashboard/arm/sendable/motor": "Motor Controller",
       "/SmartDashboard/arm/sendable/pid": "ProfiledPIDController",
-      "/SmartDashboard/arm/sendable/subsystem": "ProfiledPIDController",
+      "/SmartDashboard/arm/sendable/subsystem": "Subsystem",
       "/SmartDashboard/arm/sysid/back dynamic": "Command",
       "/SmartDashboard/arm/sysid/back quas": "Command",
       "/SmartDashboard/arm/sysid/fwd dynamic": "Command",
