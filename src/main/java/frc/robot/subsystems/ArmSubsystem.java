@@ -16,6 +16,7 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.REVPhysicsSim;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -129,6 +130,7 @@ public class ArmSubsystem extends SubsystemBase {
                 ArmConstants.kMaxAcceleration.in(RadiansPerSecond.per(Second)))));
             */
     m_pidController = new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD);
+    m_pidController.setTolerance(Units.degreesToRadians(5));
     // Start pointing up
     setGoal(Units.degreesToRadians(90));
 
@@ -136,6 +138,8 @@ public class ArmSubsystem extends SubsystemBase {
     m_motorFollower = new CANSparkMaxSendable(CANDeviceID.kArmMotors.id2(), MotorType.kBrushless);
     m_motor.restoreFactoryDefaults();
     m_motorFollower.restoreFactoryDefaults();
+    m_motor.setIdleMode(IdleMode.kBrake);
+    m_motorFollower.setIdleMode(IdleMode.kBrake);
 
     m_motorFollower.follow(m_motor, true);
     m_absEncoder = new DutyCycleEncoder(DIOPort.kDutyEncoder);
@@ -200,6 +204,10 @@ public class ArmSubsystem extends SubsystemBase {
     addSysidCommandToDashboard(sysIdQuasistatic(SysIdRoutine.Direction.kReverse).withName("back quas"));
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kForward).withName("fwd dynamic"));
     addSysidCommandToDashboard(sysIdDynamic(SysIdRoutine.Direction.kReverse).withName("back dynamic"));
+  }
+
+  public boolean atSetpoint() {
+    return m_pidController.atSetpoint();
   }
 
   private class PIDSendable implements Sendable {

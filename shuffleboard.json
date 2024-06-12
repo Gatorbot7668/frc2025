@@ -675,7 +675,7 @@
               "_showGlyph": false
             }
           },
-          "7,0": {
+          "6,0": {
             "size": [
               2,
               2
@@ -718,7 +718,7 @@
               ]
             }
           },
-          "3,3": {
+          "7,2": {
             "size": [
               1,
               1
@@ -727,19 +727,6 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/arm/encoder/abs/adjusted",
               "_title": "SmartDashboard/arm/encoder/abs/adjusted",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,1": {
-            "size": [
-              1,
-              2
-            ],
-            "content": {
-              "_type": "Profiled PID Controller",
-              "_source0": "network_table:///SmartDashboard/arm/sendable/manual_pid",
-              "_title": "SmartDashboard/arm/sendable/manual_pid",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -759,41 +746,51 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "6,3": {
+          "4,1": {
             "size": [
               2,
               2
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/arm/controller/voltage",
-              "_title": "SmartDashboard/arm/controller/voltage",
-              "_glyph": 148,
-              "_showGlyph": false
+              "_type": "List Layout",
+              "_title": "List Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/arm/controller/ff_voltage",
+                  "_title": "ff_voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/arm/controller/pid_voltage",
+                  "_title": "pid_voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/arm/controller/voltage",
+                  "_title": "voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
             }
           },
-          "4,4": {
+          "4,3": {
             "size": [
               1,
               1
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/arm/controller/ff_voltage",
-              "_title": "SmartDashboard/arm/controller/ff_voltage",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/arm/controller/pid_voltage",
-              "_title": "SmartDashboard/arm/controller/pid_voltage",
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/cmd/armSetAngle60",
+              "_title": "/SmartDashboard/cmd/armSetAngle60",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -825,7 +822,8 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
             }
           }
         }
@@ -872,7 +870,8 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false
+              "Visuals/Show Outside Circles": false,
+              "Colors/XModules": "#FFFFFFFF"
             }
           },
           "4,0": {
@@ -1982,19 +1981,6 @@
             }
           }
         }
-      }
-    },
-    {
-      "title": "Tab 6",
-      "autoPopulate": false,
-      "autoPopulatePrefix": "",
-      "widgetPane": {
-        "gridSize": 128.0,
-        "showGrid": true,
-        "hgap": 16.0,
-        "vgap": 16.0,
-        "titleType": 0,
-        "tiles": {}
       }
     }
   ],

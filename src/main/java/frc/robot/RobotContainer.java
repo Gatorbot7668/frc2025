@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -36,6 +37,7 @@ import java.io.File;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer
 {
@@ -146,6 +148,17 @@ public class RobotContainer
     Command setArmAngle = m_arm.runOnce(
         () -> m_arm.setGoal(Units.degreesToRadians(armAngle.get()))).withName("setArmAngle");
     addCommandToDashboard(setArmAngle);
+
+    Command waitArmAtSetpoint = Commands.waitUntil(() -> m_arm.atSetpoint());
+    waitArmAtSetpoint.addRequirements(m_arm);
+    Command armSetAngle60 = new SequentialCommandGroup(
+      m_arm.runOnce(() -> m_arm.enable()),
+      m_arm.runOnce(() -> m_arm.setGoal(Units.degreesToRadians(60))),
+      waitArmAtSetpoint,
+      m_arm.runOnce(() -> m_arm.stop()),
+      m_arm.runOnce(() -> m_arm.disable())).withName("armSetAngle60");
+    addCommandToDashboard(armSetAngle60);
+    NamedCommands.registerCommand("armSetAngle60", armSetAngle60);
 
     m_driverXbox.a().whileTrue(m_intake.intakeCommand(0.5));
     m_driverXbox.b().whileTrue(m_intake.intakeCommand(-0.4));
