@@ -822,8 +822,7 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF"
+              "Visuals/Show Outside Circles": false
             }
           }
         }
@@ -870,8 +869,7 @@
               "_showGlyph": false,
               "Game/Game": "k2024Crescendo",
               "Visuals/Robot Icon Size": 50.0,
-              "Visuals/Show Outside Circles": false,
-              "Colors/XModules": "#FFFFFFFF"
+              "Visuals/Show Outside Circles": false
             }
           },
           "4,0": {
@@ -1985,8 +1983,8 @@
     }
   ],
   "windowGeometry": {
-    "x": 20.0,
-    "y": 38.0,
+    "x": 170.0,
+    "y": 37.0,
     "width": 1492.0,
     "height": 944.0
   }

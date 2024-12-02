@@ -87,6 +87,7 @@
       "/SmartDashboard/arm_s/motor": "Motor Controller",
       "/SmartDashboard/arm_s/pid": "ProfiledPIDController",
       "/SmartDashboard/cmd/addFakeVisionReading": "Command",
+      "/SmartDashboard/cmd/armSetAngle60": "Command",
       "/SmartDashboard/cmd/disableArm": "Command",
       "/SmartDashboard/cmd/driveRobotOriented": "Command",
       "/SmartDashboard/cmd/enableArm": "Command",

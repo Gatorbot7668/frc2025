@@ -4,43 +4,34 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CANDeviceID;
 import frc.robot.util.CANSparkMaxSendable;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class ClawSubsystem extends SubsystemBase {
   private final CANSparkMaxSendable m_motor;
-
-  public IntakeSubsystem() {
-    m_motor = new CANSparkMaxSendable(CANDeviceID.kIntakeMotor, MotorType.kBrushless);
-    m_motor.restoreFactoryDefaults();
-
-    addChild("motor", m_motor);
+  /** Creates a new ClawSubsystem. */
+  public ClawSubsystem() {
+    m_motor = new CANSparkMaxSendable(CANDeviceID.kClawMotor, MotorType.kBrushless);
   }
 
-  public void intake(double speed) {
+  public void move (double speed) {
     m_motor.set(speed);
   }
 
-  public void stop() {
+  public void stop (){
     m_motor.set(0);
   }
 
-  public Command intakeCommand(double speed) {
-    return runEnd(() -> { intake(speed); },
+  public Command clawCommand (double speed){
+    return runEnd(() -> { move(speed); },
                   () -> { stop();});
-  }
+  } 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }
