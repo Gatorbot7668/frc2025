@@ -39,3 +39,6 @@ Notes:
 Questions:
 * addFakeVisionReading divides the requested angle by 10, and I do not believe it did this earlier.
   Perhaps it started due to upgrade to YAGSL 2024.4.7 (from 2024.4.6)?
+
+CAD Files:
+*  https://a360.co/3ZF6rwp
